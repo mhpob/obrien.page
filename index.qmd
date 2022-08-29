@@ -1,5 +1,19 @@
 ---
 title: ""
+about:
+  template: solana
 ---
 
 Pardon the emptiness -- still getting this stood up!
+
+## Education
+
+University of Maryland, College Park | College Park, MD
+Masters in Fisheries Science | August 2013
+
+University of Miami | Coral Cables, FL
+B.S. in Marine and Atmospheric Science | May 2009
+
+## Experience
+
+University of Maryland Center for Environmental Science | Faculty Research Assistant | Sept 2013 - present
