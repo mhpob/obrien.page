@@ -26,5 +26,12 @@
     "title": "Interesting parcels and their access points",
     "section": "",
     "text": "library(mapview)\n\nmapview()"
+  },
+  {
+    "objectID": "research/research_list.html",
+    "href": "research/research_list.html",
+    "title": "Research",
+    "section": "",
+    "text": "Secor, D.H., O’Brien, M.H.P., Coleman, N., Horne, A., Park, I., Kazyak, D.C., Bruce, D.G., Stence, C., 2021. Atlantic Sturgeon Status and Movement Ecology in an Extremely Small Spawning Habitat: The Nanticoke River-Marshyhope Creek, Chesapeake Bay. Reviews in Fisheries Science & Aquaculture 1–20. https://doi.org/10.1080/23308249.2021.1924617\nO’Brien, M.H.P., Secor, D.H., 2021. Influence of thermal stratification and storms on acoustic telemetry detection efficiency: a year-long test in the US Southern Mid-Atlantic Bight. Animal Biotelemetry 9, 8. https://doi.org/10.1186/s40317-021-00233-3\nItakura, H., O’Brien, M.H.P., Secor, D., 2021. Tracking oxy-thermal habitat compression encountered by Chesapeake Bay striped bass through acoustic telemetry. ICES Journal of Marine Science fsab009. https://doi.org/10.1093/icesjms/fsab009\nSecor D.H., O’Brien M.H.P., Gahagan B.I., Fox D.A., Higgs A.L., Best J.E., 2020. Multiple spawning run contingents and population consequences in migratory striped bass Morone saxatilis. PLoS ONE 15(11): e0242797\nRothermel, E.R., Balazik, M.T., Best, J.E., Fox, D.A., Gahagan, B.I., Haulsee, D.E., Higgs, A.L., O’Brien, M.H.P., Oliver, M.J., Park, I.A., and Secor, D.H. 2020. Comparative migration ecology of striped bass and Atlantic sturgeon in the US Southern Mid-Atlantic Bight flyway. Plos One 15(6): e0234442.\nSecor, D.H., M.H.P O Brien, B.J. Gahagan, J.C Watterson, and D. Fox. 2020. Differential migration in Chesapeake Bay striped bass. PloS ONE 15(5): e0233103.\nWiernicki CJ, O’Brien MHP, Zhang F, Lyubchich V, Li M, Secor DH, 2020. The recurring impact of storm disturbance on black sea bass (Centropristis striata) movement behaviors in the Mid-Atlantic Bight. PLoS ONE 15(12): e0239919.\nSecor, D.H., Zhang, F., O’Brien, M.H.P. and Li, M. 2019. Ocean destratification and fish evacuation caused by a Mid-Atlantic tropical storm. ICES Journal of Marine Science, 76(2). doi:10.1093/icesjms/fsx241\nWingfield, J.E., O’Brien, M., Lyubchich, V., Roberts, J.J., Halpin, P.N., Rice, A.N. and Bailey, H., 2017. Year-round spatiotemporal distribution of harbour porpoises within and around the Maryland wind energy area. PloS ONE, 12(5), p.e0176653"
   }
 ]

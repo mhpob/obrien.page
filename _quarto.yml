@@ -6,11 +6,11 @@ website:
   title: "Mike O'Brien"
   navbar:
     left:
-      - href: index.qmd
-        text: Home
       - href: spoil_land_park/find_parcels_view.qmd
         text: Interesting parcels
-      - about.qmd
+      - href: research/research_list.qmd
+        text: Research
+      
 
 format:
   html:
