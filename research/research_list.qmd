@@ -2,7 +2,7 @@
 title: "Research"
 ---
 
-[{{< ai google-scholar size=xl >}}](https://scholar.google.com/citations?user=IMIq9P4AAAAJ&hl=en)
+[{{< ai google-scholar size=2xl >}}](https://scholar.google.com/citations?user=IMIq9P4AAAAJ&hl=en) [{{< ai orcid size=2xl >}}](https://orcid.org/my-orcid?orcid=0000-0003-1420-6395) [{{< ai publons size=2xl >}}](https://www.webofscience.com/wos/author/record/ABF-9080-2021)
  
 Secor, D.H., Bailey, H., Carroll, A., Lyubchich, V., **O'Brien, M.H.P.**, Wiernicki, C.J., 2021. Diurnal vertical movements in black sea bass (Centropristis striata): Endogenous, facultative, or something else? Ecosphere 12, e03616. [https://doi.org/10.1002/ecs2.3616](https://doi.org/10.1002/ecs2.3616)
 
