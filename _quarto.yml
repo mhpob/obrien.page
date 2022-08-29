@@ -1,17 +1,20 @@
 project:
   type: website
+  execute-dir: project
 
 website:
-  title: "MOB-site-quarto"
+  title: "Mike O'Brien"
   navbar:
     left:
       - href: index.qmd
         text: Home
+      - href: spoil_land_park/find_parcels_view.qmd
+        text: Interesting parcels
       - about.qmd
 
 format:
   html:
-    theme: cosmo
+    theme: lux
     css: styles.css
     toc: true
 

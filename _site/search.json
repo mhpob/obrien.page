@@ -12,5 +12,19 @@
     "title": "About",
     "section": "",
     "text": "1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "spoil_land_park/find_parcels.html",
+    "href": "spoil_land_park/find_parcels.html",
+    "title": "Create: Interesting parcels and their access points",
+    "section": "",
+    "text": "library(httr); library(rvest)\n\nhenrico_owner <- function(gpin){\n  url <- paste0(\n    'https://realestate.henrico.us/ords/cam/f?p=510101:5:::NO::P5_PARCEL_ID,P5_SEARCH_TYPE:',\n    gpin,\n    ',0'\n  )\n  \n  real_estate_info <- GET(url)\n  \n  data.frame(\n    gpin = gpin,\n    owner = real_estate_info|> \n    content() |> \n    html_element(\n      xpath = 'body/form/table[3]/tr/td[1]/table[1]/tr/td[2]/table/tr[2]/td/table/tr[7]/td[2]') |> \n    html_text()\n  )\n}\n\nFilter Varina parcels by voting districts.\n\nlibrary(dplyr);library(arrow); library(sf); library(geoarrow)\n\ndistricts <- read_sf('data/geo/voting precincts/voting_precincts.shp',\n                     query = \"select * from Voting_Precincts where\n                     PRECINCT_N = 'Montrose' OR\n                     PRECINCT_N = 'Adams'\") |> \n  st_union()\n\n\nvarina <- open_dataset('data/geo/henrico_parcels.parquet') |>\n  filter(MAGISTER_1 == 'Varina') |> \n  geoarrow_collect_sf()\n\nmontrose <- st_intersection(varina, st_transform(districts, st_crs(varina)))\n\n\nlibrary(future.apply)\nplan(multisession)\n\nparcel_owners <- future_lapply(montrose$GPIN, henrico_owner) |> \n  bind_rows()\n\nwrite.csv(parcel_owners, 'data/gep/montrose_parcel_owners.csv')\n\n\nparcel_owners <- read.csv('data/montrose_parcel_owners.csv')\n\n\nric_dev_inc <- parcel_owners |> \n  filter(grepl('^RICHMOND (DEVELOPMENT|HOMES)', owner))\nric_dev_inc <- montrose |> \n  filter(GPIN %in% ric_dev_inc$gpin)"
+  },
+  {
+    "objectID": "spoil_land_park/find_parcels_view.html",
+    "href": "spoil_land_park/find_parcels_view.html",
+    "title": "Interesting parcels and their access points",
+    "section": "",
+    "text": "library(mapview)\n\nmapview()"
   }
 ]
