@@ -5,6 +5,7 @@ project:
 website:
   title: "Mike O'Brien"
   navbar:
+    background: primary
     left:
       - href: mailto:mikeob9@gmail.com
         icon: envelope
@@ -12,9 +13,9 @@ website:
         icon: github
       - href: https://twitter.com/ruggafish
         icon: twitter
-      - href: spoil_land_park/find_parcels_view.qmd
+      - file: spoil_land_park/find_parcels_view.qmd
         text: Interesting parcels
-      - href: research/research_list.qmd
+      - file: research/research_list.qmd
         text: Research
 
       
