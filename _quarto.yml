@@ -13,10 +13,12 @@ website:
         icon: github
       - href: https://twitter.com/ruggafish
         icon: twitter
-      - file: spoil_land_park/find_parcels_view.qmd
-        text: Interesting parcels
       - file: research/research_list.qmd
         text: Research
+      - file: spoil_land_park/find_parcels_view.qmd
+        text: Interesting parcels
+      - file: henrico_parcel_age.qmd
+        text: Henrico building ages
 
       
 
