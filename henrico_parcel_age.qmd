@@ -1,5 +1,7 @@
 ---
 title: "Age of Henrico's structures"
+execute: 
+  freeze: auto
 editor: visual
 ---
 

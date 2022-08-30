@@ -8,6 +8,8 @@ author:
 message: false
 warning: false
 echo: false
+execute: 
+  freeze: auto
 ---
 
 ```{r}
