@@ -1,17 +1,25 @@
 ---
 title: ""
+image: refrunning.jpg
 about:
-  template: solana
+  template: marquee
+  links:
+    - icon: twitter
+      text: twitter
+      href: https://twitter.com/ruggafish
+    - icon: github
+      text: Github
+      href: https://github.com/mhpob
 ---
 
-Pardon the emptiness -- still getting this stood up!
+
 
 ## Education
 
-University of Maryland, College Park | College Park, MD
+University of Maryland, College Park | College Park, MD |
 Masters in Fisheries Science | August 2013
 
-University of Miami | Coral Cables, FL
+University of Miami | Coral Cables, FL |
 B.S. in Marine and Atmospheric Science | May 2009
 
 ## Experience
