@@ -47,5 +47,12 @@
     "title": "Mike O'Brien",
     "section": "Experience",
     "text": "Experience\nUniversity of Maryland Center for Environmental Science | Faculty Research Assistant | Sept 2013 - present"
+  },
+  {
+    "objectID": "henrico_parcel_age.html",
+    "href": "henrico_parcel_age.html",
+    "title": "Age of Henrico’s structures",
+    "section": "",
+    "text": "A recent tweet showed the age of the buildings in Groningen, Netherlands super-imposed on LiDAR data for some perspective.\n\nThis got me thinking – what would Henrico look like? I’m going to take the cheap way out and not mess with LiDAR at the moment, but the county provides their [Tax Parcels and CAMA Data](https://data-henrico.opendata.arcgis.com/datasets/Henrico::tax-parcels-and-cama-data/explore) for easy download.\n\nlibrary(arrow)\nlibrary(geoarrow)\nlibrary(dplyr)\n\nhc_parcels <-\n  open_dataset('data/geo/henrico_parcels.parquet') |> \n  select(YEAR_BUILT, geometry) |> \n  filter(!is.na(YEAR_BUILT) & YEAR_BUILT > 1500 & YEAR_BUILT < 2100) |> \n  geoarrow_collect_sf()\n\n\nlibrary(ggplot2)\n\nggplot(data = hc_parcels) +\n  geom_sf(aes(fill = YEAR_BUILT), lwd = 0, color = NA)+\n  scale_fill_viridis_c(direction = -1, option  = 'turbo') +\n  labs(fill = 'Year built') +\n  theme_dark() +\n  theme(legend.position = c(0.25, 0.25))"
   }
 ]
