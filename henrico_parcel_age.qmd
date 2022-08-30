@@ -3,15 +3,13 @@ title: "Age of Henrico's structures"
 editor: visual
 ---
 
-Under construction...
-
-
+## Under construction...
 
 A recent tweet showed the age of the buildings in Groningen, Netherlands super-imposed on LiDAR data for some perspective.
 
 {{< tweet neilcfd1 1560616470148575233 >}}
 
-This got me thinking -- what would Henrico look like? I'm going to take the cheap way out and not mess with LiDAR at the moment, but the county provides their \[Tax Parcels and CAMA Data\](https://data-henrico.opendata.arcgis.com/datasets/Henrico::tax-parcels-and-cama-data/explore) for easy download.
+This got me thinking -- what would Henrico look like? I'm going to take the cheap way out and not mess with LiDAR at the moment, but the county provides their [Tax Parcels and CAMA Data](https://data-henrico.opendata.arcgis.com/datasets/Henrico::tax-parcels-and-cama-data/explore) for easy download.
 
 ```{r}
 #| warning: false
