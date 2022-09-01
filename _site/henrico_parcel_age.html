@@ -123,7 +123,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="custom.scss">
 </head>
 
 <body class="nav-fixed">
@@ -159,6 +159,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./research/research_list.html">Research</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./research/packages.html">Packages</a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./spoil_land_park/find_parcels_view.html">Interesting parcels</a>
@@ -207,7 +210,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="under-construction" class="level2">
 <h2 class="anchored" data-anchor-id="under-construction">Under construction…</h2>
 <p>A recent tweet showed the age of the buildings in Groningen, Netherlands super-imposed on LiDAR data for some perspective.</p>
-<p></p><div id="tweet-81827"></div><script>tweet={"url":"https:\/\/twitter.com\/neilcfd1\/status\/1560616470148575233","author_name":"Neil Southall","author_url":"https:\/\/twitter.com\/neilcfd1","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EHaven&#39;t done a Building Age render for a while - here is Groningen, Netherlands\u003Cbr\u003EBuilding age data \u003Ca href=\"https:\/\/twitter.com\/INSPIRE_EU?ref_src=twsrc%5Etfw\"\u003E@INSPIRE_EU\u003C\/a\u003E \u003Ca href=\"https:\/\/twitter.com\/Het_Kadaster?ref_src=twsrc%5Etfw\"\u003E@Het_Kadaster\u003C\/a\u003E overlaid on LiDAR height data (from \u003Ca href=\"https:\/\/t.co\/Sm0VEFXOXs\"\u003Ehttps:\/\/t.co\/Sm0VEFXOXs\u003C\/a\u003E).  Rendered in \u003Ca href=\"https:\/\/twitter.com\/hashtag\/rayshader?src=hash&amp;ref_src=twsrc%5Etfw\"\u003E#rayshader\u003C\/a\u003E \u003Ca href=\"https:\/\/twitter.com\/hashtag\/rstats?src=hash&amp;ref_src=twsrc%5Etfw\"\u003E#rstats\u003C\/a\u003E \u003Ca href=\"https:\/\/t.co\/CElUxvn1W6\"\u003Epic.twitter.com\/CElUxvn1W6\u003C\/a\u003E\u003C\/p\u003E&mdash; Neil Southall (@neilcfd1) \u003Ca href=\"https:\/\/twitter.com\/neilcfd1\/status\/1560616470148575233?ref_src=twsrc%5Etfw\"\u003EAugust 19, 2022\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-81827").innerHTML = tweet["html"];</script><p></p>
+<p></p><div id="tweet-66603"></div><script>tweet={"url":"https:\/\/twitter.com\/neilcfd1\/status\/1560616470148575233","author_name":"Neil Southall","author_url":"https:\/\/twitter.com\/neilcfd1","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EHaven&#39;t done a Building Age render for a while - here is Groningen, Netherlands\u003Cbr\u003EBuilding age data \u003Ca href=\"https:\/\/twitter.com\/INSPIRE_EU?ref_src=twsrc%5Etfw\"\u003E@INSPIRE_EU\u003C\/a\u003E \u003Ca href=\"https:\/\/twitter.com\/Het_Kadaster?ref_src=twsrc%5Etfw\"\u003E@Het_Kadaster\u003C\/a\u003E overlaid on LiDAR height data (from \u003Ca href=\"https:\/\/t.co\/Sm0VEFXOXs\"\u003Ehttps:\/\/t.co\/Sm0VEFXOXs\u003C\/a\u003E).  Rendered in \u003Ca href=\"https:\/\/twitter.com\/hashtag\/rayshader?src=hash&amp;ref_src=twsrc%5Etfw\"\u003E#rayshader\u003C\/a\u003E \u003Ca href=\"https:\/\/twitter.com\/hashtag\/rstats?src=hash&amp;ref_src=twsrc%5Etfw\"\u003E#rstats\u003C\/a\u003E \u003Ca href=\"https:\/\/t.co\/CElUxvn1W6\"\u003Epic.twitter.com\/CElUxvn1W6\u003C\/a\u003E\u003C\/p\u003E&mdash; Neil Southall (@neilcfd1) \u003Ca href=\"https:\/\/twitter.com\/neilcfd1\/status\/1560616470148575233?ref_src=twsrc%5Etfw\"\u003EAugust 19, 2022\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-66603").innerHTML = tweet["html"];</script><p></p>
 <p>This got me thinking – what would Henrico look like? I’m going to take the cheap way out and not mess with LiDAR at the moment, but the county provides their <a href="https://data-henrico.opendata.arcgis.com/datasets/Henrico::tax-parcels-and-cama-data/explore">Tax Parcels and CAMA Data</a> for easy download.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow)</span>
