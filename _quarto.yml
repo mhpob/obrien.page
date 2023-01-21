@@ -7,7 +7,7 @@ website:
   navbar:
     background: primary
     left:
-      - href: mailto:mikeob9@gmail.com
+      - href: mailto:mike@obrien.page
         icon: envelope
       - href: https://github.com/mhpob
         icon: github
