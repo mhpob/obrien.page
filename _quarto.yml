@@ -30,5 +30,6 @@ format:
     css: custom.scss
     toc: true
 
-
+execute: 
+  freeze: auto
 
