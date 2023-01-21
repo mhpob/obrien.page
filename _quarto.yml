@@ -29,6 +29,7 @@ format:
     theme: lux
     css: custom.scss
     toc: true
+    link-external-newwindow: true
 
 execute: 
   freeze: auto
