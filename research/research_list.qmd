@@ -37,4 +37,11 @@ What's going on? A haiku:
 
 {{< ai open-access size=lg color=green >}} Wingfield, J.E., *O’Brien, M.*, Lyubchich, V., Roberts, J.J., Halpin, P.N., Rice, A.N. and Bailey, H., 2017. Year-round spatiotemporal distribution of harbour porpoises within and around the Maryland wind energy area. PLOS ONE, 12(5), p.e0176653 [https://doi.org/10.1371/journal.pone.0176653](https://doi.org/10.1371/journal.pone.0176653)
 
+## Open reports
+Secor, D, *M O’Brien*, E Rothermel, C Wiernicki, and H Bailey. “Movement and Habitat Selection by Migratory Fishes within the Maryland Wind Energy Area and Adjacent Reference Sites.” Sterling (VA): U.S. Department of the Interior, Bureau of Ocean Energy Management, Office of Renewable Energy Programs, 2020. URL: [https://espis.boem.gov/final%20reports/BOEM_2020-030.pdf](https://espis.boem.gov/final%20reports/BOEM_2020-030.pdf)
+
+
 ## Curated datasets
+Rothermel, Ella, *Michael O’Brien*, and David Secor. “Data from: Comparative Migration Ecology of Striped Bass and Atlantic Sturgeon in the US Southern Mid-Atlantic Bight Flyway.” Dryad, 2020. [https://doi.org/10.5061/DRYAD.6HDR7SQX3](https://doi.org/10.5061/DRYAD.6HDR7SQX3).
+
+*O’Brien, Michael*, David Secor, Benjamin Gahagan, Dewayne Fox, Amanda Higgs, and Jessica Best. “Data from: Multiple Spawning Run Behavior and Population Consequences in Migratory Striped Bass Morone Saxatilis.” Dryad, 2020. [https://doi.org/10.5061/DRYAD.6HDR7SQXT](https://doi.org/10.5061/DRYAD.6HDR7SQXT).
