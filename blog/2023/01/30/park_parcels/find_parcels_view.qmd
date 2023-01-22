@@ -8,8 +8,6 @@ author:
 message: false
 warning: false
 echo: false
-execute: 
-  freeze: auto
 resources: 
   - data
 ---
