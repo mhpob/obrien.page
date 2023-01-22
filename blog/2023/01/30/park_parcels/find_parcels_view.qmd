@@ -1,0 +1,23 @@
+---
+title: "Interesting parcels and their access points"
+author:
+  - name: Mike O'Brien
+    email: mikeob9@gmail.com
+  - name: Gray Montrose
+    email: gray.montrose@gmail.com
+message: false
+warning: false
+echo: false
+execute: 
+  freeze: auto
+resources: 
+  - data
+---
+
+```{r}
+library(sf); library(mapview)
+parcels <- read_sf('data/parcels.gpkg')
+access <- read_sf('data/access_pts.gpkg')
+
+mapview(parcels, zcol = 'owner') + mapview(access)
+```

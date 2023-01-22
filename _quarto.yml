@@ -1,6 +1,5 @@
 project:
   type: website
-  execute-dir: project
 
 website:
   title: "Mike O'Brien"
@@ -13,15 +12,12 @@ website:
         icon: github
       - href: https://twitter.com/ruggafish
         icon: twitter
-      - file: research/research_list.qmd
-        text: Research
-      - file: research/packages.qmd
-        text: Packages
-      - file: spoil_land_park/find_parcels_view.qmd
-        text: Interesting parcels
-      - file: henrico_parcel_age.qmd
-        text: Henrico building ages
-
+      - text: Research
+        file: research/research_list.qmd
+      - text: Packages
+        file: research/packages.qmd
+      - text: Blog
+        file: blog/index.qmd
       
 
 format:
