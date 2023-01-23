@@ -3,6 +3,7 @@ title: "Create: Interesting parcels and their access points"
 resources: 
   - data
 categories: [R, Henrico, Web scraping, Real estate, Land use]
+draft: true
 ---
 
 
