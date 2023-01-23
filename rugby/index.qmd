@@ -1,0 +1,29 @@
+---
+title: "Rugby"
+subtitle: "*The older I get, the better I was.*"
+listing:
+  id: rugby-listing
+  sort: "date desc"
+  type: default
+  categories: true
+---
+
+::: columns
+::: {.column width="40%"}
+
+![](refrunning.jpg)
+
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="35%"}
+
+Lorem ipsum
+
+:::
+:::
+
+::: {#rugby-listing}
+:::

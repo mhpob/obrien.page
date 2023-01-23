@@ -18,6 +18,8 @@ website:
         file: research/packages.qmd
       - text: Blog
         file: blog/index.qmd
+      - text: Rugby
+        file: rugby/index.qmd
       
 
 format:
