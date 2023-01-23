@@ -1,0 +1,6 @@
+---
+title: "How to talk to a VR2C"
+draft: true
+---
+
+https://github.com/mhpob/Random/blob/master/Notebooks/vr2c_comm.Rmd

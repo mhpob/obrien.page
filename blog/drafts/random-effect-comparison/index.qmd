@@ -1,0 +1,6 @@
+---
+title: "Comparing random effects between `mgcv`, `nlme`, and `lme4`"
+draft: true
+---
+
+https://gist.github.com/mhpob/73cb07f5ef3b6b55f4ef9da8cd0b7b3e

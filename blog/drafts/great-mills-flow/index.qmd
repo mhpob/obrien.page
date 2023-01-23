@@ -1,0 +1,8 @@
+---
+title: "Great Mills flow"
+draft: true
+---
+
+https://github.com/mhpob/Random/blob/master/Notebooks/great-mills-flow.Rmd
+
+https://www.bayjournal.com/opinion/forum/the-skinny-on-shallow-water-protected-but-vulnerable/article_beec7c64-0ce1-11ed-8b33-e30ec28a2481.html
