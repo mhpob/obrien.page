@@ -1,17 +1,52 @@
 [
   {
-    "objectID": "blog/2023/01/30/park_parcels/index.html",
-    "href": "blog/2023/01/30/park_parcels/index.html",
-    "title": "Create: Interesting parcels and their access points",
+    "objectID": "blog/2023/01/23/henrico_parcels/index.html",
+    "href": "blog/2023/01/23/henrico_parcels/index.html",
+    "title": "Age of Henrico County Virginia’s structures",
     "section": "",
-    "text": "Owners of Henrico parcels can be seen if clicking on “Real Estate Data” in the GIS Viewer, but don’t seem to be available via the GeoData site. Luckily the real estate search is API-friendly.\n\nlibrary(httr); library(rvest)\n\nhenrico_owner <- function(gpin){\n  url <- paste0(\n    'https://realestate.henrico.us/ords/cam/f?p=510101:5:::NO::P5_PARCEL_ID,P5_SEARCH_TYPE:',\n    gpin,\n    ',0'\n  )\n  \n  real_estate_info <- GET(url)\n  \n  data.frame(\n    gpin = gpin,\n    owner = real_estate_info|> \n    content() |> \n    html_element(\n      xpath = 'body/form/table[3]/tr/td[1]/table[1]/tr/td[2]/table/tr[2]/td/table/tr[7]/td[2]') |> \n    html_text()\n  )\n}\n\nFilter Varina parcels by voting districts.\n\nlibrary(dplyr);library(arrow); library(sf); library(geoarrow)\n\ndistricts <- read_sf('data/voting precincts/voting_precincts.shp',\n                     query = \"select * from Voting_Precincts where\n                     PRECINCT_N = 'Montrose' OR\n                     PRECINCT_N = 'Adams'\") |> \n  st_union()\n\n\nvarina <- open_dataset('data/henrico_parcels.parquet') |>\n  filter(MAGISTER_1 == 'Varina') |> \n  geoarrow_collect_sf()\n\nmontrose <- st_intersection(varina, st_transform(districts, st_crs(varina)))\n\n\nlibrary(future.apply)\nplan(multisession)\n\nparcel_owners <- future_lapply(montrose$GPIN, henrico_owner) |> \n  bind_rows()\n\nwrite.csv(parcel_owners, 'data/montrose_parcel_owners.csv')\n\n\nparcel_owners <- read.csv('data/montrose_parcel_owners.csv')\n\n\nparcels <- parcel_owners |> \n  filter(grepl('^RICHMOND (DEVELOPMENT|HOMES)|CHESAPEAKE BAY', owner) |\n           gpin %in% c('808-717-3392',\n                       '807-717-7478',\n                       '807-717-1292',\n                       '806-718-7211',\n                       '806-717-5171',\n                       '806-717-1889',\n                       '808-717-6457'))\nparcels <- montrose |> \n  right_join(parcels, by = c('GPIN' = 'gpin')) |> \n  mutate(owner = ifelse(is.na(owner), 'GILLIES CREEK INDUSTRIAL RECYCLING LLC',\n                        owner))\n\nwrite_sf(parcels, 'data/parcels.gpkg')\n\n\naccess_pts <- data.frame(\n  matrix(\n    c(-77.385338, 37.523702, \"richmond development, inc\",\n      -77.392297, 37.525004, 'ivester, david',\n      -77.384438, 37.529007, 'montrose, graham',\n      -77.383748, 37.525491, 'richmond development, inc',\n      -77.382565,  37.525508, 'richmond development, inc',\n      -77.383011, 37.522102, 'herrera martinez yumira',\n      -77.394685, 37.525799, 'workmens cemetery',\n      -77.380802, 37.527383, 'virginia tech'\n    ),\n    ncol = 3, byrow = T\n  )\n) |> \n  st_as_sf(coords = c('X1', 'X2'), crs = 4326)\n\nwrite_sf(access_pts, 'data/access_pts.gpkg')"
+    "text": "A recent tweet showed the age of the buildings in Groningen, Netherlands super-imposed on LiDAR data for some perspective.\nThis got me thinking – what would Henrico look like? I’m going to take the cheap way out and not mess with LiDAR at the moment, but the county provides their Tax Parcels and CAMA Data for easy download.\nThis is a pretty big file – just under 121 thousand parcel outlines, with 84 different bits of information per property!"
+  },
+  {
+    "objectID": "blog/2023/01/23/henrico_parcels/index.html#enter-geoarrow",
+    "href": "blog/2023/01/23/henrico_parcels/index.html#enter-geoarrow",
+    "title": "Age of Henrico County Virginia’s structures",
+    "section": "Enter: geoarrow",
+    "text": "Enter: geoarrow\nI’ve been interested in playing around with the geoarrow package since watching Dewey Dunnington’s presentation at the 2022 RStudio conference. It leverages the Apache Arrow platform, resulting in rapid out-of-memory subsetting and manipulation of spatial data. The Parquet format used by Arrow also does a great job at compression, resulting in a much smaller file to toss around. When compared to a shapefile (which necessitates lugging around a bunch of other files), this seems like a much better way to store and access a large file."
+  },
+  {
+    "objectID": "blog/2023/01/23/henrico_parcels/index.html#shp-to-.parquet",
+    "href": "blog/2023/01/23/henrico_parcels/index.html#shp-to-.parquet",
+    "title": "Age of Henrico County Virginia’s structures",
+    "section": ".shp to .parquet",
+    "text": ".shp to .parquet\nThe first step is to convert the provided shapefile into the arrow-readable parquet format. I’ll do this using the sf and geoarrow packages:\n\nlibrary(sf)\nlibrary(geoarrow)\n\nhenrico <- st_read('tax_parcels_and_cama_data.shp')\nwrite_geoparquet(henrico, 'data/henrico_parcels.parquet')\n\nEast enough – and switching from the shapefile to parquet reduced the file size by 70%!"
+  },
+  {
+    "objectID": "blog/2023/01/23/henrico_parcels/index.html#pulling-in-the-data",
+    "href": "blog/2023/01/23/henrico_parcels/index.html#pulling-in-the-data",
+    "title": "Age of Henrico County Virginia’s structures",
+    "section": "Pulling in the data",
+    "text": "Pulling in the data\nUsing the newly-formed parquet file, it’s straightforward to only select two of the 84(!) columns and drop any structures without a construction date or a date that isn’t reasonable (in the future or before the settlement of the county).\n\n\n\n\nlibrary(arrow)\nlibrary(dplyr)\n\nhc_parcels <-\n  open_dataset('data/henrico_parcels.parquet') |> \n  select(YEAR_BUILT, geometry) |> \n  filter(!is.na(YEAR_BUILT) & YEAR_BUILT > 1500 & YEAR_BUILT < 2100) |> \n  geoarrow_collect_sf()"
+  },
+  {
+    "objectID": "blog/2023/01/23/henrico_parcels/index.html#plot",
+    "href": "blog/2023/01/23/henrico_parcels/index.html#plot",
+    "title": "Age of Henrico County Virginia’s structures",
+    "section": "Plot",
+    "text": "Plot\nNow just a matter of plotting using ggplot2.\n\nlibrary(ggplot2)\n\nggplot(data = hc_parcels) +\n  geom_sf(aes(fill = YEAR_BUILT), lwd = 0, color = NA)+\n  scale_fill_viridis_c(option  = 'turbo') +\n  labs(fill = 'Year built') +\n  theme_dark() +\n  theme(legend.position = c(0.25, 0.25))\n\n\n\n\nThe structures built recently blend together in burnt red, while the older building really pop. What this really tells us, though, is that the majority of the development in Henrico County has happened since 1950 or so.\nIt makes sense that the number of structures built per year would be greater in, say, 2000 compared to 1700 – homes are easier to build and we have a much greater population. In order to see the subtle patterns in development in recent years, we need to adjust the color scale to change more rapidly as time goes on.\nThis can be accomplished using the values argument to scale_fill_viridis_c. Values need to be on the 0-to-1 scale. I’m going to shift the breaks in the color scale toward the last 25% of years.\n\nggplot(data = hc_parcels) +\n  geom_sf(aes(fill = YEAR_BUILT), lwd = 0, color = NA)+\n  scale_fill_viridis_c(option  = 'turbo',\n                       values = c(0, 0.5, 0.75, 0.85, 0.95, 1)) +\n  labs(fill = 'Year built') +\n  theme_dark() +\n  theme(legend.position = c(0.25, 0.25))"
+  },
+  {
+    "objectID": "blog/2023/01/23/henrico_parcels/index.html#so-what-does-this-show-us",
+    "href": "blog/2023/01/23/henrico_parcels/index.html#so-what-does-this-show-us",
+    "title": "Age of Henrico County Virginia’s structures",
+    "section": "So, what does this show us?",
+    "text": "So, what does this show us?\n\nThe West End has a structure on nearly every parcel. This is especially apparent when comparing to Varina, where the blank gray spaces signify a plot of land with no listed structure.\nThe outskirts of Richmond (the “bite” in the middle) were developed heavily in the 1950s. The far West End, however, didn’t start to get developed until near 2000.\nThere’s a progressive structure to the development of the West End, as can be seen in the gradient of color."
   },
   {
     "objectID": "blog/index.html",
     "href": "blog/index.html",
     "title": "Blog",
     "section": "",
-    "text": "Create: Interesting parcels and their access points\n\n\n\n\n\n\n\nR\n\n\nHenrico\n\n\nWeb scraping\n\n\nReal estate\n\n\nLand use\n\n\n\n\n\n\n\n\n\n\n\nMike O’Brien\n\n\n\n\n\n\nNo matching items"
+    "text": "Age of Henrico County Virginia’s structures\n\n\n\n\n\n\n\nR\n\n\nHenrico\n\n\nWeb scraping\n\n\nLand use\n\n\ngeoarrow\n\n\narrow\n\n\n\n\n\n\n\n\n\n\n\nJan 22, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
