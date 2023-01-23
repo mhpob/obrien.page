@@ -2,7 +2,6 @@
 title: "Interesting parcels and their access points"
 author:
   - name: Mike O'Brien
-    email: mikeob9@gmail.com
   - name: Gray Montrose
     email: gray.montrose@gmail.com
 message: false
@@ -10,6 +9,7 @@ warning: false
 echo: false
 resources: 
   - data
+draft: true
 ---
 
 ```{r}

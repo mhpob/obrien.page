@@ -1,8 +1,5 @@
 ---
 title: "Create: Interesting parcels and their access points"
-author:
-  - name: Mike O'Brien
-    email: mikeob9@gmail.com
 resources: 
   - data
 categories: [R, Henrico, Web scraping, Real estate, Land use]
