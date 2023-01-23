@@ -13,7 +13,7 @@ website:
       - href: https://twitter.com/ruggafish
         icon: twitter
       - text: Research
-        file: research/research_list.qmd
+        file: research/index.qmd
       - text: Packages
         file: research/packages.qmd
       - text: Blog
