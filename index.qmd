@@ -1,6 +1,6 @@
 ---
 title: ""
-image: refrunning.jpg
+image: mike.jpg
 about:
   template: trestles
   links:
