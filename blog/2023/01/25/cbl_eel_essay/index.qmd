@@ -1,5 +1,7 @@
 ---
 title: Elusive silver eel migrations detected in the Chesapeake mainstem for the first time
+date: 2023-01-25
+categories: [Chesapeake, Fish migration, biotelemetry]
 ---
 
 *Note: This short essay was originally posted in the [December 2022 Chesapeake Biological Laboratory newsletter](https://simplebooklet.com/december20223#page=5).*
