@@ -1,59 +1,73 @@
 [
   {
-    "objectID": "blog/2023/01/23/henrico_parcels/index.html",
-    "href": "blog/2023/01/23/henrico_parcels/index.html",
+    "objectID": "blog/2023/01_23_henrico_parcels/index.html",
+    "href": "blog/2023/01_23_henrico_parcels/index.html",
     "title": "Age of Henrico County Virginia’s structures",
     "section": "",
     "text": "A recent tweet showed the age of the buildings in Groningen, Netherlands super-imposed on LiDAR data for some perspective.\nThis got me thinking – what would Henrico look like? I’m going to take the cheap way out and not mess with LiDAR at the moment, but the county provides their Tax Parcels and CAMA Data for easy download.\nThis is a pretty big file – just under 121 thousand parcel outlines, with 84 different bits of information per property!"
   },
   {
-    "objectID": "blog/2023/01/23/henrico_parcels/index.html#enter-geoarrow",
-    "href": "blog/2023/01/23/henrico_parcels/index.html#enter-geoarrow",
+    "objectID": "blog/2023/01_23_henrico_parcels/index.html#enter-geoarrow",
+    "href": "blog/2023/01_23_henrico_parcels/index.html#enter-geoarrow",
     "title": "Age of Henrico County Virginia’s structures",
     "section": "Enter: geoarrow",
     "text": "Enter: geoarrow\nI’ve been interested in playing around with the geoarrow package since watching Dewey Dunnington’s presentation at the 2022 RStudio conference. It leverages the Apache Arrow platform, resulting in rapid out-of-memory subsetting and manipulation of spatial data. The Parquet format used by Arrow also does a great job at compression, resulting in a much smaller file to toss around. When compared to a shapefile (which necessitates lugging around a bunch of other files), this seems like a much better way to store and access a large file."
   },
   {
-    "objectID": "blog/2023/01/23/henrico_parcels/index.html#shp-to-.parquet",
-    "href": "blog/2023/01/23/henrico_parcels/index.html#shp-to-.parquet",
+    "objectID": "blog/2023/01_23_henrico_parcels/index.html#shp-to-.parquet",
+    "href": "blog/2023/01_23_henrico_parcels/index.html#shp-to-.parquet",
     "title": "Age of Henrico County Virginia’s structures",
     "section": ".shp to .parquet",
     "text": ".shp to .parquet\nThe first step is to convert the provided shapefile into the arrow-readable parquet format. I’ll do this using the sf and geoarrow packages:\n\nlibrary(sf)\nlibrary(geoarrow)\n\nhenrico <- st_read('tax_parcels_and_cama_data.shp')\nwrite_geoparquet(henrico, 'data/henrico_parcels.parquet')\n\nEast enough – and switching from the shapefile to parquet reduced the file size by 70%!"
   },
   {
-    "objectID": "blog/2023/01/23/henrico_parcels/index.html#pulling-in-the-data",
-    "href": "blog/2023/01/23/henrico_parcels/index.html#pulling-in-the-data",
+    "objectID": "blog/2023/01_23_henrico_parcels/index.html#pulling-in-the-data",
+    "href": "blog/2023/01_23_henrico_parcels/index.html#pulling-in-the-data",
     "title": "Age of Henrico County Virginia’s structures",
     "section": "Pulling in the data",
-    "text": "Pulling in the data\nUsing the newly-formed parquet file, it’s straightforward to only select two of the 84(!) columns and drop any structures without a construction date or a date that isn’t reasonable (in the future or before the settlement of the county).\n\n\n\n\nlibrary(arrow)\nlibrary(dplyr)\n\nhc_parcels <-\n  open_dataset('data/henrico_parcels.parquet') |> \n  select(YEAR_BUILT, geometry) |> \n  filter(!is.na(YEAR_BUILT) & YEAR_BUILT > 1500 & YEAR_BUILT < 2100) |> \n  geoarrow_collect_sf()"
+    "text": "Pulling in the data\nUsing the newly-formed parquet file, it’s straightforward to only select two of the 84(!) columns and drop any structures without a construction date or a date that isn’t reasonable (in the future or before the settlement of the county).\n\nlibrary(arrow)\nlibrary(dplyr)\n\nhc_parcels <-\n  open_dataset('data/henrico_parcels.parquet') |> \n  select(YEAR_BUILT, geometry) |> \n  filter(!is.na(YEAR_BUILT) & YEAR_BUILT > 1500 & YEAR_BUILT < 2100) |> \n  geoarrow_collect_sf()"
   },
   {
-    "objectID": "blog/2023/01/23/henrico_parcels/index.html#plot",
-    "href": "blog/2023/01/23/henrico_parcels/index.html#plot",
+    "objectID": "blog/2023/01_23_henrico_parcels/index.html#plot",
+    "href": "blog/2023/01_23_henrico_parcels/index.html#plot",
     "title": "Age of Henrico County Virginia’s structures",
     "section": "Plot",
     "text": "Plot\nNow just a matter of plotting using ggplot2.\n\nlibrary(ggplot2)\n\nggplot(data = hc_parcels) +\n  geom_sf(aes(fill = YEAR_BUILT), lwd = 0, color = NA)+\n  scale_fill_viridis_c(option  = 'turbo') +\n  labs(fill = 'Year built') +\n  theme_dark() +\n  theme(legend.position = c(0.25, 0.25))\n\n\n\n\nThe structures built recently blend together in burnt red, while the older building really pop. What this really tells us, though, is that the majority of the development in Henrico County has happened since 1950 or so.\nIt makes sense that the number of structures built per year would be greater in, say, 2000 compared to 1700 – homes are easier to build and we have a much greater population. In order to see the subtle patterns in development in recent years, we need to adjust the color scale to change more rapidly as time goes on.\nThis can be accomplished using the values argument to scale_fill_viridis_c. Values need to be on the 0-to-1 scale. I’m going to shift the breaks in the color scale toward the last 25% of years.\n\nggplot(data = hc_parcels) +\n  geom_sf(aes(fill = YEAR_BUILT), lwd = 0, color = NA)+\n  scale_fill_viridis_c(option  = 'turbo',\n                       values = c(0, 0.5, 0.75, 0.85, 0.95, 1)) +\n  labs(fill = 'Year built') +\n  theme_dark() +\n  theme(legend.position = c(0.25, 0.25))"
   },
   {
-    "objectID": "blog/2023/01/23/henrico_parcels/index.html#so-what-does-this-show-us",
-    "href": "blog/2023/01/23/henrico_parcels/index.html#so-what-does-this-show-us",
+    "objectID": "blog/2023/01_23_henrico_parcels/index.html#so-what-does-this-show-us",
+    "href": "blog/2023/01_23_henrico_parcels/index.html#so-what-does-this-show-us",
     "title": "Age of Henrico County Virginia’s structures",
     "section": "So, what does this show us?",
     "text": "So, what does this show us?\n\nThe West End has a structure on nearly every parcel. This is especially apparent when comparing to Varina, where the blank gray spaces signify a plot of land with no listed structure.\nThe outskirts of Richmond (the “bite” in the middle) were developed heavily in the 1950s. The far West End, however, didn’t start to get developed until near 2000.\nThere’s a progressive structure to the development of the West End, as can be seen in the gradient of color."
   },
   {
-    "objectID": "blog/2023/01/25/cbl_eel_essay/index.html",
-    "href": "blog/2023/01/25/cbl_eel_essay/index.html",
+    "objectID": "blog/2023/01_25_cbl_eel_essay/index.html",
+    "href": "blog/2023/01_25_cbl_eel_essay/index.html",
     "title": "Elusive silver eel migrations detected in the Chesapeake mainstem for the first time",
     "section": "",
     "text": "Note: This short essay was originally posted in the December 2022 Chesapeake Biological Laboratory newsletter.\nWhen Sheila Eyler of the US Fish and Wildlife Service (USFWS) tagged 16 American eels 75 miles upstream of the Conowingo Dam she knew where they might end up – in the middle of the Atlantic Ocean in the Sargasso Sea – but whether they could traverse the major dams of the Susquehanna and how they would get there were still mysteries. Detections provided by the Chesapeake Biotelemetry Backbone, funded in part by the JES Avanti Foundation, have shown for the first time how these eels migrate out of the Bay.\nAmerican eels are born in the Sargasso Sea, hatching into transparent leptocephalus larvae while riding ocean currents into the mouth of the Chesapeake Bay. The larvae transform into glass eels and migrate upstream, where they live and grow as yellow eels for 5-20 years. When the eel is ready to spawn, they stop eating and turn into silver eels for their terminal trek back to the Sargasso Sea. Where, exactly, they go in the Sargasso is still unknown; when they spawn is only inferred from the presence of larvae.\nIdentifying when silver eels leave the Chesapeake may shed some light on this mysterious migration. For many years, we assumed the eels migrated between August and November – it’s when scattered silver eels appeared in pots and pound nets and it’s when they’re known to migrate in New England. However, it now looks like silver eels leave the Chesapeake during winter months. As is the case with other unexpected discoveries (see Atlantic sturgeon: Not the ‘ghosts’ I once thought they were, Bay Journal 2021), we were looking in the wrong place, at the wrong time, and with the wrong tools.\n\nEnter the Chesapeake Bay Biotelemetry Backbone: a broad partnership between the University of Maryland Center for Environmental Science, Maryland Department of Natural Resources, NOAA Chesapeake Bay Office, Smithsonian Environmental Research Center, and the Virginia Marine Resources Commission. The team aims to deploy biotelemetry arrays in a sustained, year-round manner that covers major portions of the Chesapeake Bay. Each array is located near “pinch-points” in the Chesapeake, chosen to maximize chance encounters with electronically tagged fish. Most importantly, the array is constantly listening for fish – even through the cold winter months – and does away with the need to directly capture fishes such as the cryptic silver eel.\nIn the first year of Eyler’s eel tagging, the Chesapeake Biological Laboratory’s backbone array detected five tagged Susquehanna eels passing by the mouth of the Patuxent River, MD. The silver eels blew by on their way to tropical Sargasso latitudes in the dead of winter – between late-December and mid-February – rather than fall months as in New England. Further, their stalwart migration emerging from the Conowingo and other major dams is good news for conservation efforts to restore American eels to the Susquehanna River. With USFWS planning to tag 200 more silver eels in the next 2 years and sustained deployment of the Chesapeake Bay Biotelemetry Backbone, knowledge of the timing and extent of Chesapeake silver eel migrations will only increase."
+  },
+  {
+    "objectID": "blog/2023/02_21_wkb/index.html",
+    "href": "blog/2023/02_21_wkb/index.html",
+    "title": "Creating a simple features object via well-known-binary vs using coordinates",
+    "section": "",
+    "text": "If you work with fish telemetry data on the east coast of the USA, chances are that you’re now at least tangentially related to the Ocean Tracking Network (OTN).\nThe Ocean Tracking Network houses their data on a GeoServer, which often uses PostgreSQL/PostGIS behind the scenes. These databases store their spatial data in a format called “well-known binary” – as opposed to the human-readable “well-known text” you see in the output of an sf object.\nOTN data extracts export the WKB in a column called “the_geom”; it looks like a long string of numbers and letters. To investigate this, I’ll use the data set from Trudel 2018.\nThe main difference here is that the_geom can contain all of the information we may need, like coordinates, geometry type (points? polygons? multipoints? MULTIPOLYGONS???), and coordinate reference system. The latitude and longitude columns are just text: we need to infer/assume all of the other information.\nIn this particular case, that’s pretty easy. The latitude/longitude combinations are representing deployed receivers (points) and the are almost certainly in WGS84 (EPSG 4326) as that’s the system most-commonly used by a handheld GPS. We can provide this information directly and convert the CSV into an sf object.\nThe information we provided (coordinates and a coordinate reference system) helped fill out the metadata in the header and the well-known text (WKT) representation of the points in the “geometry” column. The analogous well-known binary (WKB) is contained within “the_geom” column. At this point, the WKB are just character strings.\nWe can convert the WKB as well, but it necessitates us jumping through some strange hoops. First we need to make “the_geom” have a “WKB” class.\nWe can then convert this to a simple features collection via st_as_sfc. Note that you may have to pass the EWKB = T argument if you come across some WKB in the wild, as PostGIS can create two types of WKB: Extended WKB and ISO WKB. EWKB allows other dimensions (like depth) and embedding a spatial reference identifier (SRID). ISO WKB also allows other identifiers, but no SRID. OTN seems to use ISO WKB as there is no CRS associated with the data.\nTo complete the cycle, we will convert the column to a simple features collection, then set it as the geometry of the original dataset.\nSo, is there any advantage to jumping through these hoops? Let’s benchmark it.\nSure doesn’t seem like it. After 100 iterations, parsing the binary is about four times slower than using st_as_sf. This result, combined with the fact that the code is more confusing and a PostGIS database is likely not being utilized by OTN’s end-users, suggests that the column may not get much use. Converting to EWKB may provide more use via adding a CRS, but the changes in the back end to make this happen probably make it so “the juice ain’t worth the squeeze.”"
+  },
+  {
+    "objectID": "blog/2023/02_21_wkb/index.html#references",
+    "href": "blog/2023/02_21_wkb/index.html#references",
+    "title": "Creating a simple features object via well-known-binary vs using coordinates",
+    "section": "References",
+    "text": "References\nTrudel, Marc. “A Pilot Study to Investigate the Migration of Atlantic Salmon Post-Smolts and Their Interactions with Aquaculture in Passamaquoddy Bay, New Brunswick, Canada.” Ocean Tracking Network, 2018. https://members.oceantrack.org/project?ccode=PBSM.\nThis issue on GitHub: https://github.com/r-spatial/sf/issues/745#issuecomment-389778839"
   },
   {
     "objectID": "blog/index.html",
     "href": "blog/index.html",
     "title": "Blog",
     "section": "",
-    "text": "Elusive silver eel migrations detected in the Chesapeake mainstem for the first time\n\n\n\n\n\n\n\nChesapeake\n\n\nFish migration\n\n\nbiotelemetry\n\n\n\n\n\n\n\n\n\n\n\nJan 25, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAge of Henrico County Virginia’s structures\n\n\n\n\n\n\n\nR\n\n\nHenrico\n\n\nWeb scraping\n\n\nLand use\n\n\ngeoarrow\n\n\narrow\n\n\n\n\n\n\n\n\n\n\n\nJan 22, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\nNo matching items"
+    "text": "Creating a simple features object via well-known-binary vs using coordinates\n\n\n\n\n\n\n\n\n\n\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nElusive silver eel migrations detected in the Chesapeake mainstem for the first time\n\n\n\n\n\n\n\nChesapeake\n\n\nFish migration\n\n\nbiotelemetry\n\n\n\n\n\n\n\n\n\n\n\nJan 25, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAge of Henrico County Virginia’s structures\n\n\n\n\n\n\n\nR\n\n\nHenrico\n\n\nWeb scraping\n\n\nLand use\n\n\ngeoarrow\n\n\narrow\n\n\n\n\n\n\n\n\n\n\n\nJan 22, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
@@ -105,10 +119,17 @@
     "text": "matos: An R API package for the Mid-Atlantic Acoustic Telemetry Observing System - https://github.com/mhpob/matos\nTelemetryR: An R API package for the Atlantic Cooperative Telemetry (ACT) Network - https://github.com/mhpob/TelemetryR"
   },
   {
+    "objectID": "rugby/2023/east-demographics/index.html#geographic-unions-gus",
+    "href": "rugby/2023/east-demographics/index.html#geographic-unions-gus",
+    "title": "East Demographics",
+    "section": "Geographic Unions (GUs)",
+    "text": "Geographic Unions (GUs)"
+  },
+  {
     "objectID": "rugby/index.html",
     "href": "rugby/index.html",
     "title": "Rugby",
     "section": "",
-    "text": "Former:\n\nUSA Rugby National Panel (2016-2020)\nWorld Rugby 7s (2016-2018)\nMajor League Rugby (2018-2021)\n\nCurrent:\n\nPresident of the Mid-Atlantic Rugby Referees\nMember of the Potomac Society of Rugby Football Referees\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Former:\n\nUSA Rugby National Panel (2016-2020)\nWorld Rugby 7s (2016-2018)\nMajor League Rugby (2018-2021)\n\nCurrent:\n\nPresident of the Mid-Atlantic Rugby Referees\nMember of the Potomac Society of Rugby Football Referees\n\n\n\n\n\n\n\n\n\nEast Demographics\n\n\n\n\n\n\n\n\n\n\n \n\n\n\n\nNo matching items"
   }
 ]
