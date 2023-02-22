@@ -1,0 +1,65 @@
+---
+title: "East Demographics"
+echo: false
+warning: false
+message: false
+---
+```{r}
+library(data.table)
+library(lubridate)
+library(ggplot2)
+```
+## Local Referee Societies (LROs)
+```{r}
+ages <- fread('ages.csv')
+ethnicity <- fread('ethnicity.csv')
+gender <- fread('gender.csv')
+```
+
+```{r}
+ages[, dob_date := fifelse(as.numeric(gsub('.*/', '', DOB)) <= 22,
+                           paste0(gsub('.{2}$', '', DOB), 20, gsub('.*/', '', DOB)),
+                           paste0(gsub('.{2}$', '', DOB), 19, gsub('.*/', '', DOB)))]
+ages[, dob_date := as.Date(dob_date, format = "%m/%d/%Y")]
+ages[, age := difftime(Sys.Date(), dob_date)]
+ages[, age := time_length(age, 'year')]
+ages[, age := floor(age)]
+
+ages[, `Club Name` := gsub('Virgina', 'Virginia', `Club Name`)]
+```
+
+```{r}
+ggplot(data = ages) +
+  geom_density(aes(x = age, color = `Club Name`)) +
+  theme_minimal()
+```
+
+```{r}
+ethnicity[, `Club Name` := gsub('Virgina', 'Virginia', `Club Name`)]
+```
+
+```{r}
+ggplot(data = ethnicity, aes(x = Ethnicity)) +
+  geom_bar() +
+    geom_text(aes(label = after_stat(count)),
+            stat = 'count', vjust = -0.5) +
+  ylim(0,50) +
+  facet_wrap(~ `Club Name`) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 35, hjust = 1))
+```
+
+
+```{r}
+gender[, `Club Name` := gsub('Virgina', 'Virginia', `Club Name`)]
+
+ggplot(data = gender, aes(x = Gender)) +
+  geom_bar() +
+  geom_text(aes(label = after_stat(count)),
+            stat = 'count', vjust = -0.5) +
+  ylim(0, 55) +
+  facet_wrap(~`Club Name`) +
+  theme_minimal()
+```
+
+## Geographic Unions (GUs)

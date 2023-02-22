@@ -1,0 +1,22 @@
+---
+title: "RVA most-dense"
+---
+
+```{r}
+library(tidycensus)
+```
+
+```{r}
+variables <- load_variables(2010, 'sf2')
+```
+
+
+```{r}
+rva_geo <- get_decennial(geography = 'block',
+                     state = 'VA',
+                     county = 'Henrico',
+                     variables = 'PCT001001',
+                     year = 2010,
+                     geometry = T)
+```
+

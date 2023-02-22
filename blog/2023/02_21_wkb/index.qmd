@@ -1,0 +1,94 @@
+---
+title: "Creating a simple features object via well-known-binary vs using coordinates"
+---
+
+If you work with fish telemetry data on the east coast of the USA, chances are that you're now at least tangentially related to the Ocean Tracking Network (OTN).
+
+The Ocean Tracking Network houses their data on a [GeoServer](https://members.oceantrack.org/geoserver/web/), which often uses PostgreSQL/PostGIS behind the scenes. These databases store their spatial data in a format called "well-known binary" -- as opposed to the human-readable "well-known text" you see in the output of an sf object.
+
+OTN data extracts export the WKB in a column called "`the_geom`"; it looks like a long string of numbers and letters. To investigate this, I'll use the data set from [Trudel 2018](#references).
+
+```{r}
+# Download toy data
+td <- file.path(tempdir(), 'otn_files')
+dir.create(td)
+
+download.file('https://members.oceantrack.org/data/repository/pbsm/detection-extracts/pbsm_qualified_detections_2018.zip',
+              destfile = file.path(td, 'pbsm_qualified_detections_2018.zip'))
+unzip(file.path(td, 'pbsm_qualified_detections_2018.zip'),
+      exdir = td)
+
+# Read in data
+otn <- read.csv(file.path(td, 'pbsm_qualified_detections_2018.csv'))
+
+head(otn[, c('latitude', 'longitude', 'the_geom')])
+```
+The main difference here is that `the_geom` can contain all of the information we may need, like coordinates, geometry type (points? polygons? multipoints? MULTIPOLYGONS???), and coordinate reference system. The `latitude` and `longitude` columns are just text: we need to infer/assume all of the other information.
+
+In this particular case, that's pretty easy. The latitude/longitude combinations are representing deployed receivers (points) and the are almost certainly in [WGS84](https://en.wikipedia.org/wiki/World_Geodetic_System#WGS84) ([EPSG 4326](https://epsg.io/4326)) as that's the system most-commonly used by a handheld GPS. We can provide this information directly and convert the CSV into an sf object.
+
+```{r}
+library(sf)
+otn_as_sf <- st_as_sf(otn,
+                      coords = c('longitude', 'latitude'),
+                      crs = 4326)
+
+head(otn_as_sf[, 'the_geom'])
+```
+The information we provided (coordinates and a coordinate reference system) helped fill out the metadata in the header and the well-known text (WKT) representation of the points in the "geometry" column. The analogous well-known binary (WKB) is contained within "the_geom" column. At this point, the WKB are just character strings.
+
+We can convert the WKB as well, but it necessitates us jumping through some strange hoops. First we need to make "the_geom" have a "WKB" class. 
+
+```{r}
+otn_wkb <- structure(otn$the_geom, class = 'WKB')
+
+attributes(otn_wkb)
+```
+We can then convert this to a simple features collection via `st_as_sfc`. Note that you may have to pass the `EWKB = T` argument if you come across some WKB in the wild, as PostGIS can create two types of WKB: Extended WKB and ISO WKB. EWKB allows other dimensions (like depth) and embedding a [spatial reference identifier (SRID)](https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/what-is-an-srid.htm). ISO WKB also allows other identifiers, but no SRID. OTN seems to use ISO WKB as there is no CRS associated with the data.
+
+```{r}
+# ISO WKB, no CRS
+st_crs(
+  st_as_sfc(otn_wkb, EWKB = F)
+)
+
+# Would have a CRS if EWKB
+st_crs(
+  st_as_sfc(otn_wkb, EWKB = T)
+)
+```
+To complete the cycle, we will convert the column to a simple features collection, then set it as the geometry of the original dataset. 
+
+```{r}
+otn_wkb <- st_as_sfc(otn_wkb)
+
+otn_wkb <- st_set_geometry(otn, otn_wkb)
+
+otn_wkb[, 'geometry']
+```
+
+So, is there any advantage to jumping through these hoops? Let's benchmark it.
+
+```{r}
+library(microbenchmark)
+
+microbenchmark(
+  from_binary = {
+    otn_wkb <- st_as_sfc(structure(otn$the_geom, class = 'WKB'), EWKB = T)
+    otn_spatial_wkb <- st_set_geometry(otn, otn_wkb)
+    st_crs(otn_spatial_wkb) <- 4326
+  },
+  from_coord = {
+    otn_spatial <- st_as_sf(otn,
+                            coords = c('longitude', 'latitude'),
+                            crs = 4326)
+  }
+)
+```
+Sure doesn't seem like it. After 100 iterations, parsing the binary is about four times slower than using `st_as_sf`. This result, combined with the fact that the code is more confusing and a PostGIS database is likely not being utilized by OTN's end-users, suggests that the column may not get much use. Converting to EWKB may provide more use via adding a CRS, but the changes in the back end to make this happen probably make it so "the juice ain't worth the squeeze."
+
+
+## References
+Trudel, Marc. “A Pilot Study to Investigate the Migration of Atlantic Salmon Post-Smolts and Their Interactions with Aquaculture in Passamaquoddy Bay, New Brunswick, Canada.” Ocean Tracking Network, 2018. [https://members.oceantrack.org/project?ccode=PBSM](https://members.oceantrack.org/project?ccode=PBSM).
+
+This issue on GitHub: [https://github.com/r-spatial/sf/issues/745#issuecomment-389778839](https://github.com/r-spatial/sf/issues/745#issuecomment-389778839)

@@ -1,0 +1,36 @@
+---
+title: "Zero to website in less than 60 minutes"
+author: <a href="https://www.obrien.page">Mike O'Brien</a>
+date: "2023-01-31"
+format:
+  revealjs:
+    theme: league
+    slide-number: h.v
+---
+
+## Goals and needs for today
+:::: {.columns}
+
+::: {.column}
+Goals
+
+-   Create a blog
+-   Publish the blog
+-   Set up a custom domain
+:::
+
+::: {.column}
+Needs
+
+-   Quarto and an IDE (RStudio)
+-   Git installed and a GitHub account
+-   A credit card
+:::
+
+::::
+# Quarto
+## Why Quarto?
+
+# (Your) whole new world
+## Purchase domain
+
