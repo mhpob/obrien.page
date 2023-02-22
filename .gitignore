@@ -8,3 +8,6 @@
 
 /.quarto/
 /_site/
+
+ *.gpkg
+ *.parquet

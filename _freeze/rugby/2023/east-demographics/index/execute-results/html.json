@@ -1,0 +1,16 @@
+{
+  "hash": "34c10d9649636d5de41b30ad765ed58e",
+  "result": {
+    "markdown": "---\ntitle: \"East Demographics\"\necho: false\nwarning: false\nmessage: false\n---\n\n::: {.cell}\n\n:::\n\n## Local Referee Societies (LROs)\n\n::: {.cell}\n\n:::\n\n::: {.cell}\n\n:::\n\n::: {.cell}\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-4-1.png){width=672}\n:::\n:::\n\n::: {.cell}\n\n:::\n\n::: {.cell}\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-6-1.png){width=672}\n:::\n:::\n\n::: {.cell}\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-7-1.png){width=672}\n:::\n:::\n\n\n## Geographic Unions (GUs)",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
