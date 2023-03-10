@@ -63,6 +63,13 @@
     "text": "References\nTrudel, Marc. “A Pilot Study to Investigate the Migration of Atlantic Salmon Post-Smolts and Their Interactions with Aquaculture in Passamaquoddy Bay, New Brunswick, Canada.” Ocean Tracking Network, 2018. https://members.oceantrack.org/project?ccode=PBSM.\nThis issue on GitHub: https://github.com/r-spatial/sf/issues/745#issuecomment-389778839"
   },
   {
+    "objectID": "blog/2023/03_07_coding_club_github_actions/index.html",
+    "href": "blog/2023/03_07_coding_club_github_actions/index.html",
+    "title": "Introduction to GitHub Actions",
+    "section": "",
+    "text": "This week, I wanted to talk to the Coding Club at UMCES about GitHub Actions. I had been messing around with them during the creation of the matos and otndo packages, and I started to realize how powerful the combination of R and GitHub actions could be. This exercise, however, made me remember that the quickest way to realize how little you understand of a topic is to attempt to teach it.\nThe presentation is attached."
+  },
+  {
     "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#what-is-github-actions",
     "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#what-is-github-actions",
     "title": "Introduction to GitHub Actions",
