@@ -25,6 +25,7 @@ website:
 format:
   html:
     theme: lux
+    fontsize: small
     css: custom.scss
     toc: true
     link-external-newwindow: true
