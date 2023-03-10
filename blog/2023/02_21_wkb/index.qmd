@@ -74,9 +74,10 @@ library(microbenchmark)
 
 microbenchmark(
   from_binary = {
-    otn_wkb <- st_as_sfc(structure(otn$the_geom, class = 'WKB'), EWKB = T)
+    otn_wkb <- st_as_sfc(structure(otn$the_geom, class = 'WKB'),
+                         EWKB = T,
+                         crs = 4326)
     otn_spatial_wkb <- st_set_geometry(otn, otn_wkb)
-    st_crs(otn_spatial_wkb) <- 4326
   },
   from_coord = {
     otn_spatial <- st_as_sf(otn,
