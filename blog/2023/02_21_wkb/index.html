@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Mike O’Brien">
+<meta name="dcterms.date" content="2023-02-28">
 
 <title>Mike O’Brien - Creating a simple features object via well-known-binary vs using coordinates</title>
 <style>
@@ -199,7 +200,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Creating a simple features object via well-known-binary vs using coordinates</h1>
-</div>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">Fish migration</div>
+    <div class="quarto-category">biotelemetry</div>
+    <div class="quarto-category">sf</div>
+    <div class="quarto-category">spatial</div>
+    <div class="quarto-category">PostGIS</div>
+  </div>
+  </div>
 
 
 
@@ -212,6 +221,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
   </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 28, 2023</p>
+    </div>
+  </div>
   
     
   </div>
@@ -334,21 +349,22 @@ First 10 features:
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">microbenchmark</span>(</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">from_binary =</span> {</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    otn_wkb <span class="ot">&lt;-</span> <span class="fu">st_as_sfc</span>(<span class="fu">structure</span>(otn<span class="sc">$</span>the_geom, <span class="at">class =</span> <span class="st">'WKB'</span>), <span class="at">EWKB =</span> T)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    otn_spatial_wkb <span class="ot">&lt;-</span> <span class="fu">st_set_geometry</span>(otn, otn_wkb)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_crs</span>(otn_spatial_wkb) <span class="ot">&lt;-</span> <span class="dv">4326</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">from_coord =</span> {</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    otn_spatial <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(otn,</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>                            <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">'longitude'</span>, <span class="st">'latitude'</span>),</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>                            <span class="at">crs =</span> <span class="dv">4326</span>)</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    otn_wkb <span class="ot">&lt;-</span> <span class="fu">st_as_sfc</span>(<span class="fu">structure</span>(otn<span class="sc">$</span>the_geom, <span class="at">class =</span> <span class="st">'WKB'</span>),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">EWKB =</span> T,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                         <span class="at">crs =</span> <span class="dv">4326</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    otn_spatial_wkb <span class="ot">&lt;-</span> <span class="fu">st_set_geometry</span>(otn, otn_wkb)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">from_coord =</span> {</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    otn_spatial <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(otn,</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>                            <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">'longitude'</span>, <span class="st">'latitude'</span>),</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>                            <span class="at">crs =</span> <span class="dv">4326</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Unit: microseconds
-        expr    min      lq     mean  median      uq    max neval
- from_binary 2764.5 2819.85 3154.020 2860.25 3042.45 6389.1   100
-  from_coord  970.5  986.30 1030.973 1000.70 1024.30 1597.0   100</code></pre>
+        expr    min      lq     mean  median      uq     max neval
+ from_binary 2744.8 2970.60 4583.604 3725.75 6044.45 12281.4   100
+  from_coord  975.5 1031.85 1489.751 1264.45 1921.60  3304.0   100</code></pre>
 </div>
 </div>
 <p>Sure doesn’t seem like it. After 100 iterations, parsing the binary is about four times slower than using <code>st_as_sf</code>. This result, combined with the fact that the code is more confusing and a PostGIS database is likely not being utilized by OTN’s end-users, suggests that the column may not get much use. Converting to EWKB may provide more use via adding a CRS, but the changes in the back end to make this happen probably make it so “the juice ain’t worth the squeeze.”</p>

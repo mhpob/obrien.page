@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Mike O’Brien">
-<meta name="dcterms.date" content="2023-01-22">
+<meta name="dcterms.date" content="2023-03-10">
 
-<title>Mike O’Brien - Age of Henrico County Virginia’s structures</title>
+<title>Mike O’Brien - Connecting Google Sheets and GitHub Actions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -190,11 +190,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#enter-geoarrow" id="toc-enter-geoarrow" class="nav-link active" data-scroll-target="#enter-geoarrow">Enter: <code>geoarrow</code></a></li>
-  <li><a href="#shp-to-.parquet" id="toc-shp-to-.parquet" class="nav-link" data-scroll-target="#shp-to-.parquet"><code>.shp</code> to <code>.parquet</code></a></li>
-  <li><a href="#pulling-in-the-data" id="toc-pulling-in-the-data" class="nav-link" data-scroll-target="#pulling-in-the-data">Pulling in the data</a></li>
-  <li><a href="#plot" id="toc-plot" class="nav-link" data-scroll-target="#plot">Plot</a></li>
-  <li><a href="#so-what-does-this-show-us" id="toc-so-what-does-this-show-us" class="nav-link" data-scroll-target="#so-what-does-this-show-us">So, what does this show us?</a></li>
+  <li><a href="#so-you-want-to-automate-saving-things-in-a-google-sheet" id="toc-so-you-want-to-automate-saving-things-in-a-google-sheet" class="nav-link active" data-scroll-target="#so-you-want-to-automate-saving-things-in-a-google-sheet">So, you want to automate saving things in a Google Sheet?</a></li>
+  <li><a href="#permissions-needed" id="toc-permissions-needed" class="nav-link" data-scroll-target="#permissions-needed">Permissions needed</a></li>
+  <li><a href="#google-cloud-platform" id="toc-google-cloud-platform" class="nav-link" data-scroll-target="#google-cloud-platform">Google Cloud Platform</a></li>
+  <li><a href="#create-a-service-account-token" id="toc-create-a-service-account-token" class="nav-link" data-scroll-target="#create-a-service-account-token">Create a service account token</a></li>
+  <li><a href="#turn-on-the-google-sheetsdrive-api-for-your-gcp-project" id="toc-turn-on-the-google-sheetsdrive-api-for-your-gcp-project" class="nav-link" data-scroll-target="#turn-on-the-google-sheetsdrive-api-for-your-gcp-project">Turn on the Google Sheets/Drive API for your GCP project</a></li>
+  <li><a href="#fake-google-robot-people" id="toc-fake-google-robot-people" class="nav-link" data-scroll-target="#fake-google-robot-people">Fake Google Robot People</a></li>
+  <li><a href="#add-your-token-to-github-action-secrets" id="toc-add-your-token-to-github-action-secrets" class="nav-link" data-scroll-target="#add-your-token-to-github-action-secrets">Add your token to GitHub Action secrets</a></li>
+  <li><a href="#coding-on-your-computer" id="toc-coding-on-your-computer" class="nav-link" data-scroll-target="#coding-on-your-computer">Coding on your computer</a></li>
+  <li><a href="#github-actions" id="toc-github-actions" class="nav-link" data-scroll-target="#github-actions">GitHub Actions</a></li>
   </ul>
 </nav>
     </div>
@@ -203,14 +207,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Age of Henrico County Virginia’s structures</h1>
+<h1 class="title">Connecting Google Sheets and GitHub Actions</h1>
   <div class="quarto-categories">
     <div class="quarto-category">R</div>
-    <div class="quarto-category">Henrico</div>
     <div class="quarto-category">Web scraping</div>
-    <div class="quarto-category">Land use</div>
-    <div class="quarto-category">geoarrow</div>
-    <div class="quarto-category">arrow</div>
+    <div class="quarto-category">GitHub Actions</div>
+    <div class="quarto-category">Google</div>
   </div>
   </div>
 
@@ -228,7 +230,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 22, 2023</p>
+      <p class="date">March 10, 2023</p>
     </div>
   </div>
   
@@ -238,92 +240,110 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>A recent tweet showed the age of the buildings in Groningen, Netherlands super-imposed on LiDAR data for some perspective.</p>
-<p></p><div id="tweet-40449"></div><script>tweet={"url":"https:\/\/twitter.com\/neilcfd1\/status\/1560616470148575233","author_name":"Neil Southall","author_url":"https:\/\/twitter.com\/neilcfd1","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EHaven&#39;t done a Building Age render for a while - here is Groningen, Netherlands\u003Cbr\u003EBuilding age data \u003Ca href=\"https:\/\/twitter.com\/INSPIRE_EU?ref_src=twsrc%5Etfw\"\u003E@INSPIRE_EU\u003C\/a\u003E \u003Ca href=\"https:\/\/twitter.com\/Het_Kadaster?ref_src=twsrc%5Etfw\"\u003E@Het_Kadaster\u003C\/a\u003E overlaid on LiDAR height data (from \u003Ca href=\"https:\/\/t.co\/Sm0VEFXOXs\"\u003Ehttps:\/\/t.co\/Sm0VEFXOXs\u003C\/a\u003E).  Rendered in \u003Ca href=\"https:\/\/twitter.com\/hashtag\/rayshader?src=hash&amp;ref_src=twsrc%5Etfw\"\u003E#rayshader\u003C\/a\u003E \u003Ca href=\"https:\/\/twitter.com\/hashtag\/rstats?src=hash&amp;ref_src=twsrc%5Etfw\"\u003E#rstats\u003C\/a\u003E \u003Ca href=\"https:\/\/t.co\/CElUxvn1W6\"\u003Epic.twitter.com\/CElUxvn1W6\u003C\/a\u003E\u003C\/p\u003E&mdash; Neil Southall (@neilcfd1) \u003Ca href=\"https:\/\/twitter.com\/neilcfd1\/status\/1560616470148575233?ref_src=twsrc%5Etfw\"\u003EAugust 19, 2022\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-40449").innerHTML = tweet["html"];</script><p></p>
-<p>This got me thinking – what would Henrico look like? I’m going to take the cheap way out and not mess with LiDAR at the moment, but the county provides their <a href="https://data-henrico.opendata.arcgis.com/datasets/Henrico::tax-parcels-and-cama-data/explore">Tax Parcels and CAMA Data</a> for easy download.</p>
-<div class="callout callout-style-default callout-note callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>To skip the coding and jump straight to the picture, <a href="#plot">click here!</a></p>
-</div>
-</div>
-<p>This is a pretty big file – just under 121 thousand parcel outlines, with 84 different bits of information per property!</p>
-<section id="enter-geoarrow" class="level2">
-<h2 class="anchored" data-anchor-id="enter-geoarrow">Enter: <code>geoarrow</code></h2>
-<p>I’ve been interested in playing around with the <a href="https://github.com/paleolimbot/geoarrow"><code>geoarrow</code> package</a> since watching Dewey Dunnington’s <a href="https://www.youtube.com/watch?v=kTtRr4kUJro">presentation at the 2022 RStudio conference</a>. It leverages the <a href="https://arrow.apache.org/">Apache Arrow</a> platform, resulting in rapid out-of-memory subsetting and manipulation of spatial data. The <a href="https://parquet.apache.org/">Parquet</a> format used by Arrow also does a great job at compression, resulting in a much smaller file to toss around. When compared to a shapefile (which necessitates lugging around <a href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/shapefiles/shapefile-file-extensions.htm">a bunch of other files</a>), this seems like a much better way to store and access a large file.</p>
-</section>
-<section id="shp-to-.parquet" class="level2">
-<h2 class="anchored" data-anchor-id="shp-to-.parquet"><code>.shp</code> to <code>.parquet</code></h2>
-<p>The first step is to convert the provided shapefile into the arrow-readable parquet format. I’ll do this using the <code>sf</code> and <code>geoarrow</code> packages:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geoarrow)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>henrico <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">'tax_parcels_and_cama_data.shp'</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">write_geoparquet</span>(henrico, <span class="st">'data/henrico_parcels.parquet'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>East enough – and switching from the shapefile to parquet reduced the file size by 70%!</p>
-</section>
-<section id="pulling-in-the-data" class="level2">
-<h2 class="anchored" data-anchor-id="pulling-in-the-data">Pulling in the data</h2>
-<p>Using the newly-formed parquet file, it’s straightforward to only select two of the 84(!) columns and drop any structures without a construction date or a date that isn’t reasonable (in the future or before the settlement of the county).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>hc_parcels <span class="ot">&lt;-</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">open_dataset</span>(<span class="st">'data/henrico_parcels.parquet'</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(YEAR_BUILT, geometry) <span class="sc">|&gt;</span> </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(YEAR_BUILT) <span class="sc">&amp;</span> YEAR_BUILT <span class="sc">&gt;</span> <span class="dv">1500</span> <span class="sc">&amp;</span> YEAR_BUILT <span class="sc">&lt;</span> <span class="dv">2100</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geoarrow_collect_sf</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="plot" class="level2">
-<h2 class="anchored" data-anchor-id="plot">Plot</h2>
-<p>Now just a matter of plotting using <code>ggplot2</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> hc_parcels) <span class="sc">+</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> YEAR_BUILT), <span class="at">lwd =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option  =</span> <span class="st">'turbo'</span>) <span class="sc">+</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">'Year built'</span>) <span class="sc">+</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_dark</span>() <span class="sc">+</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/first-plot-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>The structures built recently blend together in burnt red, while the older building really pop. What this really tells us, though, is that the majority of the development in Henrico County has happened since 1950 or so.</p>
-<p>It makes sense that the number of structures built per year would be greater in, say, 2000 compared to 1700 – homes are easier to build and we have a much greater population. In order to see the subtle patterns in development in recent years, we need to adjust the color scale to change more rapidly as time goes on.</p>
-<p>This can be accomplished using the <code>values</code> argument to <code>scale_fill_viridis_c</code>. Values need to be on the 0-to-1 scale. I’m going to shift the breaks in the color scale toward the last 25% of years.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> hc_parcels) <span class="sc">+</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> YEAR_BUILT), <span class="at">lwd =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option  =</span> <span class="st">'turbo'</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.85</span>, <span class="fl">0.95</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">'Year built'</span>) <span class="sc">+</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_dark</span>() <span class="sc">+</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/rescaled-color-plot-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="so-what-does-this-show-us" class="level2">
-<h2 class="anchored" data-anchor-id="so-what-does-this-show-us">So, what does this show us?</h2>
+<p>There are already a few blogs and presentations that outline the why and how of GitHub Actions and R:</p>
 <ul>
-<li>The West End has a structure on nearly every parcel. This is especially apparent when comparing to Varina, where the blank gray spaces signify a plot of land with no listed structure.</li>
-<li>The outskirts of Richmond (the “bite” in the middle) were developed heavily in the 1950s. The far West End, however, didn’t start to get developed until near 2000.</li>
-<li>There’s a progressive structure to the development of the West End, as can be seen in the gradient of color.</li>
+<li><a href="https://www.jimhester.com/talk/2020-rsc-github-actions">Jim Hester: GitHub Actions for R</a></li>
+<li><a href="https://beamilz.com/posts/series-gha/2022-series-gha-1-what-is/en/">Beatrice Milz: Introduction to GitHub Actions to R users</a></li>
 </ul>
+<p>And also how to schedule R analysis to run on a schedule or connect with Google services:</p>
+<ul>
+<li><a href="https://blog--simonpcouch.netlify.app/blog/r-github-actions-commit">Simon Couch: Running R Scripts on a Schedule with GitHub Actions</a></li>
+<li><a href="https://ryo-n7.github.io/2021-09-23-CanPL-GoogleDrive-GithubActions-Tutorial">Ryo Nakagawara: Creating a data pipeline with Github Actions &amp; the {googledrive} package for the Canadian Premier League soccer data initiative!</a></li>
+</ul>
+<p>Because of this, I’m going to skip right ahead to the part that always trips me up: connecting Google services like Google Drive and Google Sheets to an R script scheduled to run via <a href="https://docs.github.com/en/actions">GitHub Actions</a>.</p>
+<section id="so-you-want-to-automate-saving-things-in-a-google-sheet" class="level2">
+<h2 class="anchored" data-anchor-id="so-you-want-to-automate-saving-things-in-a-google-sheet">So, you want to automate saving things in a Google Sheet?</h2>
+<p>When scheduling some code to run with <a href="https://docs.github.com/en/actions">GitHub Actions</a>, a common workflow has been to run some code on schedule using GitHub Actions, save the results to Google Sheets, and allow my boss/peers to leverage the collaborative aspect of Google Sheets to comments and interact with the data product. Recently, this has taken the form of scraping data from websites that are frequently updated or display some sort of ephemeral data.</p>
+<p>The most-difficult part of the whole process for me, however, has been getting the Google Sheets/Google Drive permissions set up. I’ve spent many hours failing at this, so this document is meant to leave a trail so we don’t have to fail twice.</p>
+</section>
+<section id="permissions-needed" class="level2">
+<h2 class="anchored" data-anchor-id="permissions-needed">Permissions needed</h2>
+<p>The <a href="https://googledrive.tidyverse.org">googledrive</a> and <a href="https://googlesheets4.tidyverse.org">googlesheets4</a> packages make it as easy as possible to interface with Google Drive and Google Sheets in R. Both leverage the <a href="https://gargle.r-lib.org/">gargle</a> package to set up the security tokens needed to interface with all of the Google services.</p>
+<p>The googledrive package uses the <a href="https://googledrive.tidyverse.org/reference/drive_auth.html"><code>drive_auth</code></a> function to interface with gargle and set up your authorization, while googlesheets4 uses <a href="https://googlesheets4.tidyverse.org/reference/gs4_auth.html"><code>gs4_auth</code></a>. This process is easy, streamlined, and interactive – it opens up a browser window, you log into your Google account and tell it “yes, I want this to be able to access my files”, and that’s it! Unfortunately, if we’re running this in the cloud somewhere using GitHub Actions we’re not going to be there to click the button.</p>
+</section>
+<section id="google-cloud-platform" class="level2">
+<h2 class="anchored" data-anchor-id="google-cloud-platform">Google Cloud Platform</h2>
+<p>Both packages point to an article in gargle entitled <a href="https://gargle.r-lib.org/articles/get-api-credentials.html">“How to get your own API credentials”</a>. This does an excellent job of walking through the how and why; the section of interest to us is <a href="https://gargle.r-lib.org/articles/get-api-credentials.html#service-account-token">“Service account token”</a>.</p>
+<p>The first step they outline is to go to the Google Cloud Platform website: <a href="https://console.cloud.google.com" class="uri">https://console.cloud.google.com</a>. Once you’re there, <strong>make sure you’re logged in to the correct account</strong>! Again, I emphasize:</p>
+<p><strong>MAKE SURE YOU’RE LOGGED IN TO THE CORRECT ACCOUNT!</strong></p>
+<p>Look in the top right, and make sure the correct profile picture is staring back at you. I ran into many hours of frustration trying everything to get permissions to work and experiencing failure after frustrating failure. Then I found out that I had made the key in my <em>personal</em> account rather than my <em>institutional</em> account.🤦</p>
+<p>Once you are logged in to the <strong>CORRECT</strong> account, create a new project (or select an exiting one) using the drop-down menu next to the “GoogleCloud” banner at the top.</p>
+</section>
+<section id="create-a-service-account-token" class="level2">
+<h2 class="anchored" data-anchor-id="create-a-service-account-token">Create a service account token</h2>
+<p>Now we’ll create a service account token.</p>
+<ol type="1">
+<li>Click the navigation menu, and select “IAM &amp; Admin”, then “Service Accounts”.</li>
+<li>At the top, next to “Service accounts” select “+ CREATE SERVICE ACCOUNT”.</li>
+<li>Add a name (I suggest something somewhat descriptive) and the “Service account ID” section will autofill. Add a description if you desire.</li>
+<li>This token will basically be a fake robot person – you can select what projects and permissions this fake person will have, or you can skip it. You can change these later – no biggy.</li>
+<li>Click “DONE”.</li>
+<li>Click your newly-created service account and go to the “KEYS” tab.</li>
+<li>Click “ADD KEY”, “Create new key”, select “JSON”, then “CREATE”.</li>
+<li>This will download a file. Pay attention to where it goes!</li>
+</ol>
+</section>
+<section id="turn-on-the-google-sheetsdrive-api-for-your-gcp-project" class="level2">
+<h2 class="anchored" data-anchor-id="turn-on-the-google-sheetsdrive-api-for-your-gcp-project">Turn on the Google Sheets/Drive API for your GCP project</h2>
+<p>Now, we’ll enable the Google Sheets and/or Google Drive API to allow the service account token to work.</p>
+<ol type="1">
+<li>Click the menu, then “APIs &amp; Services”.</li>
+<li>Search for Google Sheets in the search bar.</li>
+<li>Select “Google Sheets API” from the results.</li>
+<li>Click “ENABLE”.</li>
+<li>Repeat for Google Drive, if necessary.</li>
+</ol>
+</section>
+<section id="fake-google-robot-people" class="level2">
+<h2 class="anchored" data-anchor-id="fake-google-robot-people">Fake Google Robot People</h2>
+<p>You’ve basically just created a fake Google robot person. You need to give the fake-Google-robot-person access to the document (like you would a real person) using the fake-Google-robot-person email that is listed within the Service Accounts section.</p>
+<ol type="1">
+<li>In the “Service accounts” section we just visited, you can see your service account token listed by an email. It should be something like “YOUR-SERVICE-ACCOUNT-NAME@YOUR-GCP-PROJECT-NAME.iam.gserviceaccount.com”</li>
+<li>Navigate to your Google Drive/Sheet you want it to be able to access</li>
+<li>If a Google Sheet, click “share” on the top right, paste in the robot-person email, and share it. For a Google Drive, navigate to the folder/item you’d like to share and do the same.</li>
+</ol>
+</section>
+<section id="add-your-token-to-github-action-secrets" class="level2">
+<h2 class="anchored" data-anchor-id="add-your-token-to-github-action-secrets">Add your token to GitHub Action secrets</h2>
+<p>We’re nearing the end!</p>
+<ol type="1">
+<li>Go into the GitHub repository that houses your GitHub Actions.</li>
+<li>Click “Settings”.</li>
+<li>Under “Security” in the menu on the left side, select “Secrets and variables” and then “Actions”.</li>
+<li>Click “New repository secret”.</li>
+<li>Copy/paste the text in the file that was downloaded when you created your service account token and paste it into the “Secret” section.</li>
+<li>Give the secret a name.</li>
+<li>Click “Add secret”.</li>
+</ol>
+<p>Your service access token can now be added to the .Renviron of the runner created for your GitHub Action. Don’t think too hard about what this means – for us, it just means that we can access the token in a secret way using the name we just gave the secret using <code>Sys.getenv('NAME_OF_MY_SECRET')</code>.</p>
+</section>
+<section id="coding-on-your-computer" class="level2">
+<h2 class="anchored" data-anchor-id="coding-on-your-computer">Coding on your computer</h2>
+<p>When working through the code on your computer, use the <code>path</code> argument to <code>googledrive::drive_auth</code> or <code>googlesheets4::gs4_auth</code> to tell R where you find your service access token.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for googledrive</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">drive_auth</span>(<span class="at">path =</span> <span class="st">'path/to/my/service_token.json'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># for googlesheets4</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">gs4_auth</span>(<span class="at">path =</span> <span class="st">'path/to/my/service_token.json'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>When you are ready to incorporate this into a GitHub Action, change this to <code>Sys.getenv('NAME_OF_MY_SECRET')</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gs4_auth</span>(<span class="at">path =</span> <span class="fu">Sys.getenv</span>(<span class="st">'NAME_OF_MY_SECRET'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="github-actions" class="level2">
+<h2 class="anchored" data-anchor-id="github-actions">GitHub Actions</h2>
+<p>Going over GitHub Actions and creating the needed workflow files is beyond the scope of this document.</p>
+<p>Working back-to-front in the <a href="https://github.com/Tail-Winds/rtwb-scrape/blob/main/.github/workflows/scrape_rtwb.yaml">workflow YAML for web-scraping GitHub Action of mine</a>, you can see that we have ask GitHub to pull the secret called “<code>GDRIVE_PAT</code>” (<code>secret.GDRIVE_PAT</code>) and assign it to a variable called <code>GDRIVE_PAT</code> (<code>GDRIVE_PAT:</code>) in our environment (<code>env:</code>).</p>
+<pre><code>jobs: 
+  scrape_it:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      GDRIVE_PAT: ${{ secrets.GDRIVE_PAT }}</code></pre>
+<p>This stores our access token in a variable called “<code>GDRIVE_PAT</code>” in the server’s .Renvrion. Now, when we write <code>gs4_auth(path = Sys.getenv('GDRIVE_PAT'))</code>, our GitHub Action is allowed to access our Google Sheet! SUCCESS!</p>
+<p>The neatest part is that this server is created and destroyed during this session, and our secret is never put out in the open. Completely secure!</p>
 
 
 </section>
@@ -566,5 +586,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="https://platform.twitter.com/widgets.js"></script>
 </body></html>
