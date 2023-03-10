@@ -186,7 +186,7 @@
     "href": "research/packages.html",
     "title": "Packages",
     "section": "",
-    "text": "matos: An R API package for the Mid-Atlantic Acoustic Telemetry Observing System - https://matos.obrien.page\nTelemetryR: An R API package for the Atlantic Cooperative Telemetry (ACT) Network - https://github.com/mhpob/TelemetryR"
+    "text": "matos: An R API package for the Mid-Atlantic Acoustic Telemetry Observing System - https://matos.obrien.page\notndo: A package to understand OTN data - https://otndo.obrien.page\nTelemetryR: An R API package for the Atlantic Cooperative Telemetry (ACT) Network - https://github.com/mhpob/TelemetryR"
   },
   {
     "objectID": "rugby/2023/east-demographics/index.html#geographic-unions-gus",
