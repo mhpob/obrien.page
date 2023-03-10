@@ -24,9 +24,7 @@ website:
 
 format:
   html:
-    theme: lux
-    fontsize: medium
-    css: custom.scss
+    theme: darkly
     toc: true
     link-external-newwindow: true
 
