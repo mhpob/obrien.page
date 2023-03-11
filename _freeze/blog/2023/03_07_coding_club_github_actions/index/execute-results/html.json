@@ -1,0 +1,14 @@
+{
+  "hash": "ece8d3d6181f35f0587e8496fdf4420b",
+  "result": {
+    "markdown": "---\ntitle: Introduction to GitHub Actions\ndate: 2023-03-07\ncategories: [R, GitHub Actions, Coding Club]\n---\n\n\nThis week, I wanted to talk to the Coding Club at UMCES about GitHub Actions. I had been messing around with them during the creation of the [matos](https://matos.obrien.page) and [otndo](https://otndo.obrien.page) packages, and I started to realize how powerful the combination of R and GitHub actions could be. This exercise, however, made me remember that the quickest way to realize how little you understand of a topic is to attempt to teach it.\n\nThe presentation is attached.\n\n<div>\n\n<!-- ```{=html} -->\n<!-- <iframe class=\"slide-deck\" src=\"presentation/\"></iframe> -->\n<!-- ``` -->\n\n</div>\n\n\n::: {.cell}\n::: {.cell-output .cell-output-stdout}\n```\n[1] 4\n```\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

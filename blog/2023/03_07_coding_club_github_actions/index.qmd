@@ -1,0 +1,18 @@
+---
+title: Introduction to GitHub Actions
+date: 2023-03-07
+categories: [R, GitHub Actions, Coding Club]
+---
+
+This week, I wanted to talk to the Coding Club at UMCES about GitHub Actions. I had been messing around with them during the creation of the [matos](https://matos.obrien.page) and [otndo](https://otndo.obrien.page) packages, and I started to realize how powerful the combination of R and GitHub actions could be. This exercise, however, made me remember that the quickest way to realize how little you understand of a topic is to attempt to teach it.
+
+The presentation is attached.
+
+<div>
+
+```{=html}
+<iframe class="slide-deck" width=500 height=300 src="gh_actions_presentation.html"></iframe>
+```
+
+</div>
+
