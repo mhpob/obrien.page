@@ -70,146 +70,6 @@
     "text": "This week, I wanted to talk to the Coding Club at UMCES about GitHub Actions. I had been messing around with them during the creation of the matos and otndo packages, and I started to realize how powerful the combination of R and GitHub actions could be. This exercise, however, made me remember that the quickest way to realize how little you understand of a topic is to attempt to teach it.\nThe presentation is attached."
   },
   {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#what-is-github-actions",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#what-is-github-actions",
-    "title": "Introduction to GitHub Actions",
-    "section": "What is GitHub Actions?",
-    "text": "What is GitHub Actions?\nGitHub Actions is “a continuous integration and continuous delivery (CI/CD) platform that allows you to automate your build, test, and deployment pipeline.”\nhttps://docs.github.com/en/actions/learn-github-actions/understanding-github-actions"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#what-does-this-mean-for-me",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#what-does-this-mean-for-me",
-    "title": "Introduction to GitHub Actions",
-    "section": "What does this mean for me?",
-    "text": "What does this mean for me?\nYou can automate the running of certain scripts, to do anything from\n\nBuilding a website\n\nhttps://github.com/quarto-dev/quarto-actions\nhttps://github.com/r-lib/actions/tree/v2/examples#build-pkgdown-site\n\nTesting your code on other operating systems\n\nhttps://github.com/r-lib/actions/tree/v2/examples#standard-ci-workflow\n\nScheduling a script to run\n\nWhat we’re doing today"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#servers-runners",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#servers-runners",
-    "title": "Introduction to GitHub Actions",
-    "section": "Servers (“runners”)",
-    "text": "Servers (“runners”)\n\n\nWindows and Linux virtual machines:\n\n2-core CPU (x86_64)\n7 GB of RAM\n14 GB of SSD space\n\n\nmacOS virtual machines:\n\n3-core CPU (x86_64)\n14 GB of RAM\n14 GB of SSD space"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#servers-runners-1",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#servers-runners-1",
-    "title": "Introduction to GitHub Actions",
-    "section": "Servers (“runners”)",
-    "text": "Servers (“runners”)\n\nMuch smaller/slower than SALMO/LOTA/ARION, BUT\n\n\n\nNeed to be on VPN\nCBL workstations are not web servers\nSALMO and LOTA are shared\nARION has individual credentials, so hard to collaborate"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#parts-of-a-gh-action-1",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#parts-of-a-gh-action-1",
-    "title": "Introduction to GitHub Actions",
-    "section": "Parts of a GH Action",
-    "text": "Parts of a GH Action\n\nWorkflow\n\nMay contain multiple jobs\nContains information of what events trigger the workflow to start\n\nJobs\n\nMay contain multiple steps\nMost steps involve downloading/installing the necessary programs (R, R packages, etc.)\n\nSteps\n\nThe meat of the process"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#environments",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#environments",
-    "title": "Introduction to GitHub Actions",
-    "section": "Environments",
-    "text": "Environments\n\nEnvironments are:\n\nshared between steps\nNOT shared between jobs\nNOT shared between workflows.\n\nEnvironment in a step takes precedence over that of the bigger job, which takes precedence over that of the workflow."
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#location",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#location",
-    "title": "Introduction to GitHub Actions",
-    "section": "Location",
-    "text": "Location\n\nStored in a special “.github” directory in your repository\nAnd then within a “workflows” directory\nSaved in a yaml (or yml) file"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#yaml",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#yaml",
-    "title": "Introduction to GitHub Actions",
-    "section": "YAML",
-    "text": "YAML\n\nGH Actions are coded in YAML\n\n“Yet Another Markup Language”\n“YAML Ain’t Markup Language”\n\nSpacing is VERY important in YAML\nUnfortunately, I haven’t really figured out the rules, but GitHub will yell at you if something is incorrect\nhttps://learnxinyminutes.com/docs/yaml/"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#workflow-info",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#workflow-info",
-    "title": "Introduction to GitHub Actions",
-    "section": "Workflow info",
-    "text": "Workflow info\n\nName of the workflow (useful to keep track of things)\n\nname: my_workflow\n\nEvent triggers (there are a quite a few; these are my favorites)\n\non:\n  workflow_dispatch:\n  push:\n    branches: [main, my_feature_branch]\n  schedule:\n    - cron: \"30  9,17 * * 1-5\""
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#workflow-event-triggers",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#workflow-event-triggers",
-    "title": "Introduction to GitHub Actions",
-    "section": "Workflow: Event triggers",
-    "text": "Workflow: Event triggers\n\n\n\nworkflow_dispatch\n\nadds a button that lets you run the workflow with a click\n\npush\n\nruns the workflow whenever you push commits to the named branch\n\n\n\n\nschedule\n\nrun at the designated “MIN HR DofMON MON DofWK” (UTC)\nuses the cron scheduler\nhttps://crontab.guru/\n“30 9,17 * * 1-5”\n\nRun at 9:30 & 17:30 every day of the month, every month, M-F"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#jobs",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#jobs",
-    "title": "Introduction to GitHub Actions",
-    "section": "Jobs",
-    "text": "Jobs\n\nName of the job\nOS to run the job\n\nruns-on; usually ubuntu-latest\n\nEnvironmental variables\n\nusually always a GH token\nother secrets\n\n\njobs:\n  my-super-neat-job:\n    runs-on: ubuntu-latest\n    env:\n      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN}}\n      MY_SECRET_PASSWORD: ${{ secrets.MIKES_PW }}"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#steps-setting-it-up",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#steps-setting-it-up",
-    "title": "Introduction to GitHub Actions",
-    "section": "Steps: Setting it up",
-    "text": "Steps: Setting it up\n\nNested under jobs\nCan run your own program (run), or call others that have been developed (uses)\n\nhttps://github.com/r-lib/actions/tree/v2\nhttps://github.com/marketplace?type=actions\n\nFirst few are usually:\n\nCheck out repository\nInstall R\nInstall packages"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#steps-setting-it-up-1",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#steps-setting-it-up-1",
-    "title": "Introduction to GitHub Actions",
-    "section": "Steps: Setting it up",
-    "text": "Steps: Setting it up\nsteps:\n  - name: Check out repository\n    uses: actions/checkout@v3\n    \n  - name: Set up R\n    uses: r-lib/actions/setup-r@v2\n    with:\n      use-public-rspm: true\n      \n  - name: Install packages\n    uses: r-lib/actions/setup-r-dependencies@v2\n    with:\n      packages: |\n        any::dplyr\n        any::lubridate\n\n\nThe vertical bar is a special character in YAML, allowing for a multi-line string"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#steps-getting-it-done",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#steps-getting-it-done",
-    "title": "Introduction to GitHub Actions",
-    "section": "Steps: Getting it done",
-    "text": "Steps: Getting it done\nThe next few are usually where all of the fun stuff happens\n  - name: My first R script\n    run: Rscript \"do_the_thing.R\"\n    \n  - name: My next R commands\n    run: |\n      my_addition <- 2 + 2\n    shell: Rscript {0}\n    \n  - name: Show my variable\n    run: my_addition\n    shell: Rscript {0}\n\n\nYou can source an R script right in the run line, or have multiple separate lines and follow it up with calling R in the shell command"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#steps-saving-the-result",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#steps-saving-the-result",
-    "title": "Introduction to GitHub Actions",
-    "section": "Steps: Saving the result",
-    "text": "Steps: Saving the result\nWe usually want to do something with the result. If we want to save things, we need to commit it to the repository.\n  - name: Commit files\n    run: |\n      git config --local user.name actions-user\n      git config --local user.email \"actions@github.com\"\n      git add .\n      git commit -am \"GH ACTION did something on $(date)\"\n      git push origin main\n\n\nThis adds all files that were created (git add .) to the main branch (git push origin main)"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#permissions",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#permissions",
-    "title": "Introduction to GitHub Actions",
-    "section": "Permissions",
-    "text": "Permissions\n\nLikely need to allow write permissions\n\nSettings > Actions > General > Worflow permissions > Read and write permissions\n\nCould also possibly do this in the Workflow, but I haven’t checked\nhttps://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#permissions-allow-writing",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#permissions-allow-writing",
-    "title": "Introduction to GitHub Actions",
-    "section": "Permissions: allow writing",
-    "text": "Permissions: allow writing\nWorkflow level\non:\n  workflow_dispatch:\n\npermissions:\n  contents: write\nJob level\njob:\n  my_awesome_job:\n    permissions:\n      contents:\n        write"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#artifacts",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#artifacts",
-    "title": "Introduction to GitHub Actions",
-    "section": "Artifacts",
-    "text": "Artifacts\n\nAllow sharing of data between jobs/workflows\nNeed to be uploaded/downloaded\nIf you want to keep things free:\n\nLast 90 days, at most\nAre 500 MB, at most"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#secrets",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#secrets",
-    "title": "Introduction to GitHub Actions",
-    "section": "Secrets",
-    "text": "Secrets\n\nInformation you’d like to use in your script, but don’t want others to see\n\nUsernames/passwords needed to access certain information\n\nSecrets are encrypted\nCan be accessed as an environmental variable"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#secrets-in-r",
-    "href": "blog/2023/03_07_coding_club_github_actions/presentation/index.html#secrets-in-r",
-    "title": "Introduction to GitHub Actions",
-    "section": "Secrets (in R)",
-    "text": "Secrets (in R)\nenv:\n  SUPERSECRET: ${{ secrets.my_saved_secret_on_GH }}"
-  },
-  {
     "objectID": "blog/2023/03_10_google_and_github_actions/index.html",
     "href": "blog/2023/03_10_google_and_github_actions/index.html",
     "title": "Connecting Google Sheets and GitHub Actions",
@@ -284,7 +144,7 @@
     "href": "blog/index.html",
     "title": "Blog",
     "section": "",
-    "text": "Introduction to GitHub Actions\n\n\n\n\n\n\n\n\n\n\n\n\nMike O’Brien\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nConnecting Google Sheets and GitHub Actions\n\n\n\n\n\n\n\nR\n\n\nWeb scraping\n\n\nGitHub Actions\n\n\nGoogle\n\n\n\n\n\n\n\n\n\n\n\nMar 10, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIntroduction to GitHub Actions\n\n\n\n\n\n\n\nR\n\n\nGitHub Actions\n\n\nCoding Club\n\n\n\n\n\n\n\n\n\n\n\nMar 7, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCreating a simple features object via well-known-binary vs using coordinates\n\n\n\n\n\n\n\nR\n\n\nFish migration\n\n\nbiotelemetry\n\n\nsf\n\n\nspatial\n\n\nPostGIS\n\n\n\n\n\n\n\n\n\n\n\nFeb 28, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nElusive silver eel migrations detected in the Chesapeake mainstem for the first time\n\n\n\n\n\n\n\nChesapeake\n\n\nFish migration\n\n\nbiotelemetry\n\n\n\n\n\n\n\n\n\n\n\nJan 25, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAge of Henrico County Virginia’s structures\n\n\n\n\n\n\n\nR\n\n\nHenrico\n\n\nWeb scraping\n\n\nLand use\n\n\ngeoarrow\n\n\narrow\n\n\n\n\n\n\n\n\n\n\n\nJan 22, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\nNo matching items"
+    "text": "Connecting Google Sheets and GitHub Actions\n\n\n\n\n\n\n\nR\n\n\nWeb scraping\n\n\nGitHub Actions\n\n\nGoogle\n\n\n\n\n\n\n\n\n\n\n\nMar 10, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIntroduction to GitHub Actions\n\n\n\n\n\n\n\nR\n\n\nGitHub Actions\n\n\nCoding Club\n\n\n\n\n\n\n\n\n\n\n\nMar 7, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCreating a simple features object via well-known-binary vs using coordinates\n\n\n\n\n\n\n\nR\n\n\nFish migration\n\n\nbiotelemetry\n\n\nsf\n\n\nspatial\n\n\nPostGIS\n\n\n\n\n\n\n\n\n\n\n\nFeb 28, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nElusive silver eel migrations detected in the Chesapeake mainstem for the first time\n\n\n\n\n\n\n\nChesapeake\n\n\nFish migration\n\n\nbiotelemetry\n\n\n\n\n\n\n\n\n\n\n\nJan 25, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAge of Henrico County Virginia’s structures\n\n\n\n\n\n\n\nR\n\n\nHenrico\n\n\nWeb scraping\n\n\nLand use\n\n\ngeoarrow\n\n\narrow\n\n\n\n\n\n\n\n\n\n\n\nJan 22, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
@@ -299,6 +159,146 @@
     "title": "Mike O'Brien",
     "section": "Experience",
     "text": "Experience\nUniversity of Maryland Center for Environmental Science | Faculty Research Assistant | Sept 2013 - present"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#what-is-github-actions",
+    "href": "presentation/intro_to_github_actions.html#what-is-github-actions",
+    "title": "Introduction to GitHub Actions",
+    "section": "What is GitHub Actions?",
+    "text": "What is GitHub Actions?\nGitHub Actions is “a continuous integration and continuous delivery (CI/CD) platform that allows you to automate your build, test, and deployment pipeline.”\nhttps://docs.github.com/en/actions/learn-github-actions/understanding-github-actions"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#what-does-this-mean-for-me",
+    "href": "presentation/intro_to_github_actions.html#what-does-this-mean-for-me",
+    "title": "Introduction to GitHub Actions",
+    "section": "What does this mean for me?",
+    "text": "What does this mean for me?\nYou can automate the running of certain scripts, to do anything from\n\nBuilding a website\n\nhttps://github.com/quarto-dev/quarto-actions\nhttps://github.com/r-lib/actions/tree/v2/examples#build-pkgdown-site\n\nTesting your code on other operating systems\n\nhttps://github.com/r-lib/actions/tree/v2/examples#standard-ci-workflow\n\nScheduling a script to run\n\nWhat we’re doing today"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#servers-runners",
+    "href": "presentation/intro_to_github_actions.html#servers-runners",
+    "title": "Introduction to GitHub Actions",
+    "section": "Servers (“runners”)",
+    "text": "Servers (“runners”)\n\n\nWindows and Linux virtual machines:\n\n2-core CPU (x86_64)\n7 GB of RAM\n14 GB of SSD space\n\n\nmacOS virtual machines:\n\n3-core CPU (x86_64)\n14 GB of RAM\n14 GB of SSD space"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#servers-runners-1",
+    "href": "presentation/intro_to_github_actions.html#servers-runners-1",
+    "title": "Introduction to GitHub Actions",
+    "section": "Servers (“runners”)",
+    "text": "Servers (“runners”)\n\nMuch smaller/slower than SALMO/LOTA/ARION, BUT\n\n\n\nNeed to be on VPN\nCBL workstations are not web servers\nSALMO and LOTA are shared\nARION has individual credentials, so hard to collaborate"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#parts-of-a-gh-action-1",
+    "href": "presentation/intro_to_github_actions.html#parts-of-a-gh-action-1",
+    "title": "Introduction to GitHub Actions",
+    "section": "Parts of a GH Action",
+    "text": "Parts of a GH Action\n\nWorkflow\n\nMay contain multiple jobs\nContains information of what events trigger the workflow to start\n\nJobs\n\nMay contain multiple steps\nMost steps involve downloading/installing the necessary programs (R, R packages, etc.)\n\nSteps\n\nThe meat of the process"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#environments",
+    "href": "presentation/intro_to_github_actions.html#environments",
+    "title": "Introduction to GitHub Actions",
+    "section": "Environments",
+    "text": "Environments\n\nEnvironments are:\n\nshared between steps\nNOT shared between jobs\nNOT shared between workflows.\n\nEnvironment in a step takes precedence over that of the bigger job, which takes precedence over that of the workflow."
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#location",
+    "href": "presentation/intro_to_github_actions.html#location",
+    "title": "Introduction to GitHub Actions",
+    "section": "Location",
+    "text": "Location\n\nStored in a special “.github” directory in your repository\nAnd then within a “workflows” directory\nSaved in a yaml (or yml) file"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#yaml",
+    "href": "presentation/intro_to_github_actions.html#yaml",
+    "title": "Introduction to GitHub Actions",
+    "section": "YAML",
+    "text": "YAML\n\nGH Actions are coded in YAML\n\n“Yet Another Markup Language”\n“YAML Ain’t Markup Language”\n\nSpacing is VERY important in YAML\nUnfortunately, I haven’t really figured out the rules, but GitHub will yell at you if something is incorrect\nhttps://learnxinyminutes.com/docs/yaml/"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#workflow-info",
+    "href": "presentation/intro_to_github_actions.html#workflow-info",
+    "title": "Introduction to GitHub Actions",
+    "section": "Workflow info",
+    "text": "Workflow info\n\nName of the workflow (useful to keep track of things)\n\nname: my_workflow\n\nEvent triggers (there are a quite a few; these are my favorites)\n\non:\n  workflow_dispatch:\n  push:\n    branches: [main, my_feature_branch]\n  schedule:\n    - cron: \"30  9,17 * * 1-5\""
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#workflow-event-triggers",
+    "href": "presentation/intro_to_github_actions.html#workflow-event-triggers",
+    "title": "Introduction to GitHub Actions",
+    "section": "Workflow: Event triggers",
+    "text": "Workflow: Event triggers\n\n\n\nworkflow_dispatch\n\nadds a button that lets you run the workflow with a click\n\npush\n\nruns the workflow whenever you push commits to the named branch\n\n\n\n\nschedule\n\nrun at the designated “MIN HR DofMON MON DofWK” (UTC)\nuses the cron scheduler\nhttps://crontab.guru/\n“30 9,17 * * 1-5”\n\nRun at 9:30 & 17:30 every day of the month, every month, M-F"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#jobs",
+    "href": "presentation/intro_to_github_actions.html#jobs",
+    "title": "Introduction to GitHub Actions",
+    "section": "Jobs",
+    "text": "Jobs\n\nName of the job\nOS to run the job\n\nruns-on; usually ubuntu-latest\n\nEnvironmental variables\n\nusually always a GH token\nother secrets\n\n\njobs:\n  my-super-neat-job:\n    runs-on: ubuntu-latest\n    env:\n      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN}}\n      MY_SECRET_PASSWORD: ${{ secrets.MIKES_PW }}"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#steps-setting-it-up",
+    "href": "presentation/intro_to_github_actions.html#steps-setting-it-up",
+    "title": "Introduction to GitHub Actions",
+    "section": "Steps: Setting it up",
+    "text": "Steps: Setting it up\n\nNested under jobs\nCan run your own program (run), or call others that have been developed (uses)\n\nhttps://github.com/r-lib/actions/tree/v2\nhttps://github.com/marketplace?type=actions\n\nFirst few are usually:\n\nCheck out repository\nInstall R\nInstall packages"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#steps-setting-it-up-1",
+    "href": "presentation/intro_to_github_actions.html#steps-setting-it-up-1",
+    "title": "Introduction to GitHub Actions",
+    "section": "Steps: Setting it up",
+    "text": "Steps: Setting it up\nsteps:\n  - name: Check out repository\n    uses: actions/checkout@v3\n    \n  - name: Set up R\n    uses: r-lib/actions/setup-r@v2\n    with:\n      use-public-rspm: true\n      \n  - name: Install packages\n    uses: r-lib/actions/setup-r-dependencies@v2\n    with:\n      packages: |\n        any::dplyr\n        any::lubridate\n\n\nThe vertical bar is a special character in YAML, allowing for a multi-line string"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#steps-getting-it-done",
+    "href": "presentation/intro_to_github_actions.html#steps-getting-it-done",
+    "title": "Introduction to GitHub Actions",
+    "section": "Steps: Getting it done",
+    "text": "Steps: Getting it done\nThe next few are usually where all of the fun stuff happens\n  - name: My first R script\n    run: Rscript \"do_the_thing.R\"\n    \n  - name: My next R commands\n    run: |\n      my_addition <- 2 + 2\n    shell: Rscript {0}\n    \n  - name: Show my variable\n    run: my_addition\n    shell: Rscript {0}\n\n\nYou can source an R script right in the run line, or have multiple separate lines and follow it up with calling R in the shell command"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#steps-saving-the-result",
+    "href": "presentation/intro_to_github_actions.html#steps-saving-the-result",
+    "title": "Introduction to GitHub Actions",
+    "section": "Steps: Saving the result",
+    "text": "Steps: Saving the result\nWe usually want to do something with the result. If we want to save things, we need to commit it to the repository.\n  - name: Commit files\n    run: |\n      git config --local user.name actions-user\n      git config --local user.email \"actions@github.com\"\n      git add .\n      git commit -am \"GH ACTION did something on $(date)\"\n      git push origin main\n\n\nThis adds all files that were created (git add .) to the main branch (git push origin main)"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#permissions",
+    "href": "presentation/intro_to_github_actions.html#permissions",
+    "title": "Introduction to GitHub Actions",
+    "section": "Permissions",
+    "text": "Permissions\n\nLikely need to allow write permissions\n\nSettings > Actions > General > Worflow permissions > Read and write permissions\n\nCould also possibly do this in the Workflow, but I haven’t checked\nhttps://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#permissions-allow-writing",
+    "href": "presentation/intro_to_github_actions.html#permissions-allow-writing",
+    "title": "Introduction to GitHub Actions",
+    "section": "Permissions: allow writing",
+    "text": "Permissions: allow writing\nWorkflow level\non:\n  workflow_dispatch:\n\npermissions:\n  contents: write\nJob level\njob:\n  my_awesome_job:\n    permissions:\n      contents:\n        write"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#artifacts",
+    "href": "presentation/intro_to_github_actions.html#artifacts",
+    "title": "Introduction to GitHub Actions",
+    "section": "Artifacts",
+    "text": "Artifacts\n\nAllow sharing of data between jobs/workflows\nNeed to be uploaded/downloaded\nIf you want to keep things free:\n\nLast 90 days, at most\nAre 500 MB, at most"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#secrets",
+    "href": "presentation/intro_to_github_actions.html#secrets",
+    "title": "Introduction to GitHub Actions",
+    "section": "Secrets",
+    "text": "Secrets\n\nInformation you’d like to use in your script, but don’t want others to see\n\nUsernames/passwords needed to access certain information\n\nSecrets are encrypted\nCan be accessed as an environmental variable"
+  },
+  {
+    "objectID": "presentation/intro_to_github_actions.html#secrets-in-r",
+    "href": "presentation/intro_to_github_actions.html#secrets-in-r",
+    "title": "Introduction to GitHub Actions",
+    "section": "Secrets (in R)",
+    "text": "Secrets (in R)\nenv:\n  SUPERSECRET: ${{ secrets.my_saved_secret_on_GH }}"
   },
   {
     "objectID": "research/index.html#current",
