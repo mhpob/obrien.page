@@ -63,3 +63,53 @@ ggplot(data = gender, aes(x = Gender)) +
 ```
 
 ## Geographic Unions (GUs)
+```{r}
+ages_gu <- fread('ages gus.csv')
+ethnicity_gu <- fread('ethnicity gus.csv')
+gender_gu <- fread('gender gus.csv')
+```
+
+```{r}
+ages_gu[, dob_date := fifelse(as.numeric(gsub('.*/', '', DOB)) <= 22,
+                           paste0(gsub('.{2}$', '', DOB), 20, gsub('.*/', '', DOB)),
+                           paste0(gsub('.{2}$', '', DOB), 19, gsub('.*/', '', DOB)))]
+ages_gu[, dob_date := as.Date(dob_date, format = "%m/%d/%Y")]
+ages_gu[, age := difftime(Sys.Date(), dob_date)]
+ages_gu[, age := time_length(age, 'year')]
+ages_gu[, age := floor(age)]
+
+# ages[, `Club Name` := gsub('Virgina', 'Virginia', `Club Name`)]
+```
+
+```{r}
+ggplot(data = ages_gu) +
+  geom_density(aes(x = age, color = `Geographical-union Name`)) +
+  theme_minimal()
+```
+
+
+
+```{r}
+ggplot(data = ethnicity_gu, aes(x = Ethnicity)) +
+  geom_bar() +
+    geom_text(aes(label = after_stat(count)),
+            stat = 'count', vjust = -0.5) +
+  ylim(0,1500) +
+  facet_wrap(~ `Geographical-union Name`) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 35, hjust = 1))
+```
+
+```{r}
+gender_gu[, gender := tolower(gsub('-', '', Gender))]
+
+ggplot(data = gender_gu, aes(x = gender)) +
+  geom_bar() +
+  geom_text(aes(label = after_stat(count)),
+            stat = 'count', vjust = -0.5) +
+  ylim(0, 1600) +
+  facet_wrap(~ `Geographical-union Name`) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 35, hjust = 1))
+```
+
