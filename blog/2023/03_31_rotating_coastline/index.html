@@ -350,7 +350,7 @@ Projected CRS: +proj=omerc +lat_0=40 +lonc=-74 +gamma=-40</code></pre>
 </div>
 </div>
 <p>Seems that units are in something like meters and it has a CRS! This means we could add a different spatial polygon:</p>
-<div class="cell">
+<div class="cell preview-image">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> ec_omerc) <span class="sc">+</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> nc, <span class="at">fill =</span> <span class="st">'red'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
