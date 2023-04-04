@@ -110,6 +110,7 @@ ec_omerc$geometry[1]
 Seems that units are in something like meters and it has a CRS! This means we could add a different spatial polygon:
 
 ```{r}
+#| classes: preview-image
 ggplot() +
   geom_sf(data = ec_omerc) +
   geom_sf(data = nc, fill = 'red')
