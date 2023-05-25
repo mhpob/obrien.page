@@ -2,58 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.obrien.page/about.html</loc>
-    <lastmod>2023-05-25T22:20:52.480Z</lastmod>
+    <lastmod>2023-05-25T22:25:27.648Z</lastmod>
   </url>
   <url>
     <loc>https://www.obrien.page/blog/2023/01_23_henrico_parcels/index.html</loc>
-    <lastmod>2023-05-25T22:20:53.662Z</lastmod>
+    <lastmod>2023-05-25T22:25:29.091Z</lastmod>
   </url>
   <url>
     <loc>https://www.obrien.page/blog/2023/01_25_cbl_eel_essay/index.html</loc>
-    <lastmod>2023-05-25T22:20:54.207Z</lastmod>
+    <lastmod>2023-05-25T22:25:29.727Z</lastmod>
   </url>
   <url>
     <loc>https://www.obrien.page/blog/2023/02_21_wkb/index.html</loc>
-    <lastmod>2023-05-25T22:20:55.055Z</lastmod>
+    <lastmod>2023-05-25T22:25:30.649Z</lastmod>
   </url>
   <url>
     <loc>https://www.obrien.page/blog/2023/03_07_coding_club_github_actions/index.html</loc>
-    <lastmod>2023-05-25T22:20:55.542Z</lastmod>
+    <lastmod>2023-05-25T22:25:31.180Z</lastmod>
   </url>
   <url>
     <loc>https://www.obrien.page/blog/2023/03_10_google_and_github_actions/index.html</loc>
-    <lastmod>2023-05-25T22:20:56.451Z</lastmod>
+    <lastmod>2023-05-25T22:25:32.222Z</lastmod>
   </url>
   <url>
     <loc>https://www.obrien.page/blog/2023/03_31_rotating_coastline/index.html</loc>
-    <lastmod>2023-05-25T22:20:57.612Z</lastmod>
+    <lastmod>2023-05-25T22:25:33.352Z</lastmod>
   </url>
   <url>
     <loc>https://www.obrien.page/blog/2023/05_24_landlab_lidar/index.html</loc>
-    <lastmod>2023-05-25T22:21:00.106Z</lastmod>
+    <lastmod>2023-05-25T22:25:58.205Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.obrien.page/blog/2023/05_25_time_series_box_plot/index.html</loc>
+    <lastmod>2023-05-25T22:26:05.122Z</lastmod>
   </url>
   <url>
     <loc>https://www.obrien.page/blog/index.html</loc>
-    <lastmod>2023-05-25T22:21:20.124Z</lastmod>
+    <lastmod>2023-05-25T22:26:16.419Z</lastmod>
   </url>
   <url>
     <loc>https://www.obrien.page/index.html</loc>
-    <lastmod>2023-05-25T22:21:20.582Z</lastmod>
+    <lastmod>2023-05-25T22:26:16.891Z</lastmod>
   </url>
   <url>
     <loc>https://www.obrien.page/research/index.html</loc>
-    <lastmod>2023-05-25T22:21:21.485Z</lastmod>
+    <lastmod>2023-05-25T22:26:17.530Z</lastmod>
   </url>
   <url>
     <loc>https://www.obrien.page/research/packages.html</loc>
-    <lastmod>2023-05-25T22:21:21.899Z</lastmod>
+    <lastmod>2023-05-25T22:26:18.408Z</lastmod>
   </url>
   <url>
     <loc>https://www.obrien.page/rugby/2023/east-demographics/index.html</loc>
-    <lastmod>2023-05-25T22:21:22.426Z</lastmod>
+    <lastmod>2023-05-25T22:26:18.906Z</lastmod>
   </url>
   <url>
     <loc>https://www.obrien.page/rugby/index.html</loc>
-    <lastmod>2023-05-25T22:21:23.017Z</lastmod>
+    <lastmod>2023-05-25T22:26:19.522Z</lastmod>
   </url>
 </urlset>

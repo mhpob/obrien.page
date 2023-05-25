@@ -2,6 +2,7 @@
   {
     "listing": "/blog/index.html",
     "items": [
+      "/blog/2023/05_25_time_series_box_plot/index.html",
       "/blog/2023/05_24_landlab_lidar/index.html",
       "/blog/2023/03_31_rotating_coastline/index.html",
       "/blog/2023/03_10_google_and_github_actions/index.html",
