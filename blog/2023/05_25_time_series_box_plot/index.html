@@ -271,18 +271,18 @@ Attaching package: 'dplyr'</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 75 × 4
 # Rowwise: 
-   individual time                phase    value
-   &lt;chr&gt;      &lt;dttm&gt;              &lt;ord&gt;    &lt;dbl&gt;
- 1 a          2020-02-03 12:00:00 Before -0.341 
- 2 a          2020-02-03 12:01:00 Before -0.0483
- 3 a          2020-02-03 12:02:00 Before -0.500 
- 4 a          2020-02-03 12:03:00 Before -0.273 
- 5 a          2020-02-03 12:04:00 Before  0.0460
- 6 a          2020-02-03 12:05:00 Impact -3.91  
- 7 a          2020-02-03 12:06:00 Impact -2.57  
- 8 a          2020-02-03 12:07:00 Impact -4.64  
- 9 a          2020-02-03 12:08:00 Impact -1.73  
-10 a          2020-02-03 12:09:00 Impact -3.30  
+   individual time                phase   value
+   &lt;chr&gt;      &lt;dttm&gt;              &lt;ord&gt;   &lt;dbl&gt;
+ 1 a          2020-02-03 12:00:00 Before  0.125
+ 2 a          2020-02-03 12:01:00 Before  0.670
+ 3 a          2020-02-03 12:02:00 Before  0.494
+ 4 a          2020-02-03 12:03:00 Before  1.57 
+ 5 a          2020-02-03 12:04:00 Before -0.143
+ 6 a          2020-02-03 12:05:00 Impact -0.643
+ 7 a          2020-02-03 12:06:00 Impact -2.50 
+ 8 a          2020-02-03 12:07:00 Impact -0.807
+ 9 a          2020-02-03 12:08:00 Impact -1.20 
+10 a          2020-02-03 12:09:00 Impact -0.351
 # ℹ 65 more rows</code></pre>
 </div>
 </div>
@@ -326,16 +326,16 @@ Attaching package: 'dplyr'</code></pre>
 <pre><code># A tibble: 75 × 6
    phase  time.start   time.end individual       time   value
    &lt;ord&gt;       &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;
- 1 Before 1580731200 1580731440 a          1580731200 -0.341 
- 2 Before 1580731200 1580731440 a          1580731260 -0.0483
- 3 Before 1580731200 1580731440 a          1580731320 -0.500 
- 4 Before 1580731200 1580731440 a          1580731380 -0.273 
- 5 Before 1580731200 1580731440 a          1580731440  0.0460
- 6 Before 1580731200 1580731440 b          1580731200 -0.205 
- 7 Before 1580731200 1580731440 b          1580731260  0.396 
- 8 Before 1580731200 1580731440 b          1580731320 -0.684 
- 9 Before 1580731200 1580731440 b          1580731380  1.45  
-10 Before 1580731200 1580731440 b          1580731440 -0.0717
+ 1 Before 1580731200 1580731440 a          1580731200  0.125 
+ 2 Before 1580731200 1580731440 a          1580731260  0.670 
+ 3 Before 1580731200 1580731440 a          1580731320  0.494 
+ 4 Before 1580731200 1580731440 a          1580731380  1.57  
+ 5 Before 1580731200 1580731440 a          1580731440 -0.143 
+ 6 Before 1580731200 1580731440 b          1580731200  0.0150
+ 7 Before 1580731200 1580731440 b          1580731260  2.12  
+ 8 Before 1580731200 1580731440 b          1580731320  1.29  
+ 9 Before 1580731200 1580731440 b          1580731380 -0.0180
+10 Before 1580731200 1580731440 b          1580731440 -1.05  
 # ℹ 65 more rows</code></pre>
 </div>
 </div>
@@ -419,7 +419,7 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div>
 <p>The points are where they’re supposed to be, now we just have to connect them! Remember that the lines have to be nudged, too, so we need to provide the exact same arguments to <code>geom_line</code> as we did to <code>geom_point</code>.</p>
-<div class="cell">
+<div class="cell preview-image">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> my_data, <span class="fu">aes</span>(<span class="at">x =</span> phase, <span class="at">y =</span> value)) <span class="sc">+</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> individual),</span>
