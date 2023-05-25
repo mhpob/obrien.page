@@ -7,9 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Mike O’Brien">
-<meta name="dcterms.date" content="2023-01-22">
 
-<title>Mike O’Brien - Age of Henrico County Virginia’s structures</title>
+<title>Mike O’Brien - Henrico court house transit</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -158,33 +157,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#enter-geoarrow" id="toc-enter-geoarrow" class="nav-link active" data-scroll-target="#enter-geoarrow">Enter: <code>geoarrow</code></a></li>
-  <li><a href="#shp-to-.parquet" id="toc-shp-to-.parquet" class="nav-link" data-scroll-target="#shp-to-.parquet"><code>.shp</code> to <code>.parquet</code></a></li>
-  <li><a href="#pulling-in-the-data" id="toc-pulling-in-the-data" class="nav-link" data-scroll-target="#pulling-in-the-data">Pulling in the data</a></li>
-  <li><a href="#plot" id="toc-plot" class="nav-link" data-scroll-target="#plot">Plot</a></li>
-  <li><a href="#so-what-does-this-show-us" id="toc-so-what-does-this-show-us" class="nav-link" data-scroll-target="#so-what-does-this-show-us">So, what does this show us?</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Age of Henrico County Virginia’s structures</h1>
-  <div class="quarto-categories">
-    <div class="quarto-category">R</div>
-    <div class="quarto-category">Henrico</div>
-    <div class="quarto-category">Web scraping</div>
-    <div class="quarto-category">Land use</div>
-    <div class="quarto-category">geoarrow</div>
-    <div class="quarto-category">arrow</div>
-  </div>
-  </div>
+<h1 class="title">Henrico court house transit</h1>
+</div>
 
 
 
@@ -197,12 +178,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </div>
   </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">January 22, 2023</p>
-    </div>
-  </div>
   
     
   </div>
@@ -210,95 +185,74 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>A recent tweet showed the age of the buildings in Groningen, Netherlands super-imposed on LiDAR data for some perspective.</p>
-<p></p><div id="tweet-53687"></div><script>tweet={"url":"https:\/\/twitter.com\/neilcfd1\/status\/1560616470148575233","author_name":"Neil Southall","author_url":"https:\/\/twitter.com\/neilcfd1","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EHaven&#39;t done a Building Age render for a while - here is Groningen, Netherlands\u003Cbr\u003EBuilding age data \u003Ca href=\"https:\/\/twitter.com\/INSPIRE_EU?ref_src=twsrc%5Etfw\"\u003E@INSPIRE_EU\u003C\/a\u003E \u003Ca href=\"https:\/\/twitter.com\/Het_Kadaster?ref_src=twsrc%5Etfw\"\u003E@Het_Kadaster\u003C\/a\u003E overlaid on LiDAR height data (from \u003Ca href=\"https:\/\/t.co\/Sm0VEFXOXs\"\u003Ehttps:\/\/t.co\/Sm0VEFXOXs\u003C\/a\u003E).  Rendered in \u003Ca href=\"https:\/\/twitter.com\/hashtag\/rayshader?src=hash&amp;ref_src=twsrc%5Etfw\"\u003E#rayshader\u003C\/a\u003E \u003Ca href=\"https:\/\/twitter.com\/hashtag\/rstats?src=hash&amp;ref_src=twsrc%5Etfw\"\u003E#rstats\u003C\/a\u003E \u003Ca href=\"https:\/\/t.co\/CElUxvn1W6\"\u003Epic.twitter.com\/CElUxvn1W6\u003C\/a\u003E\u003C\/p\u003E&mdash; Neil Southall (@neilcfd1) \u003Ca href=\"https:\/\/twitter.com\/neilcfd1\/status\/1560616470148575233?ref_src=twsrc%5Etfw\"\u003EAugust 19, 2022\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-53687").innerHTML = tweet["html"];</script><p></p>
-<p>This got me thinking – what would Henrico look like? I’m going to take the cheap way out and not mess with LiDAR at the moment, but the county provides their <a href="https://data-henrico.opendata.arcgis.com/datasets/Henrico::tax-parcels-and-cama-data/explore">Tax Parcels and CAMA Data</a> for easy download.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>To skip the coding and jump straight to the picture, <a href="#plot">click here!</a></p>
-</div>
-</div>
-<p>This is a pretty big file – just under 121 thousand parcel outlines, with 84 different bits of information per property!</p>
-<section id="enter-geoarrow" class="level2">
-<h2 class="anchored" data-anchor-id="enter-geoarrow">Enter: <code>geoarrow</code></h2>
-<p>I’ve been interested in playing around with the <a href="https://github.com/paleolimbot/geoarrow"><code>geoarrow</code> package</a> since watching Dewey Dunnington’s <a href="https://www.youtube.com/watch?v=kTtRr4kUJro">presentation at the 2022 RStudio conference</a>. It leverages the <a href="https://arrow.apache.org/">Apache Arrow</a> platform, resulting in rapid out-of-memory subsetting and manipulation of spatial data. The <a href="https://parquet.apache.org/">Parquet</a> format used by Arrow also does a great job at compression, resulting in a much smaller file to toss around. When compared to a shapefile (which necessitates lugging around <a href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/shapefiles/shapefile-file-extensions.htm">a bunch of other files</a>), this seems like a much better way to store and access a large file.</p>
-</section>
-<section id="shp-to-.parquet" class="level2">
-<h2 class="anchored" data-anchor-id="shp-to-.parquet"><code>.shp</code> to <code>.parquet</code></h2>
-<p>The first step is to convert the provided shapefile into the arrow-readable parquet format. I’ll do this using the <code>sf</code> and <code>geoarrow</code> packages:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geoarrow)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>henrico <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">'tax_parcels_and_cama_data.shp'</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">write_geoparquet</span>(henrico, <span class="st">'data/henrico_parcels.parquet'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gmapsdistance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>East enough – and switching from the shapefile to parquet reduced the file size by 70%!</p>
-</section>
-<section id="pulling-in-the-data" class="level2">
-<h2 class="anchored" data-anchor-id="pulling-in-the-data">Pulling in the data</h2>
-<p>Using the newly-formed parquet file, it’s straightforward to only select two of the 84(!) columns and drop any structures without a construction date or a date that isn’t reasonable (in the future or before the settlement of the county).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>hc_parcels <span class="ot">&lt;-</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">open_dataset</span>(<span class="st">'data/henrico_parcels.parquet'</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(YEAR_BUILT, geometry) <span class="sc">|&gt;</span> </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(YEAR_BUILT) <span class="sc">&amp;</span> YEAR_BUILT <span class="sc">&gt;</span> <span class="dv">1500</span> <span class="sc">&amp;</span> YEAR_BUILT <span class="sc">&lt;</span> <span class="dv">2100</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geoarrow_collect_sf</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">gmapsdistance</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">origin =</span> <span class="fu">c</span>(<span class="st">"4300 Eanes Ln, Richmond, VA 23231"</span>,<span class="st">"Ashland, VA"</span>), </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">destination =</span> <span class="fu">c</span>(<span class="st">"1901 Starling Dr, Richmond, VA 23229"</span>, <span class="st">"1901 Starling Dr, Richmond, VA 23229"</span>), </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"transit"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">key =</span> <span class="fu">Sys.getenv</span>(<span class="st">"GOOGLE_API"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="plot" class="level2">
-<h2 class="anchored" data-anchor-id="plot">Plot</h2>
-<p>Now just a matter of plotting using <code>ggplot2</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> hc_parcels) <span class="sc">+</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> YEAR_BUILT), <span class="at">lwd =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option  =</span> <span class="st">'turbo'</span>) <span class="sc">+</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">'Year built'</span>) <span class="sc">+</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_dark</span>() <span class="sc">+</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/first-plot-1.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>henrico <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">'cama_data_external.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<p>The structures built recently blend together in burnt red, while the older building really pop. What this really tells us, though, is that the majority of the development in Henrico County has happened since 1950 or so.</p>
-<p>It makes sense that the number of structures built per year would be greater in, say, 2000 compared to 1700 – homes are easier to build and we have a much greater population. In order to see the subtle patterns in development in recent years, we need to adjust the color scale to change more rapidly as time goes on.</p>
-<p>This can be accomplished using the <code>values</code> argument to <code>scale_fill_viridis_c</code>. Values need to be on the 0-to-1 scale. I’m going to shift the breaks in the color scale toward the last 25% of years.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> hc_parcels) <span class="sc">+</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> YEAR_BUILT), <span class="at">lwd =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option  =</span> <span class="st">'turbo'</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.85</span>, <span class="fl">0.95</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">'Year built'</span>) <span class="sc">+</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_dark</span>() <span class="sc">+</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/rescaled-color-plot-1.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>henrico[, addr <span class="sc">:</span><span class="er">=</span> <span class="fu">paste</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(PARCEL_STREET_NUMBER, PARCEL_STREET_NAME, <span class="at">sep =</span> <span class="st">' '</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">gsub</span>(<span class="st">' '</span>, <span class="st">', '</span>, CITY), <span class="at">sep =</span> <span class="st">', '</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  ZIP_CODE)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">gmapsdistance</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">origin =</span> henrico<span class="sc">$</span>addr[<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>], </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">destination =</span> <span class="fu">rep</span>(<span class="st">"1901 Starling Dr, Richmond, VA 23229"</span>, <span class="dv">1000</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">combinations =</span> <span class="st">'pairwise'</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"transit"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">key =</span> <span class="fu">Sys.getenv</span>(<span class="st">'GOOGLE_API'</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(qs)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">qsave</span>(results, <span class="st">'blog/drafts/ch-transit/ch_transit_data'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="so-what-does-this-show-us" class="level2">
-<h2 class="anchored" data-anchor-id="so-what-does-this-show-us">So, what does this show us?</h2>
-<ul>
-<li>The West End has a structure on nearly every parcel. This is especially apparent when comparing to Varina, where the blank gray spaces signify a plot of land with no listed structure.</li>
-<li>The outskirts of Richmond (the “bite” in the middle) were developed heavily in the 1950s. The far West End, however, didn’t start to get developed until near 2000.</li>
-<li>There’s a progressive structure to the development of the West End, as can be seen in the gradient of color.</li>
-</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>results_stored <span class="ot">&lt;-</span> <span class="fu">qread</span>(<span class="st">'blog/drafts/ch-transit/ch_transit_data'</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">gmapsdistance</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">origin =</span> henrico<span class="sc">$</span>addr[<span class="dv">1001</span><span class="sc">:</span><span class="dv">2000</span>], </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">destination =</span> <span class="fu">rep</span>(<span class="st">"1901 Starling Dr, Richmond, VA 23229"</span>, <span class="dv">1000</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">combinations =</span> <span class="st">'pairwise'</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"transit"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">key =</span> <span class="fu">Sys.getenv</span>(<span class="st">'GOOGLE_API'</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>){results[[i]] <span class="ot">&lt;-</span> <span class="fu">rbind</span>(results_stored[[i]], results[[i]])}</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qsave</span>(results, <span class="st">'blog/drafts/ch-transit/ch_transit_data'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>results_stored <span class="ot">&lt;-</span> <span class="fu">qread</span>(<span class="st">'blog/drafts/ch-transit/ch_transit_data'</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">gmapsdistance</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">origin =</span> henrico<span class="sc">$</span>addr[<span class="dv">2001</span><span class="sc">:</span><span class="fu">nrow</span>(henrico)], </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">destination =</span> <span class="fu">rep</span>(<span class="st">"1901 Starling Dr, Richmond, VA 23229"</span>, (<span class="fu">nrow</span>(henrico) <span class="sc">-</span> <span class="dv">2000</span>)),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">combinations =</span> <span class="st">'pairwise'</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"transit"</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">key =</span> <span class="fu">Sys.getenv</span>(<span class="st">'GOOGLE_API'</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>results_stored <span class="ot">&lt;-</span> <span class="fu">qread</span>(<span class="st">'blog/drafts/ch-transit/ch_transit_data'</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>){results[[i]] <span class="ot">&lt;-</span> <span class="fu">rbind</span>(results_stored[[i]], results[[i]])}</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qsave</span>(results, <span class="st">'blog/drafts/ch-transit/ch_transit_data'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -552,5 +506,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="https://platform.twitter.com/widgets.js"></script>
 </body></html>
