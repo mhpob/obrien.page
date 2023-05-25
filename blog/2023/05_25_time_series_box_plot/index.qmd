@@ -4,6 +4,12 @@ categories: [R, ggplot2, chart junk, time series]
 draft: true
 ---
 
+```{r}
+#| echo: false
+library(ggplot2)
+```
+
+
 Before you start, know that this one is firmly in the "chart junk" category.
 
 In a situation where I want to quickly view differences between some grouped data, I may use a box plot. A thick line in the center shows the mean, and the box itself displays the 25th-75th quartiles. The whiskers extend out to the observation no farther than 1.5 times this range. From [`?ggplot2::geom_boxplot`](https://ggplot2.tidyverse.org/reference/geom_boxplot.html#ref-examples):
