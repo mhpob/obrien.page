@@ -1,7 +1,6 @@
 ---
 title: "Time series box plot using R's ggplot2"
 categories: [R, ggplot2, chart junk, time series]
-draft: true
 ---
 
 ```{r}
@@ -166,6 +165,7 @@ ggplot(data = my_data, aes(x = phase, y = value)) +
 The points are where they're supposed to be, now we just have to connect them! Remember that the lines have to be nudged, too, so we need to provide the exact same arguments to `geom_line` as we did to `geom_point`.
 
 ```{r}
+#| classes: preview-image
 ggplot(data = my_data, aes(x = phase, y = value)) +
   geom_boxplot() +
   geom_point(aes(color = individual),
