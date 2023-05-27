@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Mike O’Brien">
+<meta name="dcterms.date" content="2023-05-25">
 
 <title>Mike O’Brien - Time series box plot using R’s ggplot2</title>
 <style>
@@ -197,6 +198,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </div>
   </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 25, 2023</p>
+    </div>
+  </div>
   
     
   </div>
@@ -273,16 +280,16 @@ Attaching package: 'dplyr'</code></pre>
 # Rowwise: 
    individual time                phase   value
    &lt;chr&gt;      &lt;dttm&gt;              &lt;ord&gt;   &lt;dbl&gt;
- 1 a          2020-02-03 12:00:00 Before  0.125
- 2 a          2020-02-03 12:01:00 Before  0.670
- 3 a          2020-02-03 12:02:00 Before  0.494
- 4 a          2020-02-03 12:03:00 Before  1.57 
- 5 a          2020-02-03 12:04:00 Before -0.143
- 6 a          2020-02-03 12:05:00 Impact -0.643
- 7 a          2020-02-03 12:06:00 Impact -2.50 
- 8 a          2020-02-03 12:07:00 Impact -0.807
- 9 a          2020-02-03 12:08:00 Impact -1.20 
-10 a          2020-02-03 12:09:00 Impact -0.351
+ 1 a          2020-02-03 12:00:00 Before  0.389
+ 2 a          2020-02-03 12:01:00 Before -0.816
+ 3 a          2020-02-03 12:02:00 Before -0.288
+ 4 a          2020-02-03 12:03:00 Before  0.601
+ 5 a          2020-02-03 12:04:00 Before  0.332
+ 6 a          2020-02-03 12:05:00 Impact -0.707
+ 7 a          2020-02-03 12:06:00 Impact -3.67 
+ 8 a          2020-02-03 12:07:00 Impact -2.08 
+ 9 a          2020-02-03 12:08:00 Impact -0.221
+10 a          2020-02-03 12:09:00 Impact -2.03 
 # ℹ 65 more rows</code></pre>
 </div>
 </div>
@@ -324,18 +331,18 @@ Attaching package: 'dplyr'</code></pre>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>my_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 75 × 6
-   phase  time.start   time.end individual       time   value
-   &lt;ord&gt;       &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;
- 1 Before 1580731200 1580731440 a          1580731200  0.125 
- 2 Before 1580731200 1580731440 a          1580731260  0.670 
- 3 Before 1580731200 1580731440 a          1580731320  0.494 
- 4 Before 1580731200 1580731440 a          1580731380  1.57  
- 5 Before 1580731200 1580731440 a          1580731440 -0.143 
- 6 Before 1580731200 1580731440 b          1580731200  0.0150
- 7 Before 1580731200 1580731440 b          1580731260  2.12  
- 8 Before 1580731200 1580731440 b          1580731320  1.29  
- 9 Before 1580731200 1580731440 b          1580731380 -0.0180
-10 Before 1580731200 1580731440 b          1580731440 -1.05  
+   phase  time.start   time.end individual       time  value
+   &lt;ord&gt;       &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
+ 1 Before 1580731200 1580731440 a          1580731200  0.389
+ 2 Before 1580731200 1580731440 a          1580731260 -0.816
+ 3 Before 1580731200 1580731440 a          1580731320 -0.288
+ 4 Before 1580731200 1580731440 a          1580731380  0.601
+ 5 Before 1580731200 1580731440 a          1580731440  0.332
+ 6 Before 1580731200 1580731440 b          1580731200 -1.04 
+ 7 Before 1580731200 1580731440 b          1580731260  0.362
+ 8 Before 1580731200 1580731440 b          1580731320 -0.802
+ 9 Before 1580731200 1580731440 b          1580731380 -0.765
+10 Before 1580731200 1580731440 b          1580731440  0.569
 # ℹ 65 more rows</code></pre>
 </div>
 </div>
