@@ -1,5 +1,6 @@
 ---
 title: "Time series box plot using R's ggplot2"
+date: 2023-05-25
 categories: [R, ggplot2, chart junk, time series]
 ---
 
