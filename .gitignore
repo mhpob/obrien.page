@@ -9,5 +9,7 @@
 /.quarto/
 /_site/
 
+_freeze/blog/drafts/
+
  *.gpkg
  *.parquet
