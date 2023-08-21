@@ -56,7 +56,7 @@ Now the module can be found by your FarmOS GUI and then be installed.
 
 ## Install the module
 
-To finish installing the module, log into FarmOS (http://localhost:). Click the settings gear, then extend, then search for the module's name in the filter bar. Click "Install", and you're done!
+To finish installing the module, log into FarmOS. Click the settings gear, then extend, then search for the module's name in the filter bar. Click "Install", and you're done!
 
 ## Google API
 
@@ -64,6 +64,6 @@ Part of the reason that FarmOS doesn't ship with the Google satellite module alr
 
 ## Next steps: Making your own module
 
-So, here I am with Mapbox working but not updated in the paste three years, Google not working and also not updated in the last year, and a farm that has had substantial updates over the last few months. What am I to do?
+So, here I am with Mapbox working but not updated in the past three years, Google not working and also not updated in the last year, and a farm that has had substantial updates over the last few months. What am I to do?
 
-Luckily, the Commonwealth of Virginia *and* my locality both provide recent satellite imagery to the public. Symbioqiune had created a module to use SJC's provided imagery. I'll parse out how that works and adapt it to Virginia's imagery in [my next blog post]().
+Luckily, the Commonwealth of Virginia *and* my locality both provide recent satellite imagery to the public. In addition to the Google Maps addon, Symbioqiune had created a [module to use the San Juan Islands' provided imagery](https://github.com/symbioquine/farm_map_sjc). I'll parse out how that works and adapt it to Virginia's imagery in [my next blog post]().
