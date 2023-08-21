@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Mike O’Brien">
+<meta name="dcterms.date" content="2023-08-21">
 
 <title>Mike O’Brien - Creating custom FarmOS satellite tiles</title>
 <style>
@@ -124,7 +125,18 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#update-me" id="toc-update-me" class="nav-link active" data-scroll-target="#update-me">Update me!</a></li>
+  <li><a href="#getting-some-rest" id="toc-getting-some-rest" class="nav-link" data-scroll-target="#getting-some-rest">Getting some REST</a></li>
+  <li><a href="#an-image-by-any-other-name" id="toc-an-image-by-any-other-name" class="nav-link" data-scroll-target="#an-image-by-any-other-name">An image by any other name…</a></li>
+  <li><a href="#json-meat" id="toc-json-meat" class="nav-link" data-scroll-target="#json-meat">JSON meat</a></li>
+  <li><a href="#find-everything-with-henrico-in-it" id="toc-find-everything-with-henrico-in-it" class="nav-link" data-scroll-target="#find-everything-with-henrico-in-it">Find everything with “henrico” in it</a></li>
+  <li><a href="#install-the-add-on" id="toc-install-the-add-on" class="nav-link" data-scroll-target="#install-the-add-on">Install the add-on</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -132,7 +144,16 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Creating custom FarmOS satellite tiles</h1>
-</div>
+  <div class="quarto-categories">
+    <div class="quarto-category">FarmOS</div>
+    <div class="quarto-category">Ubuntu</div>
+    <div class="quarto-category">Self Hosting</div>
+    <div class="quarto-category">Git</div>
+    <div class="quarto-category">map tiles</div>
+    <div class="quarto-category">satellite imagery</div>
+    <div class="quarto-category">Docker</div>
+  </div>
+  </div>
 
 
 
@@ -145,6 +166,12 @@ ul.task-list li input[type="checkbox"] {
           </div>
   </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 21, 2023</p>
+    </div>
+  </div>
   
     
   </div>
@@ -152,8 +179,65 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<section id="update-me" class="level2">
+<h2 class="anchored" data-anchor-id="update-me">Update me!</h2>
+<p>Here’s an exercise: head over to <a href="https://www.google.com/maps/">Google Maps</a>, find your house, and note how long ago those satellite pictures were taken. Chances are it has been a while. Most of the time this is probably not an issue, but we are going through a period of rapid modification of our land, our house, and our farm as we hack it out of the woods and its 15-year-long abandonment.</p>
+</section>
+<section id="getting-some-rest" class="level2">
+<h2 class="anchored" data-anchor-id="getting-some-rest">Getting some REST</h2>
+<p>Similar to their Google Maps add-on, the FarmOS user Symbionique had created a FarmOS add-on in the Drupal framework that allowed access to <a href="https://github.com/symbioquine/farm_map_sjc">satellite imagery of the San Juan Islands</a>. The add-on leverages an ArcGIS RESTful API that is used by many governmental agencies. And, just my luck, both my local county (<a href="https://portal.henrico.us/image/rest/services">Henrico, VA</a>) and my Commonwealth (<a href="https://gismaps.vdem.virginia.gov/arcgis/rest/services">Virginia</a>) were also providing current satellite imagery via REST APIs!</p>
+<p>The San Juan Islands, Henrico County, VA and the Commonwealth of Virginia are not unique in providing this service. Head to your favorite internet search provider and look for “<em>YOUR LOCALITY</em> arcgis rest services” and you might be able to find one of your own.</p>
+<p>To start taking advantage of these services, go ahead and clone one of the related repositories on on my GitHub. Map tiles of Virginia <a href="https://github.com/mhpob/farm_map_va">can be found here</a> and tiles of Henrico County, VA <a href="https://github.com/mhpob/farm_map_henrico">can be found here</a>.</p>
+<p>Most of what we will wind up doing is renaming files. But first:</p>
+</section>
+<section id="an-image-by-any-other-name" class="level2">
+<h2 class="anchored" data-anchor-id="an-image-by-any-other-name">An image by any other name…</h2>
+<p>After you find your locality’s REST service, you’ll need to do some poking around to find out what that locality has named its images. In San Juan, it was <code>Basemaps/Aerials_yyyy</code>; Virginia was listed as <code>VBMP_Imagery/VBMPyyyy_WGS</code>; Henrico as <code>Imagery/AerialPhotosyyyy</code> where “<code>yyyy</code>” represents the year of the image. It will usually have “MapServer” in parentheses next to it, but it could also be “ImageServer”.</p>
+<p><img src="henrico_rest.png" class="img-fluid" style="width:50.0%"></p>
+<p>At the bottom of this page, there will be a section titled “<strong>Supported Interfaces</strong>”. One of the options should be “REST”. When you click on that, it should produce a JSON version of the index. See everything under “services”?? This is the treasure for which you’ve come!</p>
+<p><img src="treasure.gif" class="img-fluid"></p>
+</section>
+<section id="json-meat" class="level2">
+<h2 class="anchored" data-anchor-id="json-meat">JSON meat</h2>
+<p>Drupal, which FarmOS is built upon, leans heavily on JSON to parameterize its plugins. You can find the “meat” of this add-on in the <a href="https://github.com/mhpob/farm_map_henrico/blob/2.x/js/farmOS.map.behaviors.map_henrico.js"><code>js/</code> folder</a>. This folder contains one script with one function, which takes the JSON list we found above and uses that to create URLs and names of all of the base layers. Part-way down the code, you’ll see a variable called “basemaps” being defined. It looks something like this:</p>
+<pre class="{js}"><code>#| eval: false
+var basemaps = [
+  {
+   "name": "Imagery/AerialPhotos1998",
+   "type": "ImageServer"
+  },
+  {
+   "name": "Imagery/AerialPhotos2002",
+   "type": "ImageServer"
+  }
+];</code></pre>
+<p>Notice any similarities? Yep, it’s the REST JSON we found before. Copy everything under “services” and paste it right in there.</p>
+<p>We’ve now provided the function with the information it needs to call up the map tiles <em>once it knows where to find the server</em>. The next section of the function utilizes the <code>basemaps</code> variable we defined above to build out the URL to the server. The function is looped over every map located in the <code>basemaps</code> variable.</p>
+<pre class="{js}"><code>#| eval: false  
+basemaps.forEach(function(basemap) {
+  var opts = {
+    // Create name from the stuff after the slash
+    title: "Henrico " + basemap.name.split('/')[1],
+    // Put together the URL
+    url: 'https://portal.henrico.us/image/rest/services/' + basemap.name + '/' + basemap.type,
+    visible: false,
+    base: true,
+    group: 'Base layers',
+  };
+  instance.addLayer('arcgis-tile', opts);
+});</code></pre>
+<p>And that’s about it – all of the hard stuff is over. There is, however, one thing left to do, and it’s kind of annoying</p>
+</section>
+<section id="find-everything-with-henrico-in-it" class="level2">
+<h2 class="anchored" data-anchor-id="find-everything-with-henrico-in-it">Find everything with “henrico” in it</h2>
+<p>Yes, it gets its own section. We now need to go through and personalize the add-on by changing every instance of “henrico” to whichever locality we’re representing. It’s easy, but there are quite a few references to the locality hidden in there. Check file names, variable names, everything. CTRL-F the whole repo. Seriously.</p>
+</section>
+<section id="install-the-add-on" class="level2">
+<h2 class="anchored" data-anchor-id="install-the-add-on">Install the add-on</h2>
+<p>After this is done, install the add-on as you otherwise would. <code>git clone</code> the repository into your FarmOS folder and activate it via the web interface. If you need tips on how to do this, check out my previous post on <a href="blog/2023/06_06_farmos_modules.qmd">how to add a FarmOS module to your home server</a>.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -388,7 +472,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var filterRegex = new RegExp("https:\/\/www\.obrien\.page");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href);
     }

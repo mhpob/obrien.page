@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Mike O’Brien">
-<meta name="dcterms.date" content="2023-01-22">
+<meta name="dcterms.date" content="2023-08-21">
 
-<title>Mike O’Brien - Age of Henrico County Virginia’s structures</title>
+<title>Mike O’Brien - Creating custom FarmOS satellite tiles</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,40 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -163,11 +129,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#enter-geoarrow" id="toc-enter-geoarrow" class="nav-link active" data-scroll-target="#enter-geoarrow">Enter: <code>geoarrow</code></a></li>
-  <li><a href="#shp-to-.parquet" id="toc-shp-to-.parquet" class="nav-link" data-scroll-target="#shp-to-.parquet"><code>.shp</code> to <code>.parquet</code></a></li>
-  <li><a href="#pulling-in-the-data" id="toc-pulling-in-the-data" class="nav-link" data-scroll-target="#pulling-in-the-data">Pulling in the data</a></li>
-  <li><a href="#plot" id="toc-plot" class="nav-link" data-scroll-target="#plot">Plot</a></li>
-  <li><a href="#so-what-does-this-show-us" id="toc-so-what-does-this-show-us" class="nav-link" data-scroll-target="#so-what-does-this-show-us">So, what does this show us?</a></li>
+  <li><a href="#update-me" id="toc-update-me" class="nav-link active" data-scroll-target="#update-me">Update me!</a></li>
+  <li><a href="#getting-some-rest" id="toc-getting-some-rest" class="nav-link" data-scroll-target="#getting-some-rest">Getting some REST</a></li>
+  <li><a href="#an-image-by-any-other-name" id="toc-an-image-by-any-other-name" class="nav-link" data-scroll-target="#an-image-by-any-other-name">An image by any other name…</a></li>
+  <li><a href="#json-meat" id="toc-json-meat" class="nav-link" data-scroll-target="#json-meat">JSON meat</a></li>
+  <li><a href="#find-everything-with-henrico-in-it" id="toc-find-everything-with-henrico-in-it" class="nav-link" data-scroll-target="#find-everything-with-henrico-in-it">Find everything with “henrico” in it</a></li>
+  <li><a href="#install-the-add-on" id="toc-install-the-add-on" class="nav-link" data-scroll-target="#install-the-add-on">Install the add-on</a></li>
   </ul>
 </nav>
     </div>
@@ -176,14 +143,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Age of Henrico County Virginia’s structures</h1>
+<h1 class="title">Creating custom FarmOS satellite tiles</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">R</div>
-    <div class="quarto-category">Henrico</div>
-    <div class="quarto-category">Web scraping</div>
-    <div class="quarto-category">Land use</div>
-    <div class="quarto-category">geoarrow</div>
-    <div class="quarto-category">arrow</div>
+    <div class="quarto-category">FarmOS</div>
+    <div class="quarto-category">Ubuntu</div>
+    <div class="quarto-category">Self Hosting</div>
+    <div class="quarto-category">Git</div>
+    <div class="quarto-category">map tiles</div>
+    <div class="quarto-category">satellite imagery</div>
+    <div class="quarto-category">ArcGIS</div>
+    <div class="quarto-category">REST</div>
   </div>
   </div>
 
@@ -201,7 +170,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 22, 2023</p>
+      <p class="date">August 21, 2023</p>
     </div>
   </div>
   
@@ -211,92 +180,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>A recent tweet showed the age of the buildings in Groningen, Netherlands super-imposed on LiDAR data for some perspective.</p>
-<p></p><div id="tweet-22849"></div><script>tweet={"url":"https:\/\/twitter.com\/neilcfd1\/status\/1560616470148575233","author_name":"Neil Southall","author_url":"https:\/\/twitter.com\/neilcfd1","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EHaven&#39;t done a Building Age render for a while - here is Groningen, Netherlands\u003Cbr\u003EBuilding age data \u003Ca href=\"https:\/\/twitter.com\/INSPIRE_EU?ref_src=twsrc%5Etfw\"\u003E@INSPIRE_EU\u003C\/a\u003E \u003Ca href=\"https:\/\/twitter.com\/Het_Kadaster?ref_src=twsrc%5Etfw\"\u003E@Het_Kadaster\u003C\/a\u003E overlaid on LiDAR height data (from \u003Ca href=\"https:\/\/t.co\/Sm0VEFXOXs\"\u003Ehttps:\/\/t.co\/Sm0VEFXOXs\u003C\/a\u003E).  Rendered in \u003Ca href=\"https:\/\/twitter.com\/hashtag\/rayshader?src=hash&amp;ref_src=twsrc%5Etfw\"\u003E#rayshader\u003C\/a\u003E \u003Ca href=\"https:\/\/twitter.com\/hashtag\/rstats?src=hash&amp;ref_src=twsrc%5Etfw\"\u003E#rstats\u003C\/a\u003E \u003Ca href=\"https:\/\/t.co\/CElUxvn1W6\"\u003Epic.twitter.com\/CElUxvn1W6\u003C\/a\u003E\u003C\/p\u003E&mdash; Neil Southall (@neilcfd1) \u003Ca href=\"https:\/\/twitter.com\/neilcfd1\/status\/1560616470148575233?ref_src=twsrc%5Etfw\"\u003EAugust 19, 2022\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-22849").innerHTML = tweet["html"];</script><p></p>
-<p>This got me thinking – what would Henrico look like? I’m going to take the cheap way out and not mess with LiDAR at the moment, but the county provides their <a href="https://data-henrico.opendata.arcgis.com/datasets/Henrico::tax-parcels-and-cama-data/explore">Tax Parcels and CAMA Data</a> for easy download.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>To skip the coding and jump straight to the picture, <a href="#plot">click here!</a></p>
-</div>
-</div>
-<p>This is a pretty big file – just under 121 thousand parcel outlines, with 84 different bits of information per property!</p>
-<section id="enter-geoarrow" class="level2">
-<h2 class="anchored" data-anchor-id="enter-geoarrow">Enter: <code>geoarrow</code></h2>
-<p>I’ve been interested in playing around with the <a href="https://github.com/paleolimbot/geoarrow"><code>geoarrow</code> package</a> since watching Dewey Dunnington’s <a href="https://www.youtube.com/watch?v=kTtRr4kUJro">presentation at the 2022 RStudio conference</a>. It leverages the <a href="https://arrow.apache.org/">Apache Arrow</a> platform, resulting in rapid out-of-memory subsetting and manipulation of spatial data. The <a href="https://parquet.apache.org/">Parquet</a> format used by Arrow also does a great job at compression, resulting in a much smaller file to toss around. When compared to a shapefile (which necessitates lugging around <a href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/shapefiles/shapefile-file-extensions.htm">a bunch of other files</a>), this seems like a much better way to store and access a large file.</p>
+<section id="update-me" class="level2">
+<h2 class="anchored" data-anchor-id="update-me">Update me!</h2>
+<p>Here’s an exercise: head over to <a href="https://www.google.com/maps/">Google Maps</a>, find your house, and note how long ago those satellite pictures were taken. Chances are it has been a while. Most of the time this is probably not an issue, but we are going through a period of rapid modification of our land, our house, and our farm as we hack it out of the woods and its 15-year-long abandonment.</p>
 </section>
-<section id="shp-to-.parquet" class="level2">
-<h2 class="anchored" data-anchor-id="shp-to-.parquet"><code>.shp</code> to <code>.parquet</code></h2>
-<p>The first step is to convert the provided shapefile into the arrow-readable parquet format. I’ll do this using the <code>sf</code> and <code>geoarrow</code> packages:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geoarrow)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>henrico <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">'tax_parcels_and_cama_data.shp'</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">write_geoparquet</span>(henrico, <span class="st">'data/henrico_parcels.parquet'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>East enough – and switching from the shapefile to parquet reduced the file size by 70%!</p>
+<section id="getting-some-rest" class="level2">
+<h2 class="anchored" data-anchor-id="getting-some-rest">Getting some REST</h2>
+<p>Similar to their Google Maps add-on, the FarmOS user Symbionique had created a FarmOS add-on in the Drupal framework that allowed access to <a href="https://github.com/symbioquine/farm_map_sjc">satellite imagery of the San Juan Islands</a>. The add-on leverages an ArcGIS RESTful API that is used by many governmental agencies. And, just my luck, both my local county (<a href="https://portal.henrico.us/image/rest/services">Henrico, VA</a>) and my Commonwealth (<a href="https://gismaps.vdem.virginia.gov/arcgis/rest/services">Virginia</a>) were also providing current satellite imagery via REST APIs!</p>
+<p>The San Juan Islands, Henrico County, VA and the Commonwealth of Virginia are not unique in providing this service. Head to your favorite internet search provider and look for “<em>YOUR LOCALITY</em> arcgis rest services” and you might be able to find one of your own.</p>
+<p>To start taking advantage of these services, go ahead and clone one of the related repositories on on my GitHub. Map tiles of Virginia <a href="https://github.com/mhpob/farm_map_va">can be found here</a> and tiles of Henrico County, VA <a href="https://github.com/mhpob/farm_map_henrico">can be found here</a>.</p>
+<p>Most of what we will wind up doing is renaming files. But first:</p>
 </section>
-<section id="pulling-in-the-data" class="level2">
-<h2 class="anchored" data-anchor-id="pulling-in-the-data">Pulling in the data</h2>
-<p>Using the newly-formed parquet file, it’s straightforward to only select two of the 84(!) columns and drop any structures without a construction date or a date that isn’t reasonable (in the future or before the settlement of the county).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>hc_parcels <span class="ot">&lt;-</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">open_dataset</span>(<span class="st">'data/henrico_parcels.parquet'</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(YEAR_BUILT, geometry) <span class="sc">|&gt;</span> </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(YEAR_BUILT) <span class="sc">&amp;</span> YEAR_BUILT <span class="sc">&gt;</span> <span class="dv">1500</span> <span class="sc">&amp;</span> YEAR_BUILT <span class="sc">&lt;</span> <span class="dv">2100</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geoarrow_collect_sf</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="an-image-by-any-other-name" class="level2">
+<h2 class="anchored" data-anchor-id="an-image-by-any-other-name">An image by any other name…</h2>
+<p>After you find your locality’s REST service, you’ll need to do some poking around to find out what that locality has named its images. In San Juan, it was <code>Basemaps/Aerials_yyyy</code>; Virginia was listed as <code>VBMP_Imagery/VBMPyyyy_WGS</code>; Henrico as <code>Imagery/AerialPhotosyyyy</code> where “<code>yyyy</code>” represents the year of the image. It will usually have “MapServer” in parentheses next to it, but it could also be “ImageServer”.</p>
+<p><img src="henrico_rest.png" class="img-fluid" style="width:50.0%"></p>
+<p>At the bottom of this page, there will be a section titled “<strong>Supported Interfaces</strong>”. One of the options should be “REST”. When you click on that, it should produce a JSON version of the index. See everything under “services”?? This is the treasure for which you’ve come!</p>
+<p><img src="treasure.gif" class="img-fluid"></p>
 </section>
-<section id="plot" class="level2">
-<h2 class="anchored" data-anchor-id="plot">Plot</h2>
-<p>Now just a matter of plotting using <code>ggplot2</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> hc_parcels) <span class="sc">+</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> YEAR_BUILT), <span class="at">lwd =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option  =</span> <span class="st">'turbo'</span>) <span class="sc">+</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">'Year built'</span>) <span class="sc">+</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_dark</span>() <span class="sc">+</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/first-plot-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>The structures built recently blend together in burnt red, while the older building really pop. What this really tells us, though, is that the majority of the development in Henrico County has happened since 1950 or so.</p>
-<p>It makes sense that the number of structures built per year would be greater in, say, 2000 compared to 1700 – homes are easier to build and we have a much greater population. In order to see the subtle patterns in development in recent years, we need to adjust the color scale to change more rapidly as time goes on.</p>
-<p>This can be accomplished using the <code>values</code> argument to <code>scale_fill_viridis_c</code>. Values need to be on the 0-to-1 scale. I’m going to shift the breaks in the color scale toward the last 25% of years.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> hc_parcels) <span class="sc">+</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> YEAR_BUILT), <span class="at">lwd =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option  =</span> <span class="st">'turbo'</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.85</span>, <span class="fl">0.95</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">'Year built'</span>) <span class="sc">+</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_dark</span>() <span class="sc">+</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/rescaled-color-plot-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<section id="json-meat" class="level2">
+<h2 class="anchored" data-anchor-id="json-meat">JSON meat</h2>
+<p>Drupal, which FarmOS is built upon, leans heavily on JSON to parameterize its plugins. You can find the “meat” of this add-on in the <a href="https://github.com/mhpob/farm_map_henrico/blob/2.x/js/farmOS.map.behaviors.map_henrico.js"><code>js/</code> folder</a>. This folder contains one script with one function, which takes the JSON list we found above and uses that to create URLs and names of all of the base layers. Part-way down the code, you’ll see a variable called “basemaps” being defined. It looks something like this:</p>
+<pre class="{js}"><code>#| eval: false
+var basemaps = [
+  {
+   "name": "Imagery/AerialPhotos1998",
+   "type": "ImageServer"
+  },
+  {
+   "name": "Imagery/AerialPhotos2002",
+   "type": "ImageServer"
+  }
+];</code></pre>
+<p>Notice any similarities? Yep, it’s the REST JSON we found before. Copy everything under “services” and paste it right in there.</p>
+<p>We’ve now provided the function with the information it needs to call up the map tiles <em>once it knows where to find the server</em>. The next section of the function utilizes the <code>basemaps</code> variable we defined above to build out the URL to the server. The function is looped over every map located in the <code>basemaps</code> variable.</p>
+<pre class="{js}"><code>#| eval: false  
+basemaps.forEach(function(basemap) {
+  var opts = {
+    // Create name from the stuff after the slash
+    title: "Henrico " + basemap.name.split('/')[1],
+    // Put together the URL
+    url: 'https://portal.henrico.us/image/rest/services/' + basemap.name + '/' + basemap.type,
+    visible: false,
+    base: true,
+    group: 'Base layers',
+  };
+  instance.addLayer('arcgis-tile', opts);
+});</code></pre>
+<p>And that’s about it – all of the hard stuff is over. There is, however, one thing left to do, and it’s kind of annoying</p>
 </section>
-<section id="so-what-does-this-show-us" class="level2">
-<h2 class="anchored" data-anchor-id="so-what-does-this-show-us">So, what does this show us?</h2>
-<ul>
-<li>The West End has a structure on nearly every parcel. This is especially apparent when comparing to Varina, where the blank gray spaces signify a plot of land with no listed structure.</li>
-<li>The outskirts of Richmond (the “bite” in the middle) were developed heavily in the 1950s. The far West End, however, didn’t start to get developed until near 2000.</li>
-<li>There’s a progressive structure to the development of the West End, as can be seen in the gradient of color.</li>
-</ul>
+<section id="find-everything-with-henrico-in-it" class="level2">
+<h2 class="anchored" data-anchor-id="find-everything-with-henrico-in-it">Find everything with “henrico” in it</h2>
+<p>Yes, it gets its own section. We now need to go through and personalize the add-on by changing every instance of “henrico” to whichever locality we’re representing. It’s easy, but there are quite a few references to the locality hidden in there. Check file names, variable names, everything. CTRL-F the whole repo. Seriously.</p>
+</section>
+<section id="install-the-add-on" class="level2">
+<h2 class="anchored" data-anchor-id="install-the-add-on">Install the add-on</h2>
+<p>After this is done, install the add-on as you otherwise would. <code>git clone</code> the repository into your FarmOS folder and activate it via the web interface. If you need tips on how to do this, check out my previous post on <a href="blog/2023/06_06_farmos_modules.qmd">how to add a FarmOS module to your home server</a>.</p>
 
 
 </section>
@@ -553,5 +492,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="https://platform.twitter.com/widgets.js"></script>
 </body></html>

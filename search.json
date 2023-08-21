@@ -298,7 +298,7 @@
     "href": "blog/2023/06_06_farmos_modules/index.html#install-the-module",
     "title": "How to install a custom FarmOS module",
     "section": "Install the module",
-    "text": "Install the module\nTo finish installing the module, log into FarmOS (http://localhost:). Click the settings gear, then extend, then search for the module’s name in the filter bar. Click “Install”, and you’re done!"
+    "text": "Install the module\nTo finish installing the module, log into FarmOS. Click the settings gear, then extend, then search for the module’s name in the filter bar. Click “Install”, and you’re done!"
   },
   {
     "objectID": "blog/2023/06_06_farmos_modules/index.html#google-api",
@@ -312,14 +312,63 @@
     "href": "blog/2023/06_06_farmos_modules/index.html#next-steps-making-your-own-module",
     "title": "How to install a custom FarmOS module",
     "section": "Next steps: Making your own module",
-    "text": "Next steps: Making your own module\nSo, here I am with Mapbox working but not updated in the paste three years, Google not working and also not updated in the last year, and a farm that has had substantial updates over the last few months. What am I to do?\nLuckily, the Commonwealth of Virginia and my locality both provide recent satellite imagery to the public. Symbioqiune had created a module to use SJC’s provided imagery. I’ll parse out how that works and adapt it to Virginia’s imagery in my next blog post."
+    "text": "Next steps: Making your own module\nSo, here I am with Mapbox working but not updated in the past three years, Google not working and also not updated in the last year, and a farm that has had substantial updates over the last few months. What am I to do?\nLuckily, the Commonwealth of Virginia and my locality both provide recent satellite imagery to the public. In addition to the Google Maps addon, Symbioqiune had created a module to use the San Juan Islands’ provided imagery. I’ll parse out how that works and adapt it to Virginia’s imagery in my next blog post."
+  },
+  {
+    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html",
+    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html",
+    "title": "Creating custom FarmOS satellite tiles",
+    "section": "",
+    "text": "Here’s an exercise: head over to Google Maps, find your house, and note how long ago those satellite pictures were taken. Chances are it has been a while. Most of the time this is probably not an issue, but we are going through a period of rapid modification of our land, our house, and our farm as we hack it out of the woods and its 15-year-long abandonment."
+  },
+  {
+    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#update-me",
+    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#update-me",
+    "title": "Creating custom FarmOS satellite tiles",
+    "section": "",
+    "text": "Here’s an exercise: head over to Google Maps, find your house, and note how long ago those satellite pictures were taken. Chances are it has been a while. Most of the time this is probably not an issue, but we are going through a period of rapid modification of our land, our house, and our farm as we hack it out of the woods and its 15-year-long abandonment."
+  },
+  {
+    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#getting-some-rest",
+    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#getting-some-rest",
+    "title": "Creating custom FarmOS satellite tiles",
+    "section": "Getting some REST",
+    "text": "Getting some REST\nSimilar to their Google Maps add-on, the FarmOS user Symbionique had created a FarmOS add-on in the Drupal framework that allowed access to satellite imagery of the San Juan Islands. The add-on leverages an ArcGIS RESTful API that is used by many governmental agencies. And, just my luck, both my local county (Henrico, VA) and my Commonwealth (Virginia) were also providing current satellite imagery via REST APIs!\nThe San Juan Islands, Henrico County, VA and the Commonwealth of Virginia are not unique in providing this service. Head to your favorite internet search provider and look for “YOUR LOCALITY arcgis rest services” and you might be able to find one of your own.\nTo start taking advantage of these services, go ahead and clone one of the related repositories on on my GitHub. Map tiles of Virginia can be found here and tiles of Henrico County, VA can be found here.\nMost of what we will wind up doing is renaming files. But first:"
+  },
+  {
+    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#an-image-by-any-other-name",
+    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#an-image-by-any-other-name",
+    "title": "Creating custom FarmOS satellite tiles",
+    "section": "An image by any other name…",
+    "text": "An image by any other name…\nAfter you find your locality’s REST service, you’ll need to do some poking around to find out what that locality has named its images. In San Juan, it was Basemaps/Aerials_yyyy; Virginia was listed as VBMP_Imagery/VBMPyyyy_WGS; Henrico as Imagery/AerialPhotosyyyy where “yyyy” represents the year of the image. It will usually have “MapServer” in parentheses next to it, but it could also be “ImageServer”.\n\nAt the bottom of this page, there will be a section titled “Supported Interfaces”. One of the options should be “REST”. When you click on that, it should produce a JSON version of the index. See everything under “services”?? This is the treasure for which you’ve come!"
+  },
+  {
+    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#json-meat",
+    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#json-meat",
+    "title": "Creating custom FarmOS satellite tiles",
+    "section": "JSON meat",
+    "text": "JSON meat\nDrupal, which FarmOS is built upon, leans heavily on JSON to parameterize its plugins. You can find the “meat” of this add-on in the js/ folder. This folder contains one script with one function, which takes the JSON list we found above and uses that to create URLs and names of all of the base layers. Part-way down the code, you’ll see a variable called “basemaps” being defined. It looks something like this:\n#| eval: false\nvar basemaps = [\n  {\n   \"name\": \"Imagery/AerialPhotos1998\",\n   \"type\": \"ImageServer\"\n  },\n  {\n   \"name\": \"Imagery/AerialPhotos2002\",\n   \"type\": \"ImageServer\"\n  }\n];\nNotice any similarities? Yep, it’s the REST JSON we found before. Copy everything under “services” and paste it right in there.\nWe’ve now provided the function with the information it needs to call up the map tiles once it knows where to find the server. The next section of the function utilizes the basemaps variable we defined above to build out the URL to the server. The function is looped over every map located in the basemaps variable.\n#| eval: false  \nbasemaps.forEach(function(basemap) {\n  var opts = {\n    // Create name from the stuff after the slash\n    title: \"Henrico \" + basemap.name.split('/')[1],\n    // Put together the URL\n    url: 'https://portal.henrico.us/image/rest/services/' + basemap.name + '/' + basemap.type,\n    visible: false,\n    base: true,\n    group: 'Base layers',\n  };\n  instance.addLayer('arcgis-tile', opts);\n});\nAnd that’s about it – all of the hard stuff is over. There is, however, one thing left to do, and it’s kind of annoying"
+  },
+  {
+    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#find-everything-with-henrico-in-it",
+    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#find-everything-with-henrico-in-it",
+    "title": "Creating custom FarmOS satellite tiles",
+    "section": "Find everything with “henrico” in it",
+    "text": "Find everything with “henrico” in it\nYes, it gets its own section. We now need to go through and personalize the add-on by changing every instance of “henrico” to whichever locality we’re representing. It’s easy, but there are quite a few references to the locality hidden in there. Check file names, variable names, everything. CTRL-F the whole repo. Seriously."
+  },
+  {
+    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#install-the-add-on",
+    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#install-the-add-on",
+    "title": "Creating custom FarmOS satellite tiles",
+    "section": "Install the add-on",
+    "text": "Install the add-on\nAfter this is done, install the add-on as you otherwise would. git clone the repository into your FarmOS folder and activate it via the web interface. If you need tips on how to do this, check out my previous post on how to add a FarmOS module to your home server."
   },
   {
     "objectID": "blog/index.html",
     "href": "blog/index.html",
     "title": "Blog",
     "section": "",
-    "text": "How to install a custom FarmOS module\n\n\n\n\n\n\n\nFarmOS\n\n\nUbuntu\n\n\nSelf Hosting\n\n\nGit\n\n\nmap tiles\n\n\nsatellite imagery\n\n\nDocker\n\n\n\n\n\n\n\n\n\n\n\nJun 6, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nTime series box plot using R’s ggplot2\n\n\n\n\n\n\n\nR\n\n\nggplot2\n\n\nchart junk\n\n\ntime series\n\n\n\n\n\n\n\n\n\n\n\nMay 25, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nVarina LandLab LIDAR\n\n\n\n\n\n\n\nR\n\n\nlidR\n\n\nsf\n\n\nterra\n\n\nrayshader\n\n\nLIDAR\n\n\nmap projections\n\n\nHenrico\n\n\nspatial\n\n\n\n\n\n\n\n\n\n\n\nMay 24, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nRotating polygons in sf\n\n\n\n\n\n\n\nR\n\n\nsf\n\n\nmap projections\n\n\nggplot2\n\n\n\n\n\n\n\n\n\n\n\nMar 31, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nConnecting Google Sheets and GitHub Actions\n\n\n\n\n\n\n\nR\n\n\nWeb scraping\n\n\nGitHub Actions\n\n\nGoogle\n\n\n\n\n\n\n\n\n\n\n\nMar 10, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nIntroduction to GitHub Actions\n\n\n\n\n\n\n\nR\n\n\nGitHub Actions\n\n\nCoding Club\n\n\n\n\n\n\n\n\n\n\n\nMar 7, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nCreating a simple features object via well-known-binary vs using coordinates\n\n\n\n\n\n\n\nR\n\n\nFish migration\n\n\nbiotelemetry\n\n\nsf\n\n\nspatial\n\n\nPostGIS\n\n\n\n\n\n\n\n\n\n\n\nFeb 28, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nElusive silver eel migrations detected in the Chesapeake mainstem for the first time\n\n\n\n\n\n\n\nChesapeake\n\n\nFish migration\n\n\nbiotelemetry\n\n\n\n\n\n\n\n\n\n\n\nJan 25, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nAge of Henrico County Virginia’s structures\n\n\n\n\n\n\n\nR\n\n\nHenrico\n\n\nWeb scraping\n\n\nLand use\n\n\ngeoarrow\n\n\narrow\n\n\n\n\n\n\n\n\n\n\n\nJan 22, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\nNo matching items"
+    "text": "Creating custom FarmOS satellite tiles\n\n\n\n\n\n\n\nFarmOS\n\n\nUbuntu\n\n\nSelf Hosting\n\n\nGit\n\n\nmap tiles\n\n\nsatellite imagery\n\n\nArcGIS\n\n\nREST\n\n\n\n\n\n\n\n\n\n\n\nAug 21, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nHow to install a custom FarmOS module\n\n\n\n\n\n\n\nFarmOS\n\n\nUbuntu\n\n\nSelf Hosting\n\n\nGit\n\n\nmap tiles\n\n\nsatellite imagery\n\n\nDocker\n\n\n\n\n\n\n\n\n\n\n\nJun 6, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nTime series box plot using R’s ggplot2\n\n\n\n\n\n\n\nR\n\n\nggplot2\n\n\nchart junk\n\n\ntime series\n\n\n\n\n\n\n\n\n\n\n\nMay 25, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nVarina LandLab LIDAR\n\n\n\n\n\n\n\nR\n\n\nlidR\n\n\nsf\n\n\nterra\n\n\nrayshader\n\n\nLIDAR\n\n\nmap projections\n\n\nHenrico\n\n\nspatial\n\n\n\n\n\n\n\n\n\n\n\nMay 24, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nRotating polygons in sf\n\n\n\n\n\n\n\nR\n\n\nsf\n\n\nmap projections\n\n\nggplot2\n\n\n\n\n\n\n\n\n\n\n\nMar 31, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nConnecting Google Sheets and GitHub Actions\n\n\n\n\n\n\n\nR\n\n\nWeb scraping\n\n\nGitHub Actions\n\n\nGoogle\n\n\n\n\n\n\n\n\n\n\n\nMar 10, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nIntroduction to GitHub Actions\n\n\n\n\n\n\n\nR\n\n\nGitHub Actions\n\n\nCoding Club\n\n\n\n\n\n\n\n\n\n\n\nMar 7, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nCreating a simple features object via well-known-binary vs using coordinates\n\n\n\n\n\n\n\nR\n\n\nFish migration\n\n\nbiotelemetry\n\n\nsf\n\n\nspatial\n\n\nPostGIS\n\n\n\n\n\n\n\n\n\n\n\nFeb 28, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nElusive silver eel migrations detected in the Chesapeake mainstem for the first time\n\n\n\n\n\n\n\nChesapeake\n\n\nFish migration\n\n\nbiotelemetry\n\n\n\n\n\n\n\n\n\n\n\nJan 25, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nAge of Henrico County Virginia’s structures\n\n\n\n\n\n\n\nR\n\n\nHenrico\n\n\nWeb scraping\n\n\nLand use\n\n\ngeoarrow\n\n\narrow\n\n\n\n\n\n\n\n\n\n\n\nJan 22, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",

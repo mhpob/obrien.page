@@ -2,6 +2,7 @@
   {
     "listing": "/blog/index.html",
     "items": [
+      "/blog/2023/08_21_farmos_satellite_tiles/index.html",
       "/blog/2023/06_06_farmos_modules/index.html",
       "/blog/2023/05_25_time_series_box_plot/index.html",
       "/blog/2023/05_24_landlab_lidar/index.html",
