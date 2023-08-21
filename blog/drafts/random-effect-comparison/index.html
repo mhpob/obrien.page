@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.340">
+<meta name="generator" content="quarto-1.3.361">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -56,10 +56,13 @@ ul.task-list li input[type="checkbox"] {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -123,7 +126,26 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#in-the-bodyweight-data-rat-is-nested-in-diet-with-no-repeated-rats-across-diets" id="toc-in-the-bodyweight-data-rat-is-nested-in-diet-with-no-repeated-rats-across-diets" class="nav-link active" data-scroll-target="#in-the-bodyweight-data-rat-is-nested-in-diet-with-no-repeated-rats-across-diets">In the BodyWeight data, Rat is nested in Diet with no repeated Rats across Diets</a></li>
+  <li><a href="#analogous-to-year-nested-in-yearblock-with-no-repeated-years-across-yearblocks" id="toc-analogous-to-year-nested-in-yearblock-with-no-repeated-years-across-yearblocks" class="nav-link" data-scroll-target="#analogous-to-year-nested-in-yearblock-with-no-repeated-years-across-yearblocks">Analogous to Year nested in YearBlock with no repeated Years across YearBlocks</a></li>
+  <li><a href="#diet-is-not-coded" id="toc-diet-is-not-coded" class="nav-link" data-scroll-target="#diet-is-not-coded">Diet is not coded</a></li>
+  <li><a href="#dummy-code-levels-of-diet-as-for-yearblock-in-manuscript" id="toc-dummy-code-levels-of-diet-as-for-yearblock-in-manuscript" class="nav-link" data-scroll-target="#dummy-code-levels-of-diet-as-for-yearblock-in-manuscript">Dummy code levels of Diet as for YearBlock in manuscript</a></li>
+  <li><a href="#random-effects-structure-in-the-ms" id="toc-random-effects-structure-in-the-ms" class="nav-link" data-scroll-target="#random-effects-structure-in-the-ms">Random effects structure in the ms</a></li>
+  <li><a href="#non-dummy-coded-structure" id="toc-non-dummy-coded-structure" class="nav-link" data-scroll-target="#non-dummy-coded-structure">Non-dummy-coded structure</a></li>
+  <li><a href="#random-slope-of-diet-grouped-by-and-uncorrleated-across-rat" id="toc-random-slope-of-diet-grouped-by-and-uncorrleated-across-rat" class="nav-link" data-scroll-target="#random-slope-of-diet-grouped-by-and-uncorrleated-across-rat">Random slope of Diet, grouped by and uncorrleated across Rat</a></li>
+  <li><a href="#similar-estimates" id="toc-similar-estimates" class="nav-link" data-scroll-target="#similar-estimates">Similar estimates</a></li>
+  <li><a href="#similar-estimates-but-starting-to-drift-since-model-is-overparameterized-note-wide-cis" id="toc-similar-estimates-but-starting-to-drift-since-model-is-overparameterized-note-wide-cis" class="nav-link" data-scroll-target="#similar-estimates-but-starting-to-drift-since-model-is-overparameterized-note-wide-cis">Similar estimates, but starting to drift since model is overparameterized (note wide CIs)</a></li>
+  <li><a href="#nlme-doesnt-have-a-straightforward-way-to-model-crossed-effects-but-it-would-be" id="toc-nlme-doesnt-have-a-straightforward-way-to-model-crossed-effects-but-it-would-be" class="nav-link" data-scroll-target="#nlme-doesnt-have-a-straightforward-way-to-model-crossed-effects-but-it-would-be">nlme doesn’t have a straightforward way to model crossed effects, but it would be</a></li>
+  <li><a href="#similar-to-this-plus-some-extra-terms-to-scale-the-variance.-lme4-handles-crossed" id="toc-similar-to-this-plus-some-extra-terms-to-scale-the-variance.-lme4-handles-crossed" class="nav-link" data-scroll-target="#similar-to-this-plus-some-extra-terms-to-scale-the-variance.-lme4-handles-crossed">similar to this plus some extra terms to scale the variance. lme4 handles crossed</a></li>
+  <li><a href="#effects-and-would-be-coded-similarly-to-the-below" id="toc-effects-and-would-be-coded-similarly-to-the-below" class="nav-link" data-scroll-target="#effects-and-would-be-coded-similarly-to-the-below">effects and would be coded similarly to the below</a></li>
+  <li><a href="#since-no-levels-of-rat-are-duplicated-across-diet-they-are-the-same" id="toc-since-no-levels-of-rat-are-duplicated-across-diet-they-are-the-same" class="nav-link" data-scroll-target="#since-no-levels-of-rat-are-duplicated-across-diet-they-are-the-same">Since no levels of Rat are duplicated across Diet, they are the same</a></li>
+  <li><a href="#analogous-to-no-levels-of-year-duplicated-across-yearblock" id="toc-analogous-to-no-levels-of-year-duplicated-across-yearblock" class="nav-link" data-scroll-target="#analogous-to-no-levels-of-year-duplicated-across-yearblock">Analogous to no levels of Year duplicated across YearBlock</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -152,8 +174,73 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p>https://gist.github.com/mhpob/73cb07f5ef3b6b55f4ef9da8cd0b7b3e</p>
+<p>I believe that the model is miscoded in this analysis based on the code provided in the GitHub page and description in this paragraph. The random effects are coded as</p>
+<p>s(year, by = !yearblockA, bs = ‘re’) + s(year, by = !yearblockB, bs = ‘re’)+ s(year, by = !yearblockC, bs = ‘re’)</p>
+<p>This specifies a random slope by groups of year around an unspecified fixed effect of yearblock. In lme4 or nlme, it lines up with ~(0 + yearblock|year) and an implied, but unparameterized, fixed effect of yearblock:</p>
+<p>library(mgcv)</p>
+<section id="in-the-bodyweight-data-rat-is-nested-in-diet-with-no-repeated-rats-across-diets" class="level1">
+<h1>In the BodyWeight data, Rat is nested in Diet with no repeated Rats across Diets</h1>
+</section>
+<section id="analogous-to-year-nested-in-yearblock-with-no-repeated-years-across-yearblocks" class="level1">
+<h1>Analogous to Year nested in YearBlock with no repeated Years across YearBlocks</h1>
+</section>
+<section id="diet-is-not-coded" class="level1">
+<h1>Diet is not coded</h1>
+<p>data(‘BodyWeight’)</p>
+</section>
+<section id="dummy-code-levels-of-diet-as-for-yearblock-in-manuscript" class="level1">
+<h1>Dummy code levels of Diet as for YearBlock in manuscript</h1>
+<p>BodyWeight<span class="math inline">\(Diet1 &lt;- ifelse(BodyWeight\)</span>Diet == 1, 0, 1) BodyWeight<span class="math inline">\(Diet2 &lt;- ifelse(BodyWeight\)</span>Diet == 2, 0, 1) BodyWeight<span class="math inline">\(Diet3 &lt;- ifelse(BodyWeight\)</span>Diet == 3, 0, 1)</p>
+</section>
+<section id="random-effects-structure-in-the-ms" class="level1">
+<h1>Random effects structure in the ms</h1>
+<p>ms_gam &lt;- gam(weight ~ s(Rat, by = ordered(!Diet1), bs = ‘re’) + s(Rat, by = ordered(!Diet2), bs = ‘re’) + s(Rat, by = ordered(!Diet3), bs = ‘re’), data = BodyWeight, method = ‘REML’)</p>
+</section>
+<section id="non-dummy-coded-structure" class="level1">
+<h1>Non-dummy-coded structure</h1>
+<p>gam_short &lt;- gam(weight ~ s(Rat, by = Diet, bs = ‘re’), data = BodyWeight, method = ‘REML’)</p>
+</section>
+<section id="random-slope-of-diet-grouped-by-and-uncorrleated-across-rat" class="level1">
+<h1>Random slope of Diet, grouped by and uncorrleated across Rat</h1>
+<p>ms_lme &lt;- lme(weight ~ 1, random = ~ 0 + Diet|Rat, data = BodyWeight)</p>
+</section>
+<section id="similar-estimates" class="level1">
+<h1>Similar estimates</h1>
+<p>gam.vcomp(ms_gam) gam.vcomp(gam_short) VarCorr(ms_lme)</p>
+<p>If this is the desire, I suggest including yearblock as a fixed effect as well as the “by” variable in the random effect: yearblock + s(year, by = yearblock, bs = ‘re’) would represent random variation around the effect of yearblock due to year. There is ongoing debate about whether a random effect with less than c.&nbsp;5 levels can be properly parameterized, and one suggestion is to fit factors with less than 5 levels as fixed effects. This would follow the suggestions outlined in Harrison, X.A., Donaldson, L., Correa-Cano, M.E., Evans, J., Fisher, D.N., Goodwin, C.E., Robinson, B.S., Hodgson, D.J., Inger, R., 2018. A brief introduction to mixed effects modelling and multi-model inference in ecology. PeerJ 6, e4794.</p>
+<p>ms_gam2 &lt;- gam(weight ~ Diet + s(Rat, by = Diet, bs = ‘re’), data = BodyWeight, method = ‘REML’)</p>
+<p>ms_lme2 &lt;- lme(weight ~ Diet, random = ~ 0 + Diet|Rat, data = BodyWeight)</p>
+<p>gam.vcomp(ms_gam2) VarCorr(ms_lme2)</p>
+<p>If the desire is to have a random intercept of year and random slope of yearblock by year, s(year, bs = ‘re’) should also be added to parameterize the random intercept. mgcv cannot fit correlated random slope and random intercept (~Diet|Rat or ~1 + Diet|Rat) so they must be modeled as uncorrelated.</p>
+<p>ms_gam3 &lt;- gam(weight ~ Diet + s(Rat, bs = ‘re’) + s(Rat, by = Diet, bs = ‘re’), data = BodyWeight, method = ‘REML’)</p>
+<p>ms_lme3 &lt;- lme(weight ~ Diet, random = list(~ 1|Rat, ~ 0 + Diet|Rat), data = BodyWeight)</p>
+</section>
+<section id="similar-estimates-but-starting-to-drift-since-model-is-overparameterized-note-wide-cis" class="level1">
+<h1>Similar estimates, but starting to drift since model is overparameterized (note wide CIs)</h1>
+<p>gam.vcomp(ms_gam3) VarCorr(ms_lme3)</p>
+<p>If the desire is to have nested random intercepts, then s(year, bs = ‘re’) + s(yearblock, bs = ‘re’) would suffice but might preclude the variance decomposition noted in line 264 and used elsewhere in the manuscript (L373-379; Figures S1, S2). This also creates a random effect with only a few levels, so there is risk that the random effect of Diet (YearBlock) could be poorly parameterized.</p>
+</section>
+<section id="nlme-doesnt-have-a-straightforward-way-to-model-crossed-effects-but-it-would-be" class="level1">
+<h1>nlme doesn’t have a straightforward way to model crossed effects, but it would be</h1>
+</section>
+<section id="similar-to-this-plus-some-extra-terms-to-scale-the-variance.-lme4-handles-crossed" class="level1">
+<h1>similar to this plus some extra terms to scale the variance. lme4 handles crossed</h1>
+</section>
+<section id="effects-and-would-be-coded-similarly-to-the-below" class="level1">
+<h1>effects and would be coded similarly to the below</h1>
+<p>crossed &lt;- lme(weight ~ 1, random = list(~ 1 | Diet, ~1|Rat), data = BodyWeight)</p>
+<p>nested &lt;- lme(weight ~ 1, random = ~ 1 | Diet/Rat, data = BodyWeight)</p>
+<p>nested_gam &lt;- gam(weight ~ s(Diet, bs = ‘re’) + s(Rat, bs = ‘re’) , data = BodyWeight, method = ‘REML’)</p>
+</section>
+<section id="since-no-levels-of-rat-are-duplicated-across-diet-they-are-the-same" class="level1">
+<h1>Since no levels of Rat are duplicated across Diet, they are the same</h1>
+</section>
+<section id="analogous-to-no-levels-of-year-duplicated-across-yearblock" class="level1">
+<h1>Analogous to no levels of Year duplicated across YearBlock</h1>
+<p>VarCorr(crossed) VarCorr(nested) gam.vcomp(nested_gam)</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

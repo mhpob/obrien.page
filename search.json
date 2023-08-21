@@ -266,11 +266,60 @@
     "text": "Conclusion\nWell, is this ever chart junk. It’s junk, though, that I find descriptive, hiding the original sin of cramming autocorrelated data into a box plot. I still feel that it has utility in spite of its dirty feeling. Maybe, just maybe, you’ll see the time series box plot in a manuscript near you.\nOr not."
   },
   {
+    "objectID": "blog/2023/06_06_farmos_modules/index.html",
+    "href": "blog/2023/06_06_farmos_modules/index.html",
+    "title": "How to install a custom FarmOS module",
+    "section": "",
+    "text": "I’ve recently ventured into the realm of creating a home server, mainly to play around with a Linux operating system (I’ve only ever used Windows) and self-host some programs using Docker containers. Nothing major – I’ve purchased a cheap, refurbished SFF (“slim form factor”) computer for $50 from eBay and installed Ubuntu.\nMy family has a small farmette in central Virginia and, in my perusal of the Awesome Self Hosting list on GitHub, I found a neat program called farmOS. While mostly overkill for my needs, it interfaces with a PostgreSQL and PostGIS database, allowing me to keep track of the amount of eggs from our chickens and geese, in which fields we’re grazing the pigs, and more, all in a spatially-explicit manner! It is also open source, and built around the idea of custom extensibility using “modules”."
+  },
+  {
+    "objectID": "blog/2023/06_06_farmos_modules/index.html#farmos",
+    "href": "blog/2023/06_06_farmos_modules/index.html#farmos",
+    "title": "How to install a custom FarmOS module",
+    "section": "",
+    "text": "I’ve recently ventured into the realm of creating a home server, mainly to play around with a Linux operating system (I’ve only ever used Windows) and self-host some programs using Docker containers. Nothing major – I’ve purchased a cheap, refurbished SFF (“slim form factor”) computer for $50 from eBay and installed Ubuntu.\nMy family has a small farmette in central Virginia and, in my perusal of the Awesome Self Hosting list on GitHub, I found a neat program called farmOS. While mostly overkill for my needs, it interfaces with a PostgreSQL and PostGIS database, allowing me to keep track of the amount of eggs from our chickens and geese, in which fields we’re grazing the pigs, and more, all in a spatially-explicit manner! It is also open source, and built around the idea of custom extensibility using “modules”."
+  },
+  {
+    "objectID": "blog/2023/06_06_farmos_modules/index.html#drupal-modules",
+    "href": "blog/2023/06_06_farmos_modules/index.html#drupal-modules",
+    "title": "How to install a custom FarmOS module",
+    "section": "Drupal Modules",
+    "text": "Drupal Modules\nfarmOS is built using Drupal, an open-source back end used by a whole bunch of web sites. Drupal allows extending their sites using the modules mentioned above.\nIn fact, what originally drew me to the idea of running this program was mapping the assets in my farm onto satellite imagery. This is possible through using a module to access satellite imagery from Mapbox or Google. However, I couldn’t find out how to make the Google satellite images show up – all of my searching led to exchanges like this:\n\nPerson 1: How do I get Google satellite images to appear?\nPerson 2: Did you install the module?\nPerson 1: I just did and it works! Thanks!\n\nThe whole thing felt a little bit like the underpants gnomes – I had no idea how to get from step 2 to step 3.\n\nNominally, the whole thing operates using Drupal; I had no idea what Drupal was as I was coming from a non-computer-mostly-ecology background. To make matters more confusing, there are a few points where the FarmOS developers attempt to steer you away from using canned Drupal add-ons. To make matters EVEN MORE confusing, I am deploying FarmOS in a Docker container which means that the standard instructions to install modules that are provided by Drupal don’t necessarily apply."
+  },
+  {
+    "objectID": "blog/2023/06_06_farmos_modules/index.html#git-to-the-rescue",
+    "href": "blog/2023/06_06_farmos_modules/index.html#git-to-the-rescue",
+    "title": "How to install a custom FarmOS module",
+    "section": "Git to the rescue",
+    "text": "Git to the rescue\nLuckily the developers are very open, communicative, and welcoming on their Discord channel. Following this question, wherein they reinforced the idea of cloning a GitHub repository, and their module outline, where they provide some best practices, I was able to piece together my own workflow. The following assumes that you are accessing your FarmOS instance via the command line.\nFirst, change your directory to the www folder. My FarmOS Docker container is located in a directory called farmos, which contains my docker-compose.yaml file and the www directory.\n\ncd farmos/www\n\nNext, create a directory called all with a subdirectory called modules. The FarmOS module development guide suggests separate subdirectories for general-purpose modules and those specific to your farm, but I’m not sure I’m going to get that deep into development so I’m skipping that stage.\n\nmkdir -p all/modules\n\nNow find the GitHub repository (or Gitlab, or whatever flavor of git host you prefer) and clone it into the www/all/modules directory. I really wanted to use Google satellite imagery over Mapbox as the images were more up-to-date, so I selected Symbioquine’s fork of the Google Farm Map module.\n\ncd all/modules\ngit clone https://github.com/symbioquine/farm_map_google.git\n\nNow the module can be found by your FarmOS GUI and then be installed."
+  },
+  {
+    "objectID": "blog/2023/06_06_farmos_modules/index.html#install-the-module",
+    "href": "blog/2023/06_06_farmos_modules/index.html#install-the-module",
+    "title": "How to install a custom FarmOS module",
+    "section": "Install the module",
+    "text": "Install the module\nTo finish installing the module, log into FarmOS (http://localhost:). Click the settings gear, then extend, then search for the module’s name in the filter bar. Click “Install”, and you’re done!"
+  },
+  {
+    "objectID": "blog/2023/06_06_farmos_modules/index.html#google-api",
+    "href": "blog/2023/06_06_farmos_modules/index.html#google-api",
+    "title": "How to install a custom FarmOS module",
+    "section": "Google API",
+    "text": "Google API\nPart of the reason that FarmOS doesn’t ship with the Google satellite module already installed is because Google frequently changes their API and the developers wanted to focus elsewhere. Very fair. In fact, after installing this module and going through the rigmarole of attaining and entering an API key, I still couldn’t get the module to work."
+  },
+  {
+    "objectID": "blog/2023/06_06_farmos_modules/index.html#next-steps-making-your-own-module",
+    "href": "blog/2023/06_06_farmos_modules/index.html#next-steps-making-your-own-module",
+    "title": "How to install a custom FarmOS module",
+    "section": "Next steps: Making your own module",
+    "text": "Next steps: Making your own module\nSo, here I am with Mapbox working but not updated in the paste three years, Google not working and also not updated in the last year, and a farm that has had substantial updates over the last few months. What am I to do?\nLuckily, the Commonwealth of Virginia and my locality both provide recent satellite imagery to the public. Symbioqiune had created a module to use SJC’s provided imagery. I’ll parse out how that works and adapt it to Virginia’s imagery in my next blog post."
+  },
+  {
     "objectID": "blog/index.html",
     "href": "blog/index.html",
     "title": "Blog",
     "section": "",
-    "text": "Time series box plot using R’s ggplot2\n\n\n\n\n\n\n\nR\n\n\nggplot2\n\n\nchart junk\n\n\ntime series\n\n\n\n\n\n\n\n\n\n\n\nMay 25, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nVarina LandLab LIDAR\n\n\n\n\n\n\n\nR\n\n\nlidR\n\n\nsf\n\n\nterra\n\n\nrayshader\n\n\nLIDAR\n\n\nmap projections\n\n\nHenrico\n\n\nspatial\n\n\n\n\n\n\n\n\n\n\n\nMay 24, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nRotating polygons in sf\n\n\n\n\n\n\n\nR\n\n\nsf\n\n\nmap projections\n\n\nggplot2\n\n\n\n\n\n\n\n\n\n\n\nMar 31, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nConnecting Google Sheets and GitHub Actions\n\n\n\n\n\n\n\nR\n\n\nWeb scraping\n\n\nGitHub Actions\n\n\nGoogle\n\n\n\n\n\n\n\n\n\n\n\nMar 10, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nIntroduction to GitHub Actions\n\n\n\n\n\n\n\nR\n\n\nGitHub Actions\n\n\nCoding Club\n\n\n\n\n\n\n\n\n\n\n\nMar 7, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nCreating a simple features object via well-known-binary vs using coordinates\n\n\n\n\n\n\n\nR\n\n\nFish migration\n\n\nbiotelemetry\n\n\nsf\n\n\nspatial\n\n\nPostGIS\n\n\n\n\n\n\n\n\n\n\n\nFeb 28, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nElusive silver eel migrations detected in the Chesapeake mainstem for the first time\n\n\n\n\n\n\n\nChesapeake\n\n\nFish migration\n\n\nbiotelemetry\n\n\n\n\n\n\n\n\n\n\n\nJan 25, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nAge of Henrico County Virginia’s structures\n\n\n\n\n\n\n\nR\n\n\nHenrico\n\n\nWeb scraping\n\n\nLand use\n\n\ngeoarrow\n\n\narrow\n\n\n\n\n\n\n\n\n\n\n\nJan 22, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\nNo matching items"
+    "text": "How to install a custom FarmOS module\n\n\n\n\n\n\n\nFarmOS\n\n\nUbuntu\n\n\nSelf Hosting\n\n\nGit\n\n\nmap tiles\n\n\nsatellite imagery\n\n\nDocker\n\n\n\n\n\n\n\n\n\n\n\nJun 6, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nTime series box plot using R’s ggplot2\n\n\n\n\n\n\n\nR\n\n\nggplot2\n\n\nchart junk\n\n\ntime series\n\n\n\n\n\n\n\n\n\n\n\nMay 25, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nVarina LandLab LIDAR\n\n\n\n\n\n\n\nR\n\n\nlidR\n\n\nsf\n\n\nterra\n\n\nrayshader\n\n\nLIDAR\n\n\nmap projections\n\n\nHenrico\n\n\nspatial\n\n\n\n\n\n\n\n\n\n\n\nMay 24, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nRotating polygons in sf\n\n\n\n\n\n\n\nR\n\n\nsf\n\n\nmap projections\n\n\nggplot2\n\n\n\n\n\n\n\n\n\n\n\nMar 31, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nConnecting Google Sheets and GitHub Actions\n\n\n\n\n\n\n\nR\n\n\nWeb scraping\n\n\nGitHub Actions\n\n\nGoogle\n\n\n\n\n\n\n\n\n\n\n\nMar 10, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nIntroduction to GitHub Actions\n\n\n\n\n\n\n\nR\n\n\nGitHub Actions\n\n\nCoding Club\n\n\n\n\n\n\n\n\n\n\n\nMar 7, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nCreating a simple features object via well-known-binary vs using coordinates\n\n\n\n\n\n\n\nR\n\n\nFish migration\n\n\nbiotelemetry\n\n\nsf\n\n\nspatial\n\n\nPostGIS\n\n\n\n\n\n\n\n\n\n\n\nFeb 28, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nElusive silver eel migrations detected in the Chesapeake mainstem for the first time\n\n\n\n\n\n\n\nChesapeake\n\n\nFish migration\n\n\nbiotelemetry\n\n\n\n\n\n\n\n\n\n\n\nJan 25, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\n  \n\n\n\n\nAge of Henrico County Virginia’s structures\n\n\n\n\n\n\n\nR\n\n\nHenrico\n\n\nWeb scraping\n\n\nLand use\n\n\ngeoarrow\n\n\narrow\n\n\n\n\n\n\n\n\n\n\n\nJan 22, 2023\n\n\nMike O’Brien\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
