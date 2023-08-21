@@ -24,11 +24,11 @@ The whole thing felt a little bit like the underpants gnomes -- I had no idea ho
 
 ![](underpants-gnomes.gif)
 
-Nominally, the whole thing operates using [Drupal](); I had no idea what Drupal was as I was coming from a non-computer-mostly-ecology background. To make matters more confusing, there are a few points where the FarmOS developers attempt to steer you away from using canned Drupal add-ons. To make matters EVEN MORE confusing, I am deploying FarmOS in a Docker container which means that the standard instructions to install modules that are provided by Drupal don't necessarily apply.
+Nominally, the whole thing operates using Drupal; I had no idea what Drupal was as I was coming from a non-computer-mostly-ecology background. To make matters more confusing, there are a few points where the FarmOS developers attempt to steer you away from using canned Drupal add-ons. To make matters EVEN MORE confusing, I am deploying FarmOS in a Docker container which means that the standard instructions to install modules that are provided by Drupal don't necessarily apply.
 
 ## Git to the rescue
 
-Luckily the developers are very open, communicative, and welcoming on their Discord channel. [Following this question](), wherein they reinforced the idea of cloning a GitHub repository, and their [module outline](https://farmos.org/development/module/), where they provide some best practices, I was able to piece together my own workflow. The following assumes that you are accessing your FarmOS instance via the command line.
+Luckily the developers are very open, communicative, and welcoming on their Discord channel. [Following this question](https://farmos.discourse.group/t/eggs-module-installation-development/645/2), wherein they reinforced the idea of cloning a GitHub repository, and their [module outline](https://farmos.org/development/module/), where they provide some best practices, I was able to piece together my own workflow. The following assumes that you are accessing your FarmOS instance via the command line.
 
 First, change your directory to the `www` folder. My FarmOS Docker container is located in a directory called `farmos`, which contains my `docker-compose.yaml` file and the `www` directory.
 
