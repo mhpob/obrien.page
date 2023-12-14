@@ -131,7 +131,7 @@ The hint to solve this is in the help documentation of `coord_sf`, specifically 
 
 > The default CRS to be used for non-sf layers (which don't carry any CRS information) and scale limits. The default value of NULL means that the setting for crs is used. This implies that all non-sf layers and scale limits are assumed to be specified in projected coordinates. A useful alternative setting is default_crs = sf::st_crs(4326), which means x and y positions are interpreted as longitude and latitude, respectively, in the World Geodetic System 1984 (WGS84).
 
-When we use the `xlim` and `ylim` arguments, it's going to *default* to using the *CRS* that is in the first layer. This would be our oblique Mercator projection, so we would have to provide something in meters. It's so easy to just look at the axes that have been printed and work from there -- so, we're thinking in WGS84/EPSG 4326. We can just tell `coord_sf` that this is our frame of reference usint the `default_crs` argument.
+When we use the `xlim` and `ylim` arguments, it's going to *default* to using the *CRS* that is in the first layer. This would be our oblique Mercator projection, so we would have to provide something in meters. It's so easy to just look at the axes that have been printed and work from there -- so, we're thinking in WGS84/EPSG 4326. We can just tell `coord_sf` that this is our frame of reference using the `default_crs` argument.
 
 ```{r}
 ggplot() +
