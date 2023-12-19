@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.361">
+<meta name="generator" content="quarto-1.4.512">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -46,7 +80,13 @@ ul.task-list li input[type="checkbox"] {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -68,9 +108,9 @@ ul.task-list li input[type="checkbox"] {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">Mike O’Brien</span>
     </a>
@@ -82,40 +122,40 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="mailto:mike@obrien.page" rel="" target=""><i class="bi bi-envelope" role="img">
+    <a class="nav-link" href="mailto:mike@obrien.page"> <i class="bi bi-envelope" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/mhpob" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/mhpob"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/ruggafish" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/ruggafish"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../research/index.html" rel="" target="">
- <span class="menu-text">Research</span></a>
+    <a class="nav-link" href="../../../research/index.html"> 
+<span class="menu-text">Research</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../research/packages.html" rel="" target="">
- <span class="menu-text">Packages</span></a>
+    <a class="nav-link" href="../../../research/packages.html"> 
+<span class="menu-text">Packages</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../blog/index.html" rel="" target="">
- <span class="menu-text">Blog</span></a>
+    <a class="nav-link" href="../../../blog/index.html"> 
+<span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../rugby/index.html" rel="" target="">
- <span class="menu-text">Rugby</span></a>
+    <a class="nav-link" href="../../../rugby/index.html"> 
+<span class="menu-text">Rugby</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -149,7 +189,7 @@ TESTATOR
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p><a href="https://www.obrien.page">Mike O’Brien</a> <a href="https://orcid.org/0000-0003-1420-6395" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+             <p><a href="https://www.obrien.page">Mike O’Brien</a> <a href="mailto:mike@obrien.page" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0003-1420-6395" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
           </div>
   </div>
     
@@ -158,7 +198,9 @@ TESTATOR
   </div>
   
 
+
 </header>
+
 
 <p><strong>Article I. Declaration.</strong></p>
 <p>I, <strong>TESTATOR</strong>, of Richmond, Virginia, being of sound and disposing mind, memory and understanding, do make, publish and declare this to be my Last Will and Testament, hereby revoking any and all Wills and Codicils at any time heretofore made by me.</p>
@@ -172,12 +214,53 @@ TESTATOR
 <p><strong>Article III. Tangible Personal Property.</strong></p>
 <p>I may leave a list bearing my signature which disposes of certain items of tangible personal property, and I direct that any such list be given effect in accordance with the provisions of Section 64.2-400 of the Code of Virginia.</p>
 <p><strong>Article IV. Distribution of Estate.</strong></p>
-<p>All of the remainder of my property, real and personal, including any property over which I have any power of appointment, (collectively my “Residuary Estate”) I give to my spouse, <strong>SPOUSE NAME</strong>, if he/she survives me.In the event my spouse <strong>SPOUSE NAME</strong> does not survive me, I give my Residuary Estate in equal shares to my children, <strong>CHILD NAME</strong>, who are living at my death and to the then living descendants, collectively, of any child who predeceases me, such descendants to take per stirpes the share which their ancestor, the deceased child of mine, would have taken if alive.</p>
-<p>All the remainder of my property, real and personal, including any property over which I have any power of appointment, (collectively my “Residuary Estate”) I give in equal shares to my children, <strong>CHILD NAME</strong>, who are living at my death and to the then living descendants, collectively, of any child who predeceases me, such descendants to take per stirpes the share which their ancestor, the deceased child of mine, would have taken if alive.</p>
-<p>All of the remainder of my property, real and personal, including any property over which I have any power of appointment, (collectively my “Residuary Estate”) I give to <strong>DESIGNEE NAME</strong>, if [he/she] survives me. In the event <strong>DESIGNEE NAME</strong> does not survive me, I give my Residuary Estate to <strong>ALTERNATE NAME</strong>.</p>
-<p>All of the remainder of my property, both real and personal, including any property over which I have any power of appointment, (collectively my “Residuary Estate”) I give in equal shares to the following persons who survive me or all to the survivor of them: <strong>DESIGNEE NAME</strong>.</p>
-<p>I have intentionally made no provisions for my child, <strong>REMOVE CHILD</strong>, under the terms of my will for reasons that are known to me.</p>
-<p>I am married, but separated [or in the process of divorcing] <strong>REMOVE SPOUSE</strong>. I have intentionally made no provision for him/her hereunder.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">' All of the remainder of my property, real and personal, including any property over which I have any power of appointment, (collectively my “Residuary Estate”) I give to my spouse, **'</span>, params<span class="sc">$</span>spouse, <span class="st">'**, if he/she survives  me.'</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> All of the remainder of my property, real and personal, including any property over which I have any power of appointment, (collectively my “Residuary Estate”) I give to my spouse, **SPOUSE NAME**, if he/she survives  me.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'In the event my spouse **'</span>, params<span class="sc">$</span>spouse, <span class="st">'** does not survive me, I give my Residuary Estate in equal shares to my children, **'</span>, params<span class="sc">$</span>children,<span class="st">'**, who are living at my death and to the then living descendants, collectively, of any child who predeceases me, such descendants to take per  stirpes the share which their ancestor, the deceased child of mine, would have taken if alive.'</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>In the event my spouse **SPOUSE NAME** does not survive me, I give my Residuary Estate in equal shares to my children, **CHILD NAME**, who are living at my death and to the then living descendants, collectively, of any child who predeceases me, such descendants to take per  stirpes the share which their ancestor, the deceased child of mine, would have taken if alive.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'All the remainder of my property, real and personal, including any property over which I have any power of appointment, (collectively my “Residuary Estate”) I give in equal shares to my children, **'</span>, params<span class="sc">$</span>children, <span class="st">'**, who are living at my death and to the then living descendants, collectively, of any child who predeceases me, such descendants to take per stirpes the share which their ancestor, the deceased child of mine, would have taken if alive.'</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>All the remainder of my property, real and personal, including any property over which I have any power of appointment, (collectively my “Residuary Estate”) I give in equal shares to my children, **CHILD NAME**, who are living at my death and to the then living descendants, collectively, of any child who predeceases me, such descendants to take per stirpes the share which their ancestor, the deceased child of mine, would have taken if alive.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'All of the remainder of my property, real and personal, including any property over which I have any power of appointment, (collectively my "Residuary Estate") I give to **'</span>, params<span class="sc">$</span>designee,<span class="st">'**, if [he/she] survives me.  In the event **'</span>, params<span class="sc">$</span>designee, <span class="st">'** does not survive me, I give my Residuary Estate to **'</span>, params<span class="sc">$</span>alternate, <span class="st">'**.'</span>,</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>All of the remainder of my property, real and personal, including any property over which I have any power of appointment, (collectively my "Residuary Estate") I give to **DESIGNEE NAME**, if [he/she] survives me.  In the event **DESIGNEE NAME** does not survive me, I give my Residuary Estate to **ALTERNATE NAME**.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'All of the remainder of my property, both real and personal, including any property over which I have any power of appointment, (collectively my "Residuary Estate") I give in equal shares to the following persons who survive me or all to the survivor of them: **'</span>, params<span class="sc">$</span>designee, <span class="st">'**.'</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>All of the remainder of my property, both real and personal, including any property over which I have any power of appointment, (collectively my "Residuary Estate") I give in equal shares to the following persons who survive me or all to the survivor of them: **DESIGNEE NAME**.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'I have intentionally made no provisions for my child, **'</span>, params<span class="sc">$</span>remove_children, <span class="st">'**, under the terms of my will for reasons that are known to me.'</span>,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>I have intentionally made no provisions for my child, **REMOVE CHILD**, under the terms of my will for reasons that are known to me.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'I am married, but separated [or in the process of divorcing] **'</span>, params<span class="sc">$</span>remove_spouse, <span class="st">'**.  I have intentionally made no provision for him/her hereunder.'</span>,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>I am married, but separated [or in the process of divorcing] **REMOVE SPOUSE**.  I have intentionally made no provision for him/her hereunder.</code></pre>
+</div>
+</div>
 <p><strong>Article V. Executor and Powers</strong></p>
 <ol type="1">
 <li>I appoint EXECUTOR NAME as my Executor. In the event my Executor has predeceased me, or is otherwise unable to serve, I appoint EXECUTOR ALTERNATE to be my substitute Executor. I specifically direct that no bond or other security be required of my Executor while acting in such capacity.</li>
@@ -186,20 +269,28 @@ TESTATOR
 <li>If any tangible personal property described in this will vests in a minor, I authorize my Executor to deliver such property to the minor at such time or times as my Executor may deem advisable, notwithstanding the fact that such person is a minor; and my Executor may do so without liability whatsoever for making such delivery. My Executor is also authorized, in the case of a minor, to sell any or all tangible personal property which my Executor considers not to be suitable for distribution to a minor, and to distribute the proceeds as part of my Residuary Estate.</li>
 <li>The Executor shall be authorized to distribute a minor’s share of my estate to a Custodian selected by the Executor under Section 64.2-1900 et seq of the Code of Virginia, the Virginia Uniform Transfers to Minors Act and, if the Executor deems it appropriate, to designate age 21 as the date of termination of such custodianship.</li>
 </ol>
-<p><strong>Article VI. Guardians</strong></p>
-<ol type="1">
-<li>If my spouse, <strong>SPOUSE NAME</strong>, predeceases me or if my spouse survives me but does not provide for a guardian of our minor children, then I nominate <strong>GUARDIAN NAME</strong> to be the guardian of the persons and the estates of my minor children. If <strong>GUARDIAN NAME</strong> shall fail to act as such guardian, I nominate <strong>GUARDIAN ALTERNATE</strong> to be the guardian of the persons and of the estates of my minor children.</li>
-<li>I direct that no bond or surety be required of any guardian in any jurisdiction in which called upon to act. If a bond should be required, then I hereby waive surety thereon if it is permissible to do so.</li>
-</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'**Article VI.      Guardians**</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="st">1. If my spouse, **'</span>, params<span class="sc">$</span>spouse,<span class="st">'**, predeceases me or if my spouse survives me but does not provide for a guardian of our minor children, then I nominate **'</span>, params<span class="sc">$</span>guardian, <span class="st">'** to be the guardian of the persons and the estates of my minor children. If **'</span>, params<span class="sc">$</span>guardian,<span class="st">'** shall fail to act as such guardian, I nominate **'</span>, params<span class="sc">$</span>guardian_alternate, <span class="st">'** to be the guardian of the persons and of the estates of my minor children.</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="st">2. I direct that no bond or surety be required of any guardian in any jurisdiction in which called upon to act.  If a bond should be required, then I hereby waive surety thereon if it is permissible to do so.'</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="at">sep =</span> <span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>**Article VI.   Guardians**
+
+1. If my spouse, **SPOUSE NAME**, predeceases me or if my spouse survives me but does not provide for a guardian of our minor children, then I nominate **GUARDIAN NAME** to be the guardian of the persons and the estates of my minor children. If **GUARDIAN NAME** shall fail to act as such guardian, I nominate **GUARDIAN ALTERNATE** to be the guardian of the persons and of the estates of my minor children.
+2. I direct that no bond or surety be required of any guardian in any jurisdiction in which called upon to act.  If a bond should be required, then I hereby waive surety thereon if it is permissible to do so.</code></pre>
+</div>
+</div>
 <div style="page-break-after: always;"></div>
-<p>I have signed and sealed my will consisting of _____ typewritten pages on April 04, 2023.</p>
+<p>I have signed and sealed my will consisting of _____ typewritten pages on December 19, 2023.</p>
 <p>The testator signed, sealed, and declared this as the testator’s will in our presence on the date shown above. At the testator’s request we have both signed our names as witnesses. All of this occurred at the same time, and we and the testator were present together throughout.</p>
 <p>Witness Address</p>
 <p>Witness Address</p>
 <p>COMMONWEALTH OF VIRGINIA COUNTY OF HANOVER</p>
 <p>Before me, the undersigned authority, on this date personally appeared [1], and , known to me to be the testator and witnesses, respectively, whose names are signed to the attached instrument; and, all of these persons being by me first duly sworn, [1], the testator, declared to me and to the witnesses in my presence that said instrument is [his/her] last will and testament and that [he/she] had willingly signed and executed it in the presence of said witnesses as [his/her] free and voluntary act for the purposes therein expressed, and said witnesses stated before me that the foregoing instrument was executed and acknowledged by the testator as [his/her] last will and testament in the presence of said witnesses who, in [his/her] presence, and at [his/her] request, and in the presence of each other did subscribe their names thereto as attesting witnesses on the day of the date of said will, and that the testator, at the time of the execution of said will, was over the age of eighteen years and of sound and disposing mind and memory.</p>
 <p>Witness</p>
-<p>Witness Sworn and acknowledged before me by [1], the testator, who [ ] is personally known to me or [ ] is affirmatively identified by a credible witness personally known to me or [ ] has presented identification of ; subscribed and sworn before me by and , witnesses who are known to me on April 04, 2023.</p>
+<p>Witness Sworn and acknowledged before me by [1], the testator, who [ ] is personally known to me or [ ] is affirmatively identified by a credible witness personally known to me or [ ] has presented identification of ; subscribed and sworn before me by and , witnesses who are known to me on December 19, 2023.</p>
 <pre><code>                        Notary Public
                         My Registration No. is</code></pre>
 <p>My commission expires:</p>
@@ -286,10 +377,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/www\.obrien\.page");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -299,8 +407,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -313,6 +430,135 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -356,6 +602,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -381,6 +628,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -438,23 +711,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       });
     }
   }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var filterRegex = new RegExp("https:\/\/www\.obrien\.page");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-          // target, if specified
-          link.setAttribute("target", "_blank");
-      }
-    }
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
