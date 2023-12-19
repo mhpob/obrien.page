@@ -1,0 +1,267 @@
+---
+title: 'O (T/U) MERC God'
+date: 2023-12-19
+categories: [spatial, map projections, R, sf]
+---
+
+```{r, setup}
+#| include: false
+library(rgl)
+knitr::knit_hooks$set(webgl = hook_webgl)
+```
+
+A question was thrown into the ether a few days ago that gave me a reason to learn a little bit of R's [`terra`](https://rspatial.github.io/terra/index.html) package. The answer, itself, turned out to be not overly complicated (in spite of a few frustrating hurdles) and I'll get to that in my next post. However, what I extracted from this was one more brick in my personal wall against the blind use of Universal Transverse Mercator (UTM). Through a worked example coming soon, I hope to instill this in you -- but for now, it's worthwhile to figure out what "UTM" actually is.
+
+UTM is pretty ubiquitious. Two of my recent posts have already touched on "UTM" projections. Chances are that you've oscillated between using WGS84 (thanks, GPS) and projecting into UTM when you need to measure a distance. I'm even willing to bet that you've squinted at an image of the Earth, laid out flat and divvied up into XXX north and south sections, trying to find where your study site falls. All of us on the east coast of North America have blindly pumped a code for "UTM some-teen-N" into our GIS. We've seen axes labeled with "eastings" and "northings" and just moved on. We may have even stumbled across people on Twitter lamenting its use.
+
+So... **What's in a UTM?**
+
+# Calling Mr ~~Kremer~~ Mercator
+
+In order to unravel UTM, you need to start with the last letter: M for Mercator. The projection was made by [Gerardus Mercator](https://en.wikipedia.org/wiki/Mercator_projection), self-changed from Geert de Kremer in his teens to sound more Latin, so that it would be easy to navigate [~~via Google Maps~~](https://en.wikipedia.org/wiki/Web_Mercator_projection) via ship by preserving the angles between two points, [among other neat features](https://en.wikipedia.org/wiki/Mercator_projection).
+
+# Mercator projection
+
+The easiest way I've found to interpret the projection is to think of the Earth as a sphere with a giant piece of paper wrapped around it to make a cylinder. The Mercator projection wraps this paper such that the paper touches along the equator, then unravels the paper and smushes out the poles.
+
+```{r, webgl=TRUE}
+#| code-fold: true
+library(rgl)
+
+# code copied from ?rgl::persp3d()
+lat <- matrix(seq(90, -90, length.out = 50)*pi/180, 50, 50, byrow = TRUE)
+long <- matrix(seq(-180, 180, length.out = 50)*pi/180, 50, 50)
+
+r <- 6378.1 # radius of Earth in km
+
+x <- r*cos(lat)*cos(long)
+y <- r*cos(lat)*sin(long)
+z <- r*sin(lat)
+
+open3d(silent = TRUE)
+
+persp3d(x, y, z, col = "white", 
+       texture = system.file("textures/worldsmall.png", package = "rgl"), 
+       specular = "black", axes = FALSE, box = FALSE,
+       xlab = "", ylab = "", zlab = "",
+       normal_x = x, normal_y = y, normal_z = z)
+
+
+cylinder3d(
+  center = matrix(c(0, 0, -r,
+                    0, 0, r),
+                  ncol = 3, byrow = T),
+  radius = r
+) |> 
+  wire3d()
+
+
+arc3d(c(0, -r, 0),
+      c(r, 0, 0),
+      center = c(0, 0, 0),
+      base = -1,
+      col = 'red')
+```
+
+We can plot this by transforming (projecting) our latitude/longitude data. In R's `sf` package, this can be done a few ways; I'll be using [PROJ strings](https://proj.org/en/9.3/index.html). You'll often see these referred to as a "proj4string" -- that's just because PROJ used to be called "PROJ.4".
+
+The default specification for Mercator and the different options you can use are well-outlined in the [PROJ help documentation](https://proj.org/en/9.3/operations/projections/merc.html).
+
+```{r}
+library(sf)
+
+ne_lonlat <- '/vsizip/vsicurl/https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip' |> 
+  read_sf()
+
+ne_merc <- ne_lonlat |> 
+  st_transform('+proj=merc') 
+
+# Full string, including all of the default values
+#   Note the reference to "proj4string"...
+st_crs(ne_merc)$proj4string
+
+ne_merc |> 
+  st_geometry() |> 
+  plot(
+    # adding limits since Antarctica tries to go on forever
+    ylim = c(-1.84e7, 1.84e7)
+  ) 
+```
+
+
+# Transverse Mercator projection
+
+A Transverse Mercator does the same thing, but turns the cylinder perpendicular to the equator so that, instead of the equator, it touches some given longitude.
+
+
+```{r, webgl=TRUE}
+#| code-fold: true
+open3d(silent = TRUE)
+
+persp3d(x, y, z, col = "white", 
+       texture = system.file("textures/worldsmall.png", package = "rgl"), 
+       specular = "black", axes = FALSE, box = FALSE,
+       xlab = "", ylab = "", zlab = "",
+       normal_x = x, normal_y = y, normal_z = z)
+
+
+cylinder3d(
+  center = matrix(c(-r, 0, 0,
+                    r, 0, 0),
+                  ncol = 3, byrow = T),
+  radius = r
+) |> 
+  wire3d()
+
+
+arc3d(c(0, -r, 0),
+      c(0, 0, r),
+      center = c(0, 0, 0),
+      base = -1,
+      col = 'red')
+```
+
+Like in the Mercator case, I'll use a PROJ string to project the data into a transverse Mercator centered on -90$^\circ$. Documentation of the transverse Mercator can be [found here](https://proj.org/en/9.3/operations/projections/tmerc.html).
+
+```{r}
+ne_tmerc <- ne_lonlat |> 
+  st_transform('+proj=tmerc +lon_0=-90') 
+
+st_crs(ne_tmerc)$proj4string
+
+ne_tmerc |> 
+  st_geometry() |> 
+  plot()
+```
+
+Those crazy lines going on there are R trying to connect the dots across the "seam" in the cylinder we had created. Africa and Indonesia seem to be right on the seam, and so are split.
+
+
+# Oblique Mercator
+
+Somewhere between Mercator and Transverse Mercator is the Oblique Mercator. Instead of making our cylinder parallel or perpendicular to the equator, we put it at whatever angle we want.
+
+```{r, webgl=TRUE}
+#| code-fold: true
+open3d(silent = TRUE)
+
+persp3d(x, y, z, col = "white", 
+       texture = system.file("textures/worldsmall.png", package = "rgl"), 
+       specular = "black", axes = FALSE, box = FALSE,
+       xlab = "", ylab = "", zlab = "",
+       normal_x = x, normal_y = y, normal_z = z)
+
+lat1 <- (45)*pi/180
+lon1 <- (30)*pi/180
+x_pt1 <- r*cos(lat1)*cos(lon1)
+y_pt1 <- r*cos(lat1)*sin(lon1)
+z_pt1 <- r*sin(lat1)
+
+
+x_pt2 <- r*cos(-lat1)*cos(lon1-pi-.1)
+y_pt2 <- r*cos(-lat1)*sin(lon1-pi-.1)
+z_pt2 <- r*sin(-lat1)
+cylinder3d(
+  center = matrix(c(x_pt1, y_pt1, z_pt1,
+                    x_pt2, y_pt2, z_pt2),
+                  ncol = 3, byrow = T),
+  radius = r
+) |> 
+  wire3d()
+
+lat1 <- (45-90)*pi/180 
+lon1 <- (30)*pi/180
+x_pt1 <- r*cos(lat1)*cos(lon1)
+y_pt1 <- r*cos(lat1)*sin(lon1)
+z_pt1 <- r*sin(lat1)
+
+
+x_pt2 <- r*cos(-lat1)*cos(lon1-pi-.1)
+y_pt2 <- r*cos(-lat1)*sin(lon1-pi-.1)
+z_pt2 <- r*sin(-lat1)
+arc3d(c(x_pt1, y_pt1, z_pt1),
+      c(x_pt2, y_pt2, z_pt2),
+      center = c(0, 0, 0),
+      radius = r,
+      base = -1,
+      col = 'red')
+```
+
+
+I'll project the map using an [oblique Mercator PROJ string](https://proj.org/en/9.3/operations/projections/omerc.html) centered on -90$^\circ$ and rotated clockwise by 45$^\circ$:
+
+```{r}
+ne_omerc <- ne_lonlat |> 
+  st_transform('+proj=omerc +lonc=-90 +gamma=45')
+
+st_crs(ne_omerc)$proj4string
+
+ne_omerc |> 
+  st_geometry() |> 
+  plot()
+```
+
+
+
+# Universal Transverse Mercator
+
+Now we come to the Universal Transverse Mercator. UTM tries to standardize the Transverse Mercator by splitting the Earth into 60 strips of 6$^\circ$ longitude, starting at 180$^\circ$ longitude and heading east. Each strip has a particular central meridian on which the "cylinder" is unwrapped; the [scale factor](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#UTM_zone) at that meridian is standardized at 0.996.
+
+```{r}
+utm <- data.frame(
+  zone = 1:60,
+  from = seq(-180, 180 - 6, length.out = 60),
+  to = seq(-180 + 6, 180, length.out = 60),
+  central_meridian = seq(-180 + 3, 180 - 3, length.out = 60)
+)
+```
+```{r}
+#| echo: false
+#| layout-nrow: 1
+knitr::kable(
+  utm[1:30, ],
+  row.names = FALSE
+)
+knitr::kable(
+  utm[31:60,],
+  row.names = FALSE
+)
+```
+
+One thing we didn't mess with when creating a projection above was "false easting" and "false northing". False eastings/northings move what we consider to be the X=0/Y=0 point so that we can avoid using negative coordinate values while we work. UTM adds an additional standardization here: "false easting" and "false northing" are standardized at 500,000 and 0 meters, respectively in the northern hemisphere and 500,000 and 10,000,000 m, respectively, in the southern hemisphere.
+
+```{r}
+ne_utm <- ne_lonlat |> 
+  st_transform('+proj=utm +zone=16')
+
+st_crs(ne_utm)$proj4string
+
+ne_utm |> 
+  st_geometry() |> 
+  plot()
+```
+
+While supplying the `proj=utm` PROJ string applies the standardizations for us, we can also create the same thing using transverse Mercator. It's not a perfect correspondence as there are slightly different algorithms under the hood, but it is very, very close to the same thing:
+
+```{r}
+ne_lonlat |> 
+  st_transform('+proj=tmerc +lon_0=-87 +x_0=500000 +y_0=0') |> 
+  st_geometry() |> 
+  plot()
+```
+
+# All of our Mercators in a row
+So, in summary:
+
+  -   UTM is a special, standardized kind of transverse Mercator
+  -   Mercator, oblique Mercator, and transverse Mercator can be thought of as cylinders touching a line of reference on the Earth
+      -   Mercator's reference line is the equator
+          -   Good for representing things with a major latitudinal axis.
+      -   Transverse Mercator's reference line is some longitude
+          -   Good for representing things with a major longitudinal axis.
+      -   Oblique Mercator can be whatever the heck you want it to be.
+          -   Good for representing things with a major diagonal axis.  
+          
+Because UTM is a special kind of a special kind of projection, I'd like to make the case that blindly using it *all of the time* is just not a good thing to do. Using PROJ strings, you can easily tailor a projection to your specific project area and allow the project to occur at a more-intuitive scale.
+
+In my next post, I'll give an example where using UTM produces results that are not intuitive.
