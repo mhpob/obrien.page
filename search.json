@@ -11,28 +11,49 @@
     "href": "research/packages.html",
     "title": "Packages",
     "section": "",
-    "text": "matos: An R API package for the Mid-Atlantic Acoustic Telemetry Observing System - https://matos.obrien.page\notndo: A package to understand OTN data - https://otndo.obrien.page\nTelemetryR: An R API package for the Atlantic Cooperative Telemetry (ACT) Network - https://github.com/mhpob/TelemetryR"
+    "text": "An R API package for the Mid-Atlantic Acoustic Telemetry Observing System\n\nhttps://matos.obrien.page"
+  },
+  {
+    "objectID": "research/packages.html#matos",
+    "href": "research/packages.html#matos",
+    "title": "Packages",
+    "section": "",
+    "text": "An R API package for the Mid-Atlantic Acoustic Telemetry Observing System\n\nhttps://matos.obrien.page"
+  },
+  {
+    "objectID": "research/packages.html#otndo",
+    "href": "research/packages.html#otndo",
+    "title": "Packages",
+    "section": "otndo",
+    "text": "otndo\nA package to understand OTN data\n\nhttps://otndo.obrien.page"
+  },
+  {
+    "objectID": "research/packages.html#telemetryr-archived",
+    "href": "research/packages.html#telemetryr-archived",
+    "title": "Packages",
+    "section": "TelemetryR (Archived)",
+    "text": "TelemetryR (Archived)\nAn R API package for the Atlantic Cooperative Telemetry (ACT) Network\n\nhttps://github.com/mhpob/TelemetryR"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Mike O'Brien",
     "section": "",
-    "text": "University of Maryland, College Park | College Park, MD | Masters in Fisheries Science | August 2013\nUniversity of Miami | Coral Cables, FL | B.S. in Marine and Atmospheric Science | May 2009"
+    "text": "Welcome!\nI am a research assistant at the Chesapeake Biological Laboratory of the University of Maryland Center for Environmental Science who has lived a brief, former life as an interational rugby referee.\nWhen I’m not on the water, my areas of expertise lie in fish movement ecology, biotelemetry, R programming, and spatiotemporal mixed modelling. Please take a look at my research, blog, or software and reach out if you’re interestd in working together."
+  },
+  {
+    "objectID": "index.html#current-position",
+    "href": "index.html#current-position",
+    "title": "Mike O'Brien",
+    "section": "Current Position",
+    "text": "Current Position\nUniversity of Maryland Center for Environmental Science | Faculty Research Assistant | Sept 2013 - present"
   },
   {
     "objectID": "index.html#education",
     "href": "index.html#education",
     "title": "Mike O'Brien",
-    "section": "",
-    "text": "University of Maryland, College Park | College Park, MD | Masters in Fisheries Science | August 2013\nUniversity of Miami | Coral Cables, FL | B.S. in Marine and Atmospheric Science | May 2009"
-  },
-  {
-    "objectID": "index.html#experience",
-    "href": "index.html#experience",
-    "title": "Mike O'Brien",
-    "section": "Experience",
-    "text": "Experience\nUniversity of Maryland Center for Environmental Science | Faculty Research Assistant | Sept 2013 - present"
+    "section": "Education",
+    "text": "Education\nUniversity of Maryland, College Park | College Park, MD | Masters in Fisheries Science | August 2013\nUniversity of Miami | Coral Cables, FL | B.S. in Marine and Atmospheric Science | May 2009"
   },
   {
     "objectID": "blog/2023/12_09_grids_and_projections/index.html",
