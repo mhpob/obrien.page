@@ -133,6 +133,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
+    <a class="nav-link" href="https://fosstodon.org/@mobrien"> <i class="bi bi-mastodon" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://bsky.app/profile/obrien.page"> <i class="bi bi-cloud-sun-fill" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
     <a class="nav-link" href="https://twitter.com/ruggafish"> <i class="bi bi-twitter" role="img">
 </i> 
 <span class="menu-text"></span></a>
@@ -360,12 +370,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(vals_lonlat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID data_value
-1  1         NA
-2  2         NA
-3  3         14
-4  4         22
-5  5         NA
-6  6         22</code></pre>
+1  1         27
+2  2         18
+3  3         16
+4  4         18
+5  5         23
+6  6         21</code></pre>
 </div>
 </div>
 <p>Seems to have worked. The <code>ID</code> column refers to the index of the detection and <code>data_value</code> refers to the value extracted from our rasterized grid. Any <code>NA</code> in the <code>data_value</code> column indicates that the detection was not within the grid’s bounds.</p>
@@ -521,18 +531,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid_rast_aeqd)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid_aeqd, <span class="at">add =</span> T, <span class="at">cex =</span> <span class="fl">0.2</span>)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dets_aeqd, <span class="at">add =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>vals_aeqd <span class="ot">&lt;-</span> <span class="fu">extract</span>(grid_rast_aeqd, dets_aeqd)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(vals_lonlat, vals_aeqd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>vals_aeqd <span class="ot">&lt;-</span> <span class="fu">extract</span>(grid_rast_aeqd, dets_aeqd)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(vals_lonlat, vals_aeqd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
@@ -541,34 +541,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="just-any-ol-transverse-mercator-tmerc" class="level1">
 <h1>Just any ol’ Transverse Mercator (TMERC)</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>tmerc_crs <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'+proj=tmerc +x_0=5000 +y_0=5000 +lat_0=%f +lon_0=%f'</span>,</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(grid_data<span class="sc">$</span>lat),</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(grid_data<span class="sc">$</span>lon)</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>tmerc_crs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>tmerc_crs <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'+proj=tmerc +x_0=5000 +y_0=5000 +lat_0=%f +lon_0=%f'</span>,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(grid_data<span class="sc">$</span>lat),</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(grid_data<span class="sc">$</span>lon)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>tmerc_crs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "+proj=tmerc +x_0=5000 +y_0=5000 +lat_0=45.355000 +lon_0=-64.420000"</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>grid_tmerc <span class="ot">&lt;-</span> <span class="fu">project</span>(grid_lonlat, tmerc_crs)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>grid_rast_tmerc <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(grid_tmerc,</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">rast</span>(<span class="fu">ext</span>(grid_tmerc) <span class="sc">*</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                                  (<span class="dv">1</span><span class="sc">+</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span>n_cols, <span class="dv">1</span><span class="sc">/</span>n_rows),</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">each =</span> <span class="dv">2</span>)),</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>                                <span class="at">nrows =</span> n_rows,</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>                                <span class="at">ncols =</span> n_cols,</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>                                <span class="at">crs =</span> tmerc_crs),</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'data_value'</span>,</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>                           <span class="at">update =</span> T)</span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(grid_rast_tmerc) <span class="ot">&lt;-</span> <span class="st">'data_value'</span></span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>dets_tmerc <span class="ot">&lt;-</span> <span class="fu">project</span>(dets_lonlat, tmerc_crs)</span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid_rast_tmerc)</span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid_tmerc, <span class="at">add =</span> T, <span class="at">cex =</span> <span class="fl">0.2</span>)</span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dets_tmerc, <span class="at">add =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>grid_tmerc <span class="ot">&lt;-</span> <span class="fu">project</span>(grid_lonlat, tmerc_crs)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>grid_rast_tmerc <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(grid_tmerc,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">rast</span>(<span class="fu">ext</span>(grid_tmerc) <span class="sc">*</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                                  (<span class="dv">1</span><span class="sc">+</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span>n_cols, <span class="dv">1</span><span class="sc">/</span>n_rows),</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">each =</span> <span class="dv">2</span>)),</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                                <span class="at">nrows =</span> n_rows,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>                                <span class="at">ncols =</span> n_cols,</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>                                <span class="at">crs =</span> tmerc_crs),</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'data_value'</span>,</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>                           <span class="at">update =</span> T)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(grid_rast_tmerc) <span class="ot">&lt;-</span> <span class="st">'data_value'</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>dets_tmerc <span class="ot">&lt;-</span> <span class="fu">project</span>(dets_lonlat, tmerc_crs)</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid_rast_tmerc)</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid_tmerc, <span class="at">add =</span> T, <span class="at">cex =</span> <span class="fl">0.2</span>)</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dets_tmerc, <span class="at">add =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -578,18 +578,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid_rast_tmerc)</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid_tmerc, <span class="at">add =</span> T, <span class="at">cex =</span> <span class="fl">0.2</span>)</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dets_tmerc, <span class="at">add =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>vals_tmerc <span class="ot">&lt;-</span> <span class="fu">extract</span>(grid_rast_tmerc, dets_tmerc)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(vals_lonlat, vals_tmerc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>vals_tmerc <span class="ot">&lt;-</span> <span class="fu">extract</span>(grid_rast_tmerc, dets_tmerc)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(vals_lonlat, vals_tmerc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
