@@ -31,3 +31,4 @@ execute:
 
 resources: 
   - CNAME
+  - .well-known/
