@@ -1,6 +1,7 @@
 {
-  "hash": "a7551f48c06e902e8b2eee1dc699f77b",
+  "hash": "cc6c0e4359ae419051b88aeb505d6d9f",
   "result": {
+    "engine": "knitr",
     "markdown": "---\ntitle: \"East Demographics\"\necho: false\nwarning: false\nmessage: false\n---\n\n::: {.cell}\n\n:::\n\n## Local Referee Societies (LROs)\n\n::: {.cell}\n\n:::\n\n::: {.cell}\n\n:::\n\n::: {.cell}\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-4-1.png){width=672}\n:::\n:::\n\n::: {.cell}\n\n:::\n\n::: {.cell}\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-6-1.png){width=672}\n:::\n:::\n\n::: {.cell}\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-7-1.png){width=672}\n:::\n:::\n\n\n## Geographic Unions (GUs)\n\n::: {.cell}\n\n:::\n\n::: {.cell}\n\n:::\n\n::: {.cell}\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-10-1.png){width=672}\n:::\n:::\n\n::: {.cell}\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-11-1.png){width=672}\n:::\n:::\n\n::: {.cell}\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-12-1.png){width=672}\n:::\n:::\n",
     "supporting": [
       "index_files"
