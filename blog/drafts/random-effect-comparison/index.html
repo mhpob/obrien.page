@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.512">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -46,13 +46,7 @@ ul.task-list li input[type="checkbox"] {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 50,
-  "keyboard-shortcut": [
-    "f",
-    "/",
-    "s"
-  ],
-  "show-item-context": false,
+  "limit": 20,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -67,8 +61,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -76,9 +68,9 @@ ul.task-list li input[type="checkbox"] {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
+      <div class="navbar-brand-container">
     <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">Mike O’Brien</span>
     </a>
@@ -90,35 +82,35 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="mailto:mike@obrien.page"> <i class="bi bi-envelope" role="img">
+    <a class="nav-link" href="mailto:mike@obrien.page" rel="" target=""><i class="bi bi-envelope" role="img">
 </i> 
-<span class="menu-text"></span></a>
+ <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/mhpob"> <i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/mhpob" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
-<span class="menu-text"></span></a>
+ <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../research/index.html"> 
-<span class="menu-text">Research</span></a>
+    <a class="nav-link" href="../../../research/index.html" rel="" target="">
+ <span class="menu-text">Research</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../research/packages.html"> 
-<span class="menu-text">Packages</span></a>
+    <a class="nav-link" href="../../../research/packages.html" rel="" target="">
+ <span class="menu-text">Packages</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../blog/index.html"> 
-<span class="menu-text">Blog</span></a>
+    <a class="nav-link" href="../../../blog/index.html" rel="" target="">
+ <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../rugby/index.html"> 
-<span class="menu-text">Rugby</span></a>
+    <a class="nav-link" href="../../../rugby/index.html" rel="" target="">
+ <span class="menu-text">Rugby</span></a>
   </li>  
 </ul>
-          </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools ms-auto">
 </div>
+          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -127,26 +119,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#in-the-bodyweight-data-rat-is-nested-in-diet-with-no-repeated-rats-across-diets" id="toc-in-the-bodyweight-data-rat-is-nested-in-diet-with-no-repeated-rats-across-diets" class="nav-link active" data-scroll-target="#in-the-bodyweight-data-rat-is-nested-in-diet-with-no-repeated-rats-across-diets">In the BodyWeight data, Rat is nested in Diet with no repeated Rats across Diets</a></li>
-  <li><a href="#analogous-to-year-nested-in-yearblock-with-no-repeated-years-across-yearblocks" id="toc-analogous-to-year-nested-in-yearblock-with-no-repeated-years-across-yearblocks" class="nav-link" data-scroll-target="#analogous-to-year-nested-in-yearblock-with-no-repeated-years-across-yearblocks">Analogous to Year nested in YearBlock with no repeated Years across YearBlocks</a></li>
-  <li><a href="#diet-is-not-coded" id="toc-diet-is-not-coded" class="nav-link" data-scroll-target="#diet-is-not-coded">Diet is not coded</a></li>
-  <li><a href="#dummy-code-levels-of-diet-as-for-yearblock-in-manuscript" id="toc-dummy-code-levels-of-diet-as-for-yearblock-in-manuscript" class="nav-link" data-scroll-target="#dummy-code-levels-of-diet-as-for-yearblock-in-manuscript">Dummy code levels of Diet as for YearBlock in manuscript</a></li>
-  <li><a href="#random-effects-structure-in-the-ms" id="toc-random-effects-structure-in-the-ms" class="nav-link" data-scroll-target="#random-effects-structure-in-the-ms">Random effects structure in the ms</a></li>
-  <li><a href="#non-dummy-coded-structure" id="toc-non-dummy-coded-structure" class="nav-link" data-scroll-target="#non-dummy-coded-structure">Non-dummy-coded structure</a></li>
-  <li><a href="#random-slope-of-diet-grouped-by-and-uncorrleated-across-rat" id="toc-random-slope-of-diet-grouped-by-and-uncorrleated-across-rat" class="nav-link" data-scroll-target="#random-slope-of-diet-grouped-by-and-uncorrleated-across-rat">Random slope of Diet, grouped by and uncorrleated across Rat</a></li>
-  <li><a href="#similar-estimates" id="toc-similar-estimates" class="nav-link" data-scroll-target="#similar-estimates">Similar estimates</a></li>
-  <li><a href="#similar-estimates-but-starting-to-drift-since-model-is-overparameterized-note-wide-cis" id="toc-similar-estimates-but-starting-to-drift-since-model-is-overparameterized-note-wide-cis" class="nav-link" data-scroll-target="#similar-estimates-but-starting-to-drift-since-model-is-overparameterized-note-wide-cis">Similar estimates, but starting to drift since model is overparameterized (note wide CIs)</a></li>
-  <li><a href="#nlme-doesnt-have-a-straightforward-way-to-model-crossed-effects-but-it-would-be" id="toc-nlme-doesnt-have-a-straightforward-way-to-model-crossed-effects-but-it-would-be" class="nav-link" data-scroll-target="#nlme-doesnt-have-a-straightforward-way-to-model-crossed-effects-but-it-would-be">nlme doesn’t have a straightforward way to model crossed effects, but it would be</a></li>
-  <li><a href="#similar-to-this-plus-some-extra-terms-to-scale-the-variance.-lme4-handles-crossed" id="toc-similar-to-this-plus-some-extra-terms-to-scale-the-variance.-lme4-handles-crossed" class="nav-link" data-scroll-target="#similar-to-this-plus-some-extra-terms-to-scale-the-variance.-lme4-handles-crossed">similar to this plus some extra terms to scale the variance. lme4 handles crossed</a></li>
-  <li><a href="#effects-and-would-be-coded-similarly-to-the-below" id="toc-effects-and-would-be-coded-similarly-to-the-below" class="nav-link" data-scroll-target="#effects-and-would-be-coded-similarly-to-the-below">effects and would be coded similarly to the below</a></li>
-  <li><a href="#since-no-levels-of-rat-are-duplicated-across-diet-they-are-the-same" id="toc-since-no-levels-of-rat-are-duplicated-across-diet-they-are-the-same" class="nav-link" data-scroll-target="#since-no-levels-of-rat-are-duplicated-across-diet-they-are-the-same">Since no levels of Rat are duplicated across Diet, they are the same</a></li>
-  <li><a href="#analogous-to-no-levels-of-year-duplicated-across-yearblock" id="toc-analogous-to-no-levels-of-year-duplicated-across-yearblock" class="nav-link" data-scroll-target="#analogous-to-no-levels-of-year-duplicated-across-yearblock">Analogous to no levels of Year duplicated across YearBlock</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -163,7 +136,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p><a href="https://www.obrien.page">Mike O’Brien</a> <a href="mailto:mike@obrien.page" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0003-1420-6395" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+             <p><a href="https://www.obrien.page">Mike O’Brien</a> <a href="https://orcid.org/0000-0003-1420-6395" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
           </div>
   </div>
     
@@ -172,78 +145,11 @@ ul.task-list li input[type="checkbox"] {
   </div>
   
 
-
 </header>
 
-
 <p>https://gist.github.com/mhpob/73cb07f5ef3b6b55f4ef9da8cd0b7b3e</p>
-<p>I believe that the model is miscoded in this analysis based on the code provided in the GitHub page and description in this paragraph. The random effects are coded as</p>
-<p>s(year, by = !yearblockA, bs = ‘re’) + s(year, by = !yearblockB, bs = ‘re’)+ s(year, by = !yearblockC, bs = ‘re’)</p>
-<p>This specifies a random slope by groups of year around an unspecified fixed effect of yearblock. In lme4 or nlme, it lines up with ~(0 + yearblock|year) and an implied, but unparameterized, fixed effect of yearblock:</p>
-<p>library(mgcv)</p>
-<section id="in-the-bodyweight-data-rat-is-nested-in-diet-with-no-repeated-rats-across-diets" class="level1">
-<h1>In the BodyWeight data, Rat is nested in Diet with no repeated Rats across Diets</h1>
-</section>
-<section id="analogous-to-year-nested-in-yearblock-with-no-repeated-years-across-yearblocks" class="level1">
-<h1>Analogous to Year nested in YearBlock with no repeated Years across YearBlocks</h1>
-</section>
-<section id="diet-is-not-coded" class="level1">
-<h1>Diet is not coded</h1>
-<p>data(‘BodyWeight’)</p>
-</section>
-<section id="dummy-code-levels-of-diet-as-for-yearblock-in-manuscript" class="level1">
-<h1>Dummy code levels of Diet as for YearBlock in manuscript</h1>
-<p>BodyWeight<span class="math inline">\(Diet1 &lt;- ifelse(BodyWeight\)</span>Diet == 1, 0, 1) BodyWeight<span class="math inline">\(Diet2 &lt;- ifelse(BodyWeight\)</span>Diet == 2, 0, 1) BodyWeight<span class="math inline">\(Diet3 &lt;- ifelse(BodyWeight\)</span>Diet == 3, 0, 1)</p>
-</section>
-<section id="random-effects-structure-in-the-ms" class="level1">
-<h1>Random effects structure in the ms</h1>
-<p>ms_gam &lt;- gam(weight ~ s(Rat, by = ordered(!Diet1), bs = ‘re’) + s(Rat, by = ordered(!Diet2), bs = ‘re’) + s(Rat, by = ordered(!Diet3), bs = ‘re’), data = BodyWeight, method = ‘REML’)</p>
-</section>
-<section id="non-dummy-coded-structure" class="level1">
-<h1>Non-dummy-coded structure</h1>
-<p>gam_short &lt;- gam(weight ~ s(Rat, by = Diet, bs = ‘re’), data = BodyWeight, method = ‘REML’)</p>
-</section>
-<section id="random-slope-of-diet-grouped-by-and-uncorrleated-across-rat" class="level1">
-<h1>Random slope of Diet, grouped by and uncorrleated across Rat</h1>
-<p>ms_lme &lt;- lme(weight ~ 1, random = ~ 0 + Diet|Rat, data = BodyWeight)</p>
-</section>
-<section id="similar-estimates" class="level1">
-<h1>Similar estimates</h1>
-<p>gam.vcomp(ms_gam) gam.vcomp(gam_short) VarCorr(ms_lme)</p>
-<p>If this is the desire, I suggest including yearblock as a fixed effect as well as the “by” variable in the random effect: yearblock + s(year, by = yearblock, bs = ‘re’) would represent random variation around the effect of yearblock due to year. There is ongoing debate about whether a random effect with less than c.&nbsp;5 levels can be properly parameterized, and one suggestion is to fit factors with less than 5 levels as fixed effects. This would follow the suggestions outlined in Harrison, X.A., Donaldson, L., Correa-Cano, M.E., Evans, J., Fisher, D.N., Goodwin, C.E., Robinson, B.S., Hodgson, D.J., Inger, R., 2018. A brief introduction to mixed effects modelling and multi-model inference in ecology. PeerJ 6, e4794.</p>
-<p>ms_gam2 &lt;- gam(weight ~ Diet + s(Rat, by = Diet, bs = ‘re’), data = BodyWeight, method = ‘REML’)</p>
-<p>ms_lme2 &lt;- lme(weight ~ Diet, random = ~ 0 + Diet|Rat, data = BodyWeight)</p>
-<p>gam.vcomp(ms_gam2) VarCorr(ms_lme2)</p>
-<p>If the desire is to have a random intercept of year and random slope of yearblock by year, s(year, bs = ‘re’) should also be added to parameterize the random intercept. mgcv cannot fit correlated random slope and random intercept (~Diet|Rat or ~1 + Diet|Rat) so they must be modeled as uncorrelated.</p>
-<p>ms_gam3 &lt;- gam(weight ~ Diet + s(Rat, bs = ‘re’) + s(Rat, by = Diet, bs = ‘re’), data = BodyWeight, method = ‘REML’)</p>
-<p>ms_lme3 &lt;- lme(weight ~ Diet, random = list(~ 1|Rat, ~ 0 + Diet|Rat), data = BodyWeight)</p>
-</section>
-<section id="similar-estimates-but-starting-to-drift-since-model-is-overparameterized-note-wide-cis" class="level1">
-<h1>Similar estimates, but starting to drift since model is overparameterized (note wide CIs)</h1>
-<p>gam.vcomp(ms_gam3) VarCorr(ms_lme3)</p>
-<p>If the desire is to have nested random intercepts, then s(year, bs = ‘re’) + s(yearblock, bs = ‘re’) would suffice but might preclude the variance decomposition noted in line 264 and used elsewhere in the manuscript (L373-379; Figures S1, S2). This also creates a random effect with only a few levels, so there is risk that the random effect of Diet (YearBlock) could be poorly parameterized.</p>
-</section>
-<section id="nlme-doesnt-have-a-straightforward-way-to-model-crossed-effects-but-it-would-be" class="level1">
-<h1>nlme doesn’t have a straightforward way to model crossed effects, but it would be</h1>
-</section>
-<section id="similar-to-this-plus-some-extra-terms-to-scale-the-variance.-lme4-handles-crossed" class="level1">
-<h1>similar to this plus some extra terms to scale the variance. lme4 handles crossed</h1>
-</section>
-<section id="effects-and-would-be-coded-similarly-to-the-below" class="level1">
-<h1>effects and would be coded similarly to the below</h1>
-<p>crossed &lt;- lme(weight ~ 1, random = list(~ 1 | Diet, ~1|Rat), data = BodyWeight)</p>
-<p>nested &lt;- lme(weight ~ 1, random = ~ 1 | Diet/Rat, data = BodyWeight)</p>
-<p>nested_gam &lt;- gam(weight ~ s(Diet, bs = ‘re’) + s(Rat, bs = ‘re’) , data = BodyWeight, method = ‘REML’)</p>
-</section>
-<section id="since-no-levels-of-rat-are-duplicated-across-diet-they-are-the-same" class="level1">
-<h1>Since no levels of Rat are duplicated across Diet, they are the same</h1>
-</section>
-<section id="analogous-to-no-levels-of-year-duplicated-across-yearblock" class="level1">
-<h1>Analogous to no levels of Year duplicated across YearBlock</h1>
-<p>VarCorr(crossed) VarCorr(nested) gam.vcomp(nested_gam)</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -325,27 +231,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/www\.obrien\.page");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-          // target, if specified
-          link.setAttribute("target", "_blank");
-          if (link.getAttribute("rel") === null) {
-            link.setAttribute("rel", "noopener");
-          }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+  function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
+      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -355,17 +244,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start',
+      placement: 'bottom-start'
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -378,135 +258,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
-          }
-        }
-        typesetMath(container);
-        return container.innerHTML
-      } else {
-        typesetMath(note);
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      typesetMath(note);
-      return note.innerHTML;
-    }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
-          }
-        } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
-          .then(res => res.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
-            if (note !== null) {
-              const html = processXRef(id, note);
-              instance.setContent(html);
-            } 
-          }).finally(() => {
-            instance.enable();
-            instance.show();
-          });
-        }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -550,7 +301,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
-            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -576,32 +326,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -659,10 +383,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       });
     }
   }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp("https:\/\/www\.obrien\.page");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
 });
 </script>
 </div> <!-- /content -->
-
 
 
 
