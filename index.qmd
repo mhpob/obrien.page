@@ -4,14 +4,30 @@ image: mike.jpg
 about:
   template: trestles
   links:
-    - icon: twitter
-      text: twitter
-      href: https://twitter.com/ruggafish
     - icon: github
       text: Github
       href: https://github.com/mhpob
+    - href: https://fosstodon.org/@mobrien
+      icon: mastodon
+      text: Mastodon
+      rel: "me"
+    - href: https://bsky.app/profile/obrien.page
+      icon: cloud-sun-fill
+      text: Bluesky
+    - icon: twitter
+      text: twitter
+      href: https://twitter.com/ruggafish
 ---
 
+Welcome!
+
+I am a research assistant at the Chesapeake Biological Laboratory of the University of Maryland Center for Environmental Science who has lived a brief, former life as an interational rugby referee.
+
+When I'm not on the water, my areas of expertise lie in fish movement ecology, biotelemetry, R programming, and spatiotemporal mixed modelling. Please take a look at my [research](https://www.obrien.page/research/), [blog](https://www.obrien.page/blog/), or [software](https://www.obrien.page/research/packages.html) and reach out if you're interestd in working together.
+
+## Current Position
+
+University of Maryland Center for Environmental Science | Faculty Research Assistant | Sept 2013 - present
 
 
 ## Education
@@ -22,6 +38,3 @@ Masters in Fisheries Science | August 2013
 University of Miami | Coral Cables, FL |
 B.S. in Marine and Atmospheric Science | May 2009
 
-## Experience
-
-University of Maryland Center for Environmental Science | Faculty Research Assistant | Sept 2013 - present
