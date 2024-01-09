@@ -724,17 +724,17 @@ glm(formula = n/wts ~ 0 + x * y, family = poisson(), data = gor_scale_df,
 
 Coefficients:
       Estimate Std. Error z value Pr(&gt;|z|)    
-x   -0.6514517  0.0451625 -14.425  &lt; 2e-16 ***
-y    0.3184408  0.0261495  12.178  &lt; 2e-16 ***
-x:y  0.0004251  0.0000748   5.683 1.33e-08 ***
+x   -5.504e-01  4.418e-02  -12.46  &lt; 2e-16 ***
+y    3.320e-01  2.634e-02   12.60  &lt; 2e-16 ***
+x:y  2.525e-04  7.514e-05    3.36 0.000779 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for poisson family taken to be 1)
 
     Null deviance: 16623  on 1647  degrees of freedom
-Residual deviance: 13017  on 1644  degrees of freedom
-AIC: 13023
+Residual deviance: 13057  on 1644  degrees of freedom
+AIC: 13063
 
 Number of Fisher Scoring iterations: 16</code></pre>
 </div>
@@ -762,15 +762,15 @@ n/wts ~ 0 + x * y
 
 Parametric coefficients:
       Estimate Std. Error z value Pr(&gt;|z|)    
-x   -0.6514517  0.0451625 -14.425  &lt; 2e-16 ***
-y    0.3184408  0.0261495  12.178  &lt; 2e-16 ***
-x:y  0.0004251  0.0000748   5.683 1.33e-08 ***
+x   -5.504e-01  4.418e-02  -12.46  &lt; 2e-16 ***
+y    3.320e-01  2.634e-02   12.60  &lt; 2e-16 ***
+x:y  2.525e-04  7.514e-05    3.36 0.000779 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 
-R-sq.(adj) =  -0.00122   Deviance explained = 2.64%
--REML = 6528.8  Scale est. = 1         n = 1647</code></pre>
+R-sq.(adj) =  -0.00122   Deviance explained = 2.34%
+-REML = 6548.6  Scale est. = 1         n = 1647</code></pre>
 </div>
 </div>
 </section>
@@ -787,8 +787,8 @@ R-sq.(adj) =  -0.00122   Deviance explained = 2.64%
 <div class="cell-output cell-output-stdout">
 <pre><code>  method        b_1       b_2          b_3
 1    ppm -0.5658078 0.3173808 0.0003003385
-2    glm -0.6514517 0.3184408 0.0004250712
-3    gam -0.6514517 0.3184408 0.0004250712</code></pre>
+2    glm -0.5504253 0.3320244 0.0002524700
+3    gam -0.5504253 0.3320244 0.0002524700</code></pre>
 </div>
 </div>
 </section>
@@ -862,18 +862,18 @@ n/wts ~ s(x, y)
 
 Parametric coefficients:
             Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)   2.1592     0.2538   8.507   &lt;2e-16 ***
+(Intercept)   2.2556     0.2421   9.317   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Approximate significance of smooth terms:
-         edf Ref.df Chi.sq p-value    
-s(x,y) 22.82  25.53  587.5  &lt;2e-16 ***
+        edf Ref.df Chi.sq p-value    
+s(x,y) 22.7  25.48  493.4  &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-R-sq.(adj) =  -0.014   Deviance explained = 12.7%
--REML = 5887.6  Scale est. = 1         n = 1647</code></pre>
+R-sq.(adj) =  -0.0139   Deviance explained = 11.4%
+-REML = 5971.5  Scale est. = 1         n = 1647</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">draw</span>(gor_gam_ns_gam)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -892,7 +892,7 @@ R-sq.(adj) =  -0.014   Deviance explained = 12.7%
 </div>
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(<span class="fu">predict</span>(gor_gam_ns_gam, <span class="at">type =</span> <span class="st">'response'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 8.187043e-05 4.357467e+02</code></pre>
+<pre><code>[1] 1.844424e-03 3.189666e+02</code></pre>
 </div>
 </div>
 <p>I think this comes down to the way in which <code>spatstat</code> calculates weights (likely more correctly), and that <code>spatstat</code> uses <code>quasi(link="log", variance="mu")</code> for its error family. The predictions between the two methods do get closer by doing this, though not as close as they were before. We also start getting into issues with quasilikelihood and not being able to use AIC, etc., so it’s not really desirable.</p>
@@ -916,22 +916,22 @@ n/wts ~ s(x, y)
 
 Parametric coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)   2.7092     0.1258   21.53   &lt;2e-16 ***
+(Intercept)   2.7580     0.1161   23.75   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Approximate significance of smooth terms:
-        edf Ref.df     F p-value    
-s(x,y) 14.9   18.8 35.74  &lt;2e-16 ***
+         edf Ref.df     F p-value    
+s(x,y) 14.43  18.36 31.55  &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-R-sq.(adj) =  -0.00908   Deviance explained = 12.2%
--REML = 8891.6  Scale est. = 1.0097    n = 1647</code></pre>
+R-sq.(adj) =  -0.0088   Deviance explained = 10.9%
+-REML = 8902.1  Scale est. = 1.0094    n = 1647</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(<span class="fu">predict</span>(gor_gam_ns_gam_quasi, <span class="at">type =</span> <span class="st">'response'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]   0.05104336 317.09393438</code></pre>
+<pre><code>[1]   0.05338048 231.56416220</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">draw</span>(gor_gam_ns_gam_quasi,</span>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">fun =</span> <span class="cf">function</span>(.){</span>
@@ -951,10 +951,38 @@ R-sq.(adj) =  -0.00908   Deviance explained = 12.2%
 </section>
 <section id="next-steps" class="level2">
 <h2 class="anchored" data-anchor-id="next-steps">Next steps… ?</h2>
+<p>As far as I can tell, a log-Gaussian Cox process views the intensity as some latent intensity (the model intercept), as above, plus some spatial error term/intensity, usually noted as <span class="math inline">\(\xi\)</span>, plus some covariates. So, a point process model plus a spatial smooth (maybe?). The latent</p>
+<p><span class="math inline">\(\xi\)</span> seems to me to be analogous to a spatial random effect: it is centered on zero with values following a Gaussian Random Field. So, where <span class="math inline">\(\beta_0\)</span> is the baseline intensity, <span class="math inline">\(\xi\)</span> is that Gaussian Random Field, and other <span class="math inline">\(\beta\)</span>s are covariates that vary spatially according to X, Y, or their interaction:</p>
 <p><span class="math display">\[
-log(\lambda) \sim \beta_0 + \beta_1X + \beta_2Y + \beta_3XY + \xi
+log(\lambda(X,Y)) \sim \beta_0 + \beta_1X + \beta_2Y + \beta_3XY + \xi(X,Y)
+\]</span> The SPDE Gitbook has some further details spoken about more-knowledgably than I could ever manage: (https://becarioprecario.bitbucket.io/spde-gitbook/ch-lcox.html)[https://becarioprecario.bitbucket.io/spde-gitbook/ch-lcox.html].</p>
+<p>In <code>mgcv</code> we can add in a smooth that I think <em>could</em> be an analogue to <span class="math inline">\(\xi\)</span>.</p>
+<p><span class="math display">\[
+log(\lambda(X,Y)) \sim \beta_0 + ... + s(X,Y) + \epsilon
 \]</span></p>
-<p>https://becarioprecario.bitbucket.io/spde-gitbook/ch-lcox.html point process with centered smooth?</p>
+<p>My thought process/questions around this are now:</p>
+<ul>
+<li><code>mgcv</code> can only fit i.i.d random effects, which necessitates factor variables. R-INLA can fit a whole bunch of <a href="https://becarioprecario.bitbucket.io/inla-gitbook/ch-mixed.html#sec:mixed-types">random effects</a>, including “rw2d” (a random walk in 2 dimensions) and “matern2d” (a Gaussian field with Matérn correlation) which are often used to find <span class="math inline">\(\xi\)</span>; more info here: <a href="https://becarioprecario.bitbucket.io/inla-gitbook/ch-spatial.html">https://becarioprecario.bitbucket.io/inla-gitbook/ch-spatial.html</a>. This is why we often see spatial models using R-INLA.
+<ul>
+<li>Because of this, we can’t <code>mgcv</code> random effect smooth to get things done for us.</li>
+</ul></li>
+<li>In order to approximate <span class="math inline">\(\xi\)</span> in <code>mgcv</code>:
+<ul>
+<li>Are the current spatial smooths (<code>bs = 'mrf'</code>, <code>bs = 'gp'</code>) centered on zero?</li>
+<li>If not, can we constrain them to be so?</li>
+</ul></li>
+<li>Does the regular, non-spatial error that <code>mgcv</code> assumes, <span class="math inline">\(\epsilon\)</span>, screw this up, or can we just treat it as being eaten up by the other terms?</li>
+<li>Reading through the (SPDE book)[https://becarioprecario.bitbucket.io/spde-gitbook/ch-lcox.html], the actual model <em>may</em> be two hierarchical models, the first fitting the latent intensity (the intercept) and the second fitting the spatial error conditional on that intercept. So, something like the following (which is wrong, but I can’t figure out the right annotation in my head):</li>
+</ul>
+<p><span class="math display">\[
+  log(\lambda) \sim \beta_0
+  \]</span> <span class="math display">\[
+  log(\lambda) - \beta_0 \sim \xi
+  \]</span></p>
+<ul>
+<li>If it is something like that, can <code>mgcv</code> fit nested models?</li>
+<li>Am I overthinking this? (Probably.)</li>
+</ul>
 
 
 
