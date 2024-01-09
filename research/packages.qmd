@@ -9,9 +9,16 @@ An R API package for the Mid-Atlantic Acoustic Telemetry Observing System
 -   [https://matos.obrien.page](https://matos.obrien.page)
 
 ## otndo
+
 A package to understand OTN data 
 
 -   [https://otndo.obrien.page](https://otndo.obrien.page)
+
+## rvdat
+
+Lightweight, low-level access to Innovasea's Fathom VDAT executable
+
+-   [https://rvdat.obrien.page/](https://rvdat.obrien.page/)
 
 ## TelemetryR **(Archived)**
 
