@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.512">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -63,6 +63,7 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -100,6 +101,33 @@ ul.task-list li input[type="checkbox"] {
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -159,7 +187,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(12)</span></div><div class="category" data-category="ArcGIS">ArcGIS <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Chesapeake">Chesapeake <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Coding Club">Coding Club <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Docker">Docker <span class="quarto-category-count">(1)</span></div><div class="category" data-category="FarmOS">FarmOS <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Fish migration">Fish migration <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Git">Git <span class="quarto-category-count">(2)</span></div><div class="category" data-category="GitHub Actions">GitHub Actions <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Google">Google <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Henrico">Henrico <span class="quarto-category-count">(3)</span></div><div class="category" data-category="LIDAR">LIDAR <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Land use">Land use <span class="quarto-category-count">(1)</span></div><div class="category" data-category="PostGIS">PostGIS <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(8)</span></div><div class="category" data-category="REST">REST <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Self Hosting">Self Hosting <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Ubuntu">Ubuntu <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Web scraping">Web scraping <span class="quarto-category-count">(2)</span></div><div class="category" data-category="arrow">arrow <span class="quarto-category-count">(1)</span></div><div class="category" data-category="biotelemetry">biotelemetry <span class="quarto-category-count">(2)</span></div><div class="category" data-category="chart junk">chart junk <span class="quarto-category-count">(1)</span></div><div class="category" data-category="geoarrow">geoarrow <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ggplot2">ggplot2 <span class="quarto-category-count">(2)</span></div><div class="category" data-category="lidR">lidR <span class="quarto-category-count">(1)</span></div><div class="category" data-category="map projections">map projections <span class="quarto-category-count">(3)</span></div><div class="category" data-category="map tiles">map tiles <span class="quarto-category-count">(2)</span></div><div class="category" data-category="rayshader">rayshader <span class="quarto-category-count">(1)</span></div><div class="category" data-category="satellite imagery">satellite imagery <span class="quarto-category-count">(2)</span></div><div class="category" data-category="sf">sf <span class="quarto-category-count">(4)</span></div><div class="category" data-category="spatial">spatial <span class="quarto-category-count">(4)</span></div><div class="category" data-category="terra">terra <span class="quarto-category-count">(1)</span></div><div class="category" data-category="time series">time series <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(11)</span></div><div class="category" data-category="ArcGIS">ArcGIS <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Chesapeake">Chesapeake <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Coding Club">Coding Club <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Docker">Docker <span class="quarto-category-count">(1)</span></div><div class="category" data-category="FarmOS">FarmOS <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Fish migration">Fish migration <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Git">Git <span class="quarto-category-count">(2)</span></div><div class="category" data-category="GitHub Actions">GitHub Actions <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Google">Google <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Henrico">Henrico <span class="quarto-category-count">(3)</span></div><div class="category" data-category="LIDAR">LIDAR <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Land use">Land use <span class="quarto-category-count">(1)</span></div><div class="category" data-category="PostGIS">PostGIS <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(8)</span></div><div class="category" data-category="REST">REST <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Self Hosting">Self Hosting <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Ubuntu">Ubuntu <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Web scraping">Web scraping <span class="quarto-category-count">(2)</span></div><div class="category" data-category="arrow">arrow <span class="quarto-category-count">(1)</span></div><div class="category" data-category="biotelemetry">biotelemetry <span class="quarto-category-count">(2)</span></div><div class="category" data-category="chart junk">chart junk <span class="quarto-category-count">(1)</span></div><div class="category" data-category="geoarrow">geoarrow <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ggplot2">ggplot2 <span class="quarto-category-count">(2)</span></div><div class="category" data-category="lidR">lidR <span class="quarto-category-count">(1)</span></div><div class="category" data-category="map projections">map projections <span class="quarto-category-count">(3)</span></div><div class="category" data-category="map tiles">map tiles <span class="quarto-category-count">(2)</span></div><div class="category" data-category="rayshader">rayshader <span class="quarto-category-count">(1)</span></div><div class="category" data-category="satellite imagery">satellite imagery <span class="quarto-category-count">(2)</span></div><div class="category" data-category="sf">sf <span class="quarto-category-count">(4)</span></div><div class="category" data-category="spatial">spatial <span class="quarto-category-count">(3)</span></div><div class="category" data-category="terra">terra <span class="quarto-category-count">(1)</span></div><div class="category" data-category="time series">time series <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -194,10 +222,10 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="spatial,map projections,R,sf" data-listing-date-sort="1702962000000" data-listing-file-modified-sort="1703020108522" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1699">
+<div class="quarto-post image-right" data-index="0" data-categories="spatial,map projections,R,sf" data-listing-date-sort="1702944000000" data-listing-file-modified-sort="1709143240283" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1699">
 <div class="thumbnail">
 <p><a href="../blog/2023/12_18_utm/index.html" class="no-external"></a></p><a href="../blog/2023/12_18_utm/index.html" class="no-external">
-<p class="card-img-top"><img src="2023\12_18_utm\index_files\figure-html\unnamed-chunk-2-1.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="2023/12_18_utm/index_files/figure-html/unnamed-chunk-2-1.png"  class="thumbnail-image card-img"/></p>
 </a><p><a href="../blog/2023/12_18_utm/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
@@ -236,43 +264,10 @@ Mike O’Brien
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="spatial" data-listing-date-sort="1702875600000" data-listing-file-modified-sort="1703022400283" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2780">
-<div class="thumbnail">
-<p><a href="../blog/2023/12_09_grids_and_projections/index.html" class="no-external"></a></p><a href="../blog/2023/12_09_grids_and_projections/index.html" class="no-external">
-<p class="card-img-top"><img src="2023\12_09_grids_and_projections\index_files\figure-html\unnamed-chunk-1-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="../blog/2023/12_09_grids_and_projections/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../blog/2023/12_09_grids_and_projections/index.html" class="no-external">Just how <em>universal</em> is “Universal”?</a>
-</h3>
-<div class="listing-subtitle">
-<a href="../blog/2023/12_09_grids_and_projections/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('spatial'); return false;">
-spatial
-</div>
-</div>
-<div class="listing-description">
-<a href="../blog/2023/12_09_grids_and_projections/index.html" class="no-external">Continued from the previous post…</a>
-</div>
-</div>
-<div class="metadata">
-<a href="../blog/2023/12_09_grids_and_projections/index.html" class="no-external">
-<div class="listing-date">
-Dec 18, 2023
-</div>
-<div class="listing-author">
-Mike O’Brien
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="FarmOS,Ubuntu,Self Hosting,Git,map tiles,satellite imagery,ArcGIS,REST,Henrico" data-listing-date-sort="1692590400000" data-listing-file-modified-sort="1692656479363" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="727">
+<div class="quarto-post image-right" data-index="1" data-categories="FarmOS,Ubuntu,Self Hosting,Git,map tiles,satellite imagery,ArcGIS,REST,Henrico" data-listing-date-sort="1692576000000" data-listing-file-modified-sort="1709143240279" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="727">
 <div class="thumbnail">
 <p><a href="../blog/2023/08_21_farmos_satellite_tiles/index.html" class="no-external"></a></p><a href="../blog/2023/08_21_farmos_satellite_tiles/index.html" class="no-external">
-<p class="card-img-top"><img src="2023\08_21_farmos_satellite_tiles\henrico_rest.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="2023/08_21_farmos_satellite_tiles/henrico_rest.png"  class="thumbnail-image card-img"/></p>
 </a><p><a href="../blog/2023/08_21_farmos_satellite_tiles/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
@@ -326,10 +321,10 @@ Mike O’Brien
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="FarmOS,Ubuntu,Self Hosting,Git,map tiles,satellite imagery,Docker" data-listing-date-sort="1686024000000" data-listing-file-modified-sort="1692650847333" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="759">
+<div class="quarto-post image-right" data-index="2" data-categories="FarmOS,Ubuntu,Self Hosting,Git,map tiles,satellite imagery,Docker" data-listing-date-sort="1686009600000" data-listing-file-modified-sort="1709143240275" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="759">
 <div class="thumbnail">
 <p><a href="../blog/2023/06_06_farmos_modules/index.html" class="no-external"></a></p><a href="../blog/2023/06_06_farmos_modules/index.html" class="no-external">
-<p class="card-img-top"><img src="2023\06_06_farmos_modules\underpants-gnomes.gif"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="2023/06_06_farmos_modules/underpants-gnomes.gif"  class="thumbnail-image card-img"/></p>
 </a><p><a href="../blog/2023/06_06_farmos_modules/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
@@ -377,10 +372,10 @@ Mike O’Brien
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="R,ggplot2,chart junk,time series" data-listing-date-sort="1684987200000" data-listing-file-modified-sort="1685214441871" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1235">
+<div class="quarto-post image-right" data-index="3" data-categories="R,ggplot2,chart junk,time series" data-listing-date-sort="1684972800000" data-listing-file-modified-sort="1709143240275" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1235">
 <div class="thumbnail">
 <p><a href="../blog/2023/05_25_time_series_box_plot/index.html" class="no-external"></a></p><a href="../blog/2023/05_25_time_series_box_plot/index.html" class="no-external">
-<p class="card-img-top"><img src="2023\05_25_time_series_box_plot\index_files\figure-html\unnamed-chunk-12-1.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="2023/05_25_time_series_box_plot/index_files/figure-html/unnamed-chunk-12-1.png"  class="thumbnail-image card-img"/></p>
 </a><p><a href="../blog/2023/05_25_time_series_box_plot/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
@@ -419,10 +414,10 @@ Mike O’Brien
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="R,lidR,sf,terra,rayshader,LIDAR,map projections,Henrico,spatial" data-listing-date-sort="1684900800000" data-listing-file-modified-sort="1685053451219" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1276">
+<div class="quarto-post image-right" data-index="4" data-categories="R,lidR,sf,terra,rayshader,LIDAR,map projections,Henrico,spatial" data-listing-date-sort="1684886400000" data-listing-file-modified-sort="1709143240275" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1276">
 <div class="thumbnail">
 <p><a href="../blog/2023/05_24_landlab_lidar/index.html" class="no-external"></a></p><a href="../blog/2023/05_24_landlab_lidar/index.html" class="no-external">
-<p class="card-img-top"><img src="2023\05_24_landlab_lidar\landlab_cabin_1982.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="2023/05_24_landlab_lidar/landlab_cabin_1982.png"  class="thumbnail-image card-img"/></p>
 </a><p><a href="../blog/2023/05_24_landlab_lidar/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
@@ -476,10 +471,10 @@ Mike O’Brien
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="R,sf,map projections,ggplot2" data-listing-date-sort="1680235200000" data-listing-file-modified-sort="1702908929482" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1402">
+<div class="quarto-post image-right" data-index="5" data-categories="R,sf,map projections,ggplot2" data-listing-date-sort="1680220800000" data-listing-file-modified-sort="1709143240263" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1402">
 <div class="thumbnail">
 <p><a href="../blog/2023/03_31_rotating_coastline/index.html" class="no-external"></a></p><a href="../blog/2023/03_31_rotating_coastline/index.html" class="no-external">
-<p class="card-img-top"><img src="2023\03_31_rotating_coastline\index_files\figure-html\unnamed-chunk-8-1.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="2023/03_31_rotating_coastline/index_files/figure-html/unnamed-chunk-8-1.png"  class="thumbnail-image card-img"/></p>
 </a><p><a href="../blog/2023/03_31_rotating_coastline/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
@@ -518,7 +513,7 @@ Mike O’Brien
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="R,Web scraping,GitHub Actions,Google" data-listing-date-sort="1678424400000" data-listing-file-modified-sort="1678488104585" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1140">
+<div class="quarto-post image-right" data-index="6" data-categories="R,Web scraping,GitHub Actions,Google" data-listing-date-sort="1678406400000" data-listing-file-modified-sort="1709143240263" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1140">
 <div class="thumbnail">
 <p><a href="../blog/2023/03_10_google_and_github_actions/index.html" class="no-external"></a></p><a href="../blog/2023/03_10_google_and_github_actions/index.html" class="no-external">
 <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
@@ -560,7 +555,7 @@ Mike O’Brien
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="R,GitHub Actions,Coding Club" data-listing-date-sort="1678165200000" data-listing-file-modified-sort="1678493538855" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="79">
+<div class="quarto-post image-right" data-index="7" data-categories="R,GitHub Actions,Coding Club" data-listing-date-sort="1678147200000" data-listing-file-modified-sort="1709143240263" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="79">
 <div class="thumbnail">
 <p><a href="../blog/2023/03_07_coding_club_github_actions/index.html" class="no-external"></a></p><a href="../blog/2023/03_07_coding_club_github_actions/index.html" class="no-external">
 <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
@@ -599,7 +594,7 @@ Mike O’Brien
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="R,Fish migration,biotelemetry,sf,spatial,PostGIS" data-listing-date-sort="1677560400000" data-listing-file-modified-sort="1678486546300" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="775">
+<div class="quarto-post image-right" data-index="8" data-categories="R,Fish migration,biotelemetry,sf,spatial,PostGIS" data-listing-date-sort="1677542400000" data-listing-file-modified-sort="1709143240247" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="775">
 <div class="thumbnail">
 <p><a href="../blog/2023/02_21_wkb/index.html" class="no-external"></a></p><a href="../blog/2023/02_21_wkb/index.html" class="no-external">
 <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
@@ -647,10 +642,10 @@ Mike O’Brien
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-categories="Chesapeake,Fish migration,biotelemetry" data-listing-date-sort="1674622800000" data-listing-file-modified-sort="1674666723603" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="521">
+<div class="quarto-post image-right" data-index="9" data-categories="Chesapeake,Fish migration,biotelemetry" data-listing-date-sort="1674604800000" data-listing-file-modified-sort="1709143240247" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="521">
 <div class="thumbnail">
 <p><a href="../blog/2023/01_25_cbl_eel_essay/index.html" class="no-external"></a></p><a href="../blog/2023/01_25_cbl_eel_essay/index.html" class="no-external">
-<p class="card-img-top"><img src="2023\01_25_cbl_eel_essay\life cycle c Melissa Beveridge.jpg"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="2023/01_25_cbl_eel_essay/life cycle c Melissa Beveridge.jpg"  class="thumbnail-image card-img"/></p>
 </a><p><a href="../blog/2023/01_25_cbl_eel_essay/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
@@ -686,10 +681,10 @@ Mike O’Brien
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="11" data-categories="R,Henrico,Web scraping,Land use,geoarrow,arrow" data-listing-date-sort="1674363600000" data-listing-file-modified-sort="1674446332216" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="625">
+<div class="quarto-post image-right" data-index="10" data-categories="R,Henrico,Web scraping,Land use,geoarrow,arrow" data-listing-date-sort="1674345600000" data-listing-file-modified-sort="1709143240247" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="625">
 <div class="thumbnail">
 <p><a href="../blog/2023/01_23_henrico_parcels/index.html" class="no-external"></a></p><a href="../blog/2023/01_23_henrico_parcels/index.html" class="no-external">
-<p class="card-img-top"><img src="2023\01_23_henrico_parcels\index_files\figure-html\first-plot-1.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="2023/01_23_henrico_parcels/index_files/figure-html/first-plot-1.png"  class="thumbnail-image card-img"/></p>
 </a><p><a href="../blog/2023/01_23_henrico_parcels/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
@@ -885,27 +880,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -920,10 +894,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             break;
           }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -932,8 +910,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
-      return note.innerHTML;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
