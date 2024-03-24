@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -176,6 +176,7 @@ Observe: pots and hooks</p>
 </section>
 <section id="peer-reviewed-manuscripts" class="level2">
 <h2 class="anchored" data-anchor-id="peer-reviewed-manuscripts">Peer-reviewed manuscripts</h2>
+<p><i class="ai  ai-open-access ai-lg" title="" style="color:green"></i> Coleman, N., Fox, Horne, A., Hostetter, N., Madsen, J., <em>O’Brien M.H.P.</em>, Park, I.A., Stence, C., Secor, D.H., <strong>In Press</strong>. Spawning Run Estimates and Phenology for an Extremely Small Population of Atlantic Sturgeon in the Marshyhope Creek-Nanticoke River System, Chesapeake Bay. Marine and Coastal Fisheries. DOI: 10.1002/mcf2.10292</p>
 <p><i class="ai  ai-open-access ai-lg" title="" style="color:green"></i> Rothermel, E.R., <em>O’Brien M.H.P.</em>, Best, J.E., Fox, D.A., Gahagan, B.I., Higgs, A.L., Park, I.A., Wippelhauser, G., Secor, D.H., 2024. An Eulerian perspective on habitat models of striped bass occurrence in an offshore wind development area. ICES Journal of Marine Science, fsad212. <a href="https://doi.org/10.1093/icesjms/fsad212">https://doi.org/10.1093/icesjms/fsad212</a></p>
 <p><i class="ai  ai-open-access ai-lg" title="" style="color:green"></i> Secor, D.H., Bailey, H., Carroll, A., Lyubchich, V., <em>O’Brien, M.H.P.</em>, Wiernicki, C.J., 2021. Diurnal vertical movements in black sea bass (Centropristis striata): Endogenous, facultative, or something else? Ecosphere 12, e03616. <a href="https://doi.org/10.1002/ecs2.3616">https://doi.org/10.1002/ecs2.3616</a></p>
 <p><i class="ai  ai-closed-access ai-lg" title="" style="color:pink"></i> Secor, D.H., <em>O’Brien, M.H.P.</em>, Coleman, N., Horne, A., Park, I., Kazyak, D.C., Bruce, D.G., Stence, C., 2021. Atlantic Sturgeon Status and Movement Ecology in an Extremely Small Spawning Habitat: The Nanticoke River-Marshyhope Creek, Chesapeake Bay. Reviews in Fisheries Science &amp; Aquaculture 1–20. <a href="https://doi.org/10.1080/23308249.2021.1924617">https://doi.org/10.1080/23308249.2021.1924617</a></p>
@@ -291,6 +292,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
           // target, if specified
           link.setAttribute("target", "_blank");
           if (link.getAttribute("rel") === null) {
@@ -332,7 +338,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
