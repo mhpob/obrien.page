@@ -4,16 +4,34 @@ title: "Research"
 
 [{{< fa brands github size=2xl >}}](https://github.com/mhpob) [{{< ai google-scholar size=2xl >}}](https://scholar.google.com/citations?user=IMIq9P4AAAAJ&hl=en) [{{< ai orcid size=2xl >}}](https://orcid.org/0000-0003-1420-6395) [{{< ai publons size=2xl >}}](https://www.webofscience.com/wos/author/record/ABF-9080-2021) [{{< ai stackoverflow size=2xl >}}](https://stackoverflow.com/users/7496818/mike-obrien) [{{< ai zotero size=2xl >}}](https://www.zotero.org/mhpobrien) 
 
-## Current
+## Current research, summarized with haikus
 
-Check out our current research offshore of Ocean City, MD:\
-[https://tailwinds.umces.edu/](https://tailwinds.umces.edu/)
+### Open-source, real-time monitoring of Atlantic sturgeon
 
-What's going on? A haiku:
+> Sturgeon swim through, but\
+  unknown until later. Then,\
+  the moment has passed.
+
+We aim to employ cheap, open-source, real-time systems to monitor Atlantic sturgeon presence to inform dynamic time-of-year restrictions around dreding and infrastructure conscruction.
+
+Find a server-side instance of the pilot application here: <https://github.com/mhpob/biotelemetry-dash-gha>
+
+### Metabolism forecasting in the Chesapeake Bay
+
+> The water heats up;\
+  So, too, do fish -- cold-blooded.\
+  Forecast, see what will.
+
+Metabolism of a few Chesapeake species will be forecast according to various climate scenarios. Development conducted at the [UMCES Chesapeake Global Collaboratory GitHub page](https://github.com/CGC-UMCES).
+
+### Baseline monitoring for Offshore Wind
 
 > Turbines going up\
   But how will the fish react?\
   Observe: pots and hooks
+
+Check out our current research offshore of Ocean City, MD:\
+[https://tailwinds.umces.edu/](https://tailwinds.umces.edu/)
 
 ## Peer-reviewed manuscripts
 
