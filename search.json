@@ -448,11 +448,11 @@
     "text": "Install the add-on\nAfter this is done, install the add-on as you otherwise would. git clone the repository into your FarmOS folder and activate it via the web interface. If you need tips on how to do this, check out my previous post on how to add a FarmOS module to your home server."
   },
   {
-    "objectID": "research/index.html#current",
-    "href": "research/index.html#current",
+    "objectID": "research/index.html#current-research-summarized-with-haikus",
+    "href": "research/index.html#current-research-summarized-with-haikus",
     "title": "Research",
-    "section": "Current",
-    "text": "Current\nCheck out our current research offshore of Ocean City, MD:\nhttps://tailwinds.umces.edu/\nWhat’s going on? A haiku:\n\nTurbines going up\nBut how will the fish react?\nObserve: pots and hooks"
+    "section": "Current research, summarized with haikus",
+    "text": "Current research, summarized with haikus\n\nOpen-source, real-time monitoring of Atlantic sturgeon\n\nSturgeon swim through, but\nunknown until later. Then,\nthe moment has passed.\n\nWe aim to employ cheap, open-source, real-time systems to monitor Atlantic sturgeon presence to inform dynamic time-of-year restrictions around dreding and infrastructure conscruction.\nFind a server-side instance of the pilot application here: https://github.com/mhpob/biotelemetry-dash-gha\n\n\nMetabolism forecasting in the Chesapeake Bay\n\nThe water heats up;\nSo, too, do fish – cold-blooded.\nForecast, see what will.\n\nMetabolism of a few Chesapeake species will be forecast according to various climate scenarios. Development conducted at the UMCES Chesapeake Global Collaboratory GitHub page.\n\n\nBaseline monitoring for Offshore Wind\n\nTurbines going up\nBut how will the fish react?\nObserve: pots and hooks\n\nCheck out our current research offshore of Ocean City, MD:\nhttps://tailwinds.umces.edu/"
   },
   {
     "objectID": "research/index.html#peer-reviewed-manuscripts",
