@@ -56,6 +56,13 @@
     "text": "rvdat\nLightweight, low-level access to Innovasea’s Fathom VDAT executable\n\nhttps://rvdat.obrien.page/"
   },
   {
+    "objectID": "research/packages.html#glatos-contributor",
+    "href": "research/packages.html#glatos-contributor",
+    "title": "Packages",
+    "section": "glatos (contributor)",
+    "text": "glatos (contributor)\nA package for the Great Lakes Acoustic Telemetry Observation System\n\nhttps://github.com/ocean-tracking-network/glatos"
+  },
+  {
     "objectID": "research/packages.html#telemetryr-archived",
     "href": "research/packages.html#telemetryr-archived",
     "title": "Packages",
