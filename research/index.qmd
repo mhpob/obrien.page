@@ -17,7 +17,9 @@ What's going on? A haiku:
 
 ## Peer-reviewed manuscripts
 
-{{< ai open-access size=lg color=green >}} Coleman, N., Fox, Horne, A., Hostetter, N., Madsen, J., *O'Brien M.H.P.*, Park, I.A., Stence, C., Secor, D.H., **In Press**. Spawning Run Estimates and Phenology for an Extremely Small Population of Atlantic Sturgeon in the Marshyhope Creek-Nanticoke River System, Chesapeake Bay. Marine and Coastal Fisheries. DOI: 10.1002/mcf2.10292
+{{< ai open-access size=lg color=green >}} Secor, D.H., *O’Brien, M.H.P.*, Bailey, H., 2024. The flyway construct and assessment of offshore wind farm impacts on migratory marine fauna. ICES JMS. https://doi.org/10.1093/icesjms/fsae138
+
+{{< ai open-access size=lg color=green >}} Coleman, N., Fox, Horne, A., Hostetter, N., Madsen, J., *O'Brien M.H.P.*, Park, I.A., Stence, C., Secor, D.H., 2024. Spawning Run Estimates and Phenology for an Extremely Small Population of Atlantic Sturgeon in the Marshyhope Creek-Nanticoke River System, Chesapeake Bay. Marine and Coastal Fisheries 16, e10292. DOI: 10.1002/mcf2.10292
 
 {{< ai open-access size=lg color=green >}} Rothermel, E.R., *O'Brien M.H.P.*, Best, J.E., Fox, D.A., Gahagan, B.I., Higgs, A.L., Park, I.A., Wippelhauser, G., Secor, D.H., 2024. An Eulerian perspective on habitat models of striped bass occurrence in an offshore wind development area. ICES Journal of Marine Science, fsad212. [https://doi.org/10.1093/icesjms/fsad212](https://doi.org/10.1093/icesjms/fsad212)
 
