@@ -20,6 +20,12 @@ Lightweight, low-level access to Innovasea's Fathom VDAT executable
 
 -   [https://rvdat.obrien.page/](https://rvdat.obrien.page/)
 
+## glatos (contributor)
+
+A package for the Great Lakes Acoustic Telemetry Observation System
+
+-  [https://github.com/ocean-tracking-network/glatos](https://github.com/ocean-tracking-network/glatos)
+
 ## TelemetryR **(Archived)**
 
 An R API package for the Atlantic Cooperative Telemetry (ACT) Network
