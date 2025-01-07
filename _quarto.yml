@@ -32,3 +32,4 @@ execute:
 resources: 
   - CNAME
   - .well-known/
+  - initial_map.html
