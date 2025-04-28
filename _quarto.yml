@@ -33,3 +33,4 @@ resources:
   - CNAME
   - .well-known/
   - initial_map.html
+  - interview_locations.html
