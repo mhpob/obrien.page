@@ -1,311 +1,10 @@
 [
   {
-    "objectID": "rugby/2023/east-demographics/index.html#geographic-unions-gus",
-    "href": "rugby/2023/east-demographics/index.html#geographic-unions-gus",
-    "title": "East Demographics",
-    "section": "Geographic Unions (GUs)",
-    "text": "Geographic Unions (GUs)"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Mike O'Brien",
+    "objectID": "rugby/index.html",
+    "href": "rugby/index.html",
+    "title": "Rugby",
     "section": "",
-    "text": "Welcome!\nI am a research assistant at the Chesapeake Biological Laboratory of the University of Maryland Center for Environmental Science who has lived a brief, former life as an interational rugby referee.\nWhen I’m not on the water, my areas of expertise lie in fish movement ecology, biotelemetry, R programming, and spatiotemporal mixed modelling. Please take a look at my research, blog, or software and reach out if you’re interestd in working together."
-  },
-  {
-    "objectID": "index.html#current-position",
-    "href": "index.html#current-position",
-    "title": "Mike O'Brien",
-    "section": "Current Position",
-    "text": "Current Position\nUniversity of Maryland Center for Environmental Science | Faculty Research Assistant | Sept 2013 - present"
-  },
-  {
-    "objectID": "index.html#education",
-    "href": "index.html#education",
-    "title": "Mike O'Brien",
-    "section": "Education",
-    "text": "Education\nUniversity of Maryland, College Park | College Park, MD | Masters in Fisheries Science | August 2013\nUniversity of Miami | Coral Cables, FL | B.S. in Marine and Atmospheric Science | May 2009"
-  },
-  {
-    "objectID": "blog/2023/03_07_coding_club_github_actions/index.html",
-    "href": "blog/2023/03_07_coding_club_github_actions/index.html",
-    "title": "Introduction to GitHub Actions",
-    "section": "",
-    "text": "This week, I wanted to talk to the Coding Club at UMCES about GitHub Actions. I had been messing around with them during the creation of the matos and otndo packages, and I started to realize how powerful the combination of R and GitHub actions could be. This exercise, however, made me remember that the quickest way to realize how little you understand of a topic is to attempt to teach it.\nThe presentation is attached."
-  },
-  {
-    "objectID": "blog/2023/05_25_time_series_box_plot/index.html",
-    "href": "blog/2023/05_25_time_series_box_plot/index.html",
-    "title": "Time series box plot using R’s ggplot2",
-    "section": "",
-    "text": "Before you start, know that this one is firmly in the “chart junk” category.\nIn a situation where I want to quickly view differences between some grouped data, I may use a box plot. A thick line in the center shows the mean, and the box itself displays the 25th-75th quartiles. The whiskers extend out to the observation no farther than 1.5 times this range. From ?ggplot2::geom_boxplot:\nggplot(mpg, aes(hwy, class)) +\n  geom_boxplot()\nAlternately, if I have a sequence of observations, I may use a line to connect them and visualize how the data change over time. From ?ggplot2::geom_line:\nggplot(economics_long, aes(date, value01, colour = variable)) +\n  geom_line()\nBut… what if I have grouped data that follow each other in time? Beyond committing what may be a statistical sin, how could I visualize this situation?\nOur lab group does a lot of before-after-control-impact (BACI) studies. Because of this, we’ve taken to visualizing any changes during our experiments using box plots that show group behavior before, during, and after the experiment. This does assume that the observations are independent, which they aren’t; we have multiple observations for each individual which correlated through time. I wanted to be able to see what the time series for each individual was within the box I’ve just put them in.\nSo, here’s how I created the unholy union of a time series and a box plot, overlaying each individual time series on a box and whisker plot."
-  },
-  {
-    "objectID": "blog/2023/05_25_time_series_box_plot/index.html#lets-make-some-dummy-data",
-    "href": "blog/2023/05_25_time_series_box_plot/index.html#lets-make-some-dummy-data",
-    "title": "Time series box plot using R’s ggplot2",
-    "section": "Let’s make some dummy data",
-    "text": "Let’s make some dummy data\n\nlibrary(ggplot2); library(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nmy_data &lt;- tibble(\n  # Create five individuals with 15 measurements each\n  individual = rep(letters[1:5], each = 15),\n  \n  # Create a time for each of the 15 measurements\n  time = rep(\n    seq.POSIXt(ISOdate(2020, 02, 03), by = 'min', length.out = 15),\n    times = 5),\n  \n  # Group by experimental phase\n  phase = factor(\n    rep(\n      c('Before', 'Impact', 'After'), each = 5, times = 5\n    ),\n    ordered = T,\n    levels = c('Before', 'Impact', 'After')\n  )\n) |&gt; \n  rowwise() |&gt; \n  mutate(\n    # make fake data\n    value = ifelse(phase %in% c('Before', 'After'),\n                         rnorm(1), rnorm(1, mean = -2))\n  )\n\nmy_data\n\n# A tibble: 75 × 4\n# Rowwise: \n   individual time                phase    value\n   &lt;chr&gt;      &lt;dttm&gt;              &lt;ord&gt;    &lt;dbl&gt;\n 1 a          2020-02-03 12:00:00 Before -0.641 \n 2 a          2020-02-03 12:01:00 Before  1.05  \n 3 a          2020-02-03 12:02:00 Before  1.19  \n 4 a          2020-02-03 12:03:00 Before -1.18  \n 5 a          2020-02-03 12:04:00 Before  0.0734\n 6 a          2020-02-03 12:05:00 Impact -1.52  \n 7 a          2020-02-03 12:06:00 Impact -2.33  \n 8 a          2020-02-03 12:07:00 Impact -3.00  \n 9 a          2020-02-03 12:08:00 Impact -1.63  \n10 a          2020-02-03 12:09:00 Impact -2.47  \n# ℹ 65 more rows\n\n\nEventually, we’ll want to find where, exactly, an observation falls in a given phase’s timeline. To do this, we’ll find start/end time for each trial phase and join them back in.\n\nmy_data &lt;- my_data |&gt; \n  group_by(phase) |&gt; \n  summarize(time.start = min(time),\n            time.end = max(time)) |&gt; \n  right_join(my_data)\n\nJoining with `by = join_by(phase)`\n\nmy_data\n\n# A tibble: 75 × 6\n   phase  time.start          time.end            individual time               \n   &lt;ord&gt;  &lt;dttm&gt;              &lt;dttm&gt;              &lt;chr&gt;      &lt;dttm&gt;             \n 1 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 a          2020-02-03 12:00:00\n 2 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 a          2020-02-03 12:01:00\n 3 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 a          2020-02-03 12:02:00\n 4 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 a          2020-02-03 12:03:00\n 5 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 a          2020-02-03 12:04:00\n 6 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 b          2020-02-03 12:00:00\n 7 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 b          2020-02-03 12:01:00\n 8 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 b          2020-02-03 12:02:00\n 9 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 b          2020-02-03 12:03:00\n10 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 b          2020-02-03 12:04:00\n# ℹ 65 more rows\n# ℹ 1 more variable: value &lt;dbl&gt;\n\n\nPOSIX dates are the number of seconds since midnight on Jan 1, 1970. While we can’t do easy math on a date, we can easily use the number of seconds. Let’s convert the POSIX dates to numeric; we can use this to translate each time series to a different scale in the next step, below.\n\nmy_data &lt;- my_data |&gt; \n  mutate_at(vars(starts_with('time')),\n            as.numeric)\n\nmy_data\n\n# A tibble: 75 × 6\n   phase  time.start   time.end individual       time   value\n   &lt;ord&gt;       &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;\n 1 Before 1580731200 1580731440 a          1580731200 -0.641 \n 2 Before 1580731200 1580731440 a          1580731260  1.05  \n 3 Before 1580731200 1580731440 a          1580731320  1.19  \n 4 Before 1580731200 1580731440 a          1580731380 -1.18  \n 5 Before 1580731200 1580731440 a          1580731440  0.0734\n 6 Before 1580731200 1580731440 b          1580731200  1.41  \n 7 Before 1580731200 1580731440 b          1580731260 -0.822 \n 8 Before 1580731200 1580731440 b          1580731320  0.976 \n 9 Before 1580731200 1580731440 b          1580731380 -1.11  \n10 Before 1580731200 1580731440 b          1580731440 -1.88  \n# ℹ 65 more rows"
-  },
-  {
-    "objectID": "blog/2023/05_25_time_series_box_plot/index.html#initial-plots",
-    "href": "blog/2023/05_25_time_series_box_plot/index.html#initial-plots",
-    "title": "Time series box plot using R’s ggplot2",
-    "section": "Initial plots",
-    "text": "Initial plots\nSo… what does a box plot of this data look like?\n\nggplot(data = my_data, aes(x = phase, y = value)) +\n  geom_boxplot()\n\n\n\n\n\n\n\n\nWe see that our “Impact” dropped the mean and the Before and After periods are similar. Good, we coded it that way. What if we overlay the raw values?\n\nggplot(data = my_data, aes(x = phase, y = value)) +\n  geom_boxplot() +\n  geom_point(aes(color = individual))"
-  },
-  {
-    "objectID": "blog/2023/05_25_time_series_box_plot/index.html#nudge-things-along",
-    "href": "blog/2023/05_25_time_series_box_plot/index.html#nudge-things-along",
-    "title": "Time series box plot using R’s ggplot2",
-    "section": "Nudge things along",
-    "text": "Nudge things along\nWhat if we try to “nudge” the values away from the middle? Using the position argument of geom_point, we can provide how much we want the values “nudged”. This argument takes the output of another function, position_nudge.\n\nggplot(data = my_data, aes(x = phase, y = value)) +\n  geom_boxplot() +\n  geom_point(aes(color = individual),\n             position = position_nudge(x = 3))\n\n\n\n\n\n\n\n\nThat… didn’t quite do what we wanted."
-  },
-  {
-    "objectID": "blog/2023/05_25_time_series_box_plot/index.html#how-ggplot2-creates-space",
-    "href": "blog/2023/05_25_time_series_box_plot/index.html#how-ggplot2-creates-space",
-    "title": "Time series box plot using R’s ggplot2",
-    "section": "How ggplot2 creates space",
-    "text": "How ggplot2 creates space\nWe see above that all of points fall on a line in the dead center of the boxes. It’s important to recognize how ggplot2 allocates space in a box plot: the total width available to each box is equal to 1, running from -0.5 to 0.5, with 0 being the center of each variable (where the box whiskers are). This includes the space between boxes, so ~2/3 of this space given for the box and 1/3 is given to space on either side.\nWe want to translate the observation time (within the given trial phase start/end range) to a range that can fit within the boxes of the box plot. Since 2/3 of the space provided for each box is given to the box, itself, this range is from -1/3 to +1/3. We can use this number to “nudge” the observation to the left (negative values) or right (positive values) of the center of the box."
-  },
-  {
-    "objectID": "blog/2023/05_25_time_series_box_plot/index.html#hack-the-space",
-    "href": "blog/2023/05_25_time_series_box_plot/index.html#hack-the-space",
-    "title": "Time series box plot using R’s ggplot2",
-    "section": "Hack the space",
-    "text": "Hack the space\nWe do this by re-scaling the data: multiplying the number of seconds into the a phase (time - time.start) by the amount of space available (\\(1/3 - (-1/3)\\), or \\(2/3\\)), then dividing that by the length of time in that phase (time.end - time.start).\nNote that position_nudge is not aware of what data you’re using in the rest of the ggplot call, so you have to give the full reference using $.\n\nmy_data &lt;- my_data |&gt; \n  mutate(\n    nudge = (\n      ((time - time.start) * (1/3 - (-1/3))) /\n        (time.end - time.start)\n      )\n  )\n\nggplot(data = my_data, aes(x = phase, y = value)) +\n  geom_boxplot() +\n  geom_point(aes(color = individual),\n             position = position_nudge(x = my_data$nudge))\n\n\n\n\n\n\n\n\nCloser! Since we want to align this with the left-hand side of the box, and that half of the box has a width of 1/3, we subtract 1/3.\n\nmy_data &lt;- my_data |&gt; \n  mutate(\n    nudge = (\n      ((time - time.start) * (1/3 - (-1/3))) /\n        (time.end - time.start)\n      ) - 1/3\n  )\n\nggplot(data = my_data, aes(x = phase, y = value)) +\n  geom_boxplot() +\n  geom_point(aes(color = individual),\n             position = position_nudge(x = my_data$nudge))\n\n\n\n\n\n\n\n\nThe points are where they’re supposed to be, now we just have to connect them! Remember that the lines have to be nudged, too, so we need to provide the exact same arguments to geom_line as we did to geom_point.\n\nggplot(data = my_data, aes(x = phase, y = value)) +\n  geom_boxplot() +\n  geom_point(aes(color = individual),\n             position = position_nudge(x = my_data$nudge)) +\n  geom_line(aes(color = individual),\n            position = position_nudge(x = my_data$nudge))"
-  },
-  {
-    "objectID": "blog/2023/05_25_time_series_box_plot/index.html#conclusion",
-    "href": "blog/2023/05_25_time_series_box_plot/index.html#conclusion",
-    "title": "Time series box plot using R’s ggplot2",
-    "section": "Conclusion",
-    "text": "Conclusion\nWell, is this ever chart junk. It’s junk, though, that I find descriptive, hiding the original sin of cramming autocorrelated data into a box plot. I still feel that it has utility in spite of its dirty feeling. Maybe, just maybe, you’ll see the time series box plot in a manuscript near you.\nOr not."
-  },
-  {
-    "objectID": "blog/2023/03_31_rotating_coastline/index.html",
-    "href": "blog/2023/03_31_rotating_coastline/index.html",
-    "title": "Rotating polygons in sf",
-    "section": "",
-    "text": "The east coast of the United States spans nearly 20 degrees of longitude and 30 degrees of latitude, with a major axis that runs more “northeast-to-southwest” than “north-to-south”. Because of this, I wind up with a lot of wasted space when trying to plot the coast. Take a look to see what I mean:\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nlibrary(sf)\n\nLinking to GEOS 3.11.2, GDAL 3.6.2, PROJ 9.2.0; sf_use_s2() is TRUE\n\nlibrary(rnaturalearth)\n\nSupport for Spatial objects (`sp`) will be deprecated in {rnaturalearth} and will be removed in a future release of the package. Please use `sf` objects with {rnaturalearth}. For example: `ne_download(returnclass = 'sf')`\n\nlibrary(ggplot2)\n\ntheme_set(theme_minimal())\neast_coast &lt;- \n  # Import the Natural Earth states polygon using rnaturalearth\n  ne_states(country = 'united states of america',\n            returnclass = 'sf') |&gt;\n  # crop to the US east coast\n  st_crop(xmin = -82, xmax = -67,\n          ymin = 20, ymax = 48)\n\nThe rnaturalearthhires package needs to be installed.\n\n\nInstalling the rnaturalearthhires package.\n\n\nDownloading GitHub repo ropensci/rnaturalearthhires@HEAD\n\n\n\n── R CMD build ─────────────────────────────────────────────────────────────────\n* checking for file 'C:\\Users\\darpa2\\AppData\\Local\\Temp\\RtmpmmpUkt\\remotesc40603f1bc5\\ropensci-rnaturalearthhires-db8e433/DESCRIPTION' ... OK\n* preparing 'rnaturalearthhires':\n* checking DESCRIPTION meta-information ... OK\n* checking for LF line-endings in source and make files and shell scripts\n* checking for empty or unneeded directories\n* building 'rnaturalearthhires_1.0.0.tar.gz'\n\n\n\nInstalling package into 'C:/Users/darpa2/AppData/Local/R/win-library/4.3'\n(as 'lib' is unspecified)\n\n\nWarning: attribute variables are assumed to be spatially constant throughout\nall geometries\n\nggplot() +\n  geom_sf(data = east_coast)\nFirstly, I maybe should choose a different spatial polygon – this one has sunk the entirety of Virginia’s eastern shore! I’ll ignore that for now and move on.\nIf I’m planning to map migrations of fish along the coast (a common occurrence), I only need a little bit along the coast. The Sargasso Sea to the bottom right and Great Lakes to the top left are completely unnecessary.\nOne way to address this is to rotate the map so that the axis running from Florida to Maine is more-or-less vertical. My first attempt at this was using an affine transformation as outlined in the sf package documentation, but that didn’t quite work out."
-  },
-  {
-    "objectID": "blog/2023/03_31_rotating_coastline/index.html#affine-transformation",
-    "href": "blog/2023/03_31_rotating_coastline/index.html#affine-transformation",
-    "title": "Rotating polygons in sf",
-    "section": "Affine transformation",
-    "text": "Affine transformation\nAccording to Wikipedia:\n\nan affine transformation…is a geometric transformation that preserves lines and parallelism, but not necessarily Euclidean distances and angles.\n\nIn addition to the sf vignette linked above, the free Geocomputation with R book provides a good outline. I’ll use their rotating function below to rotate the polygon counterclockwise by 40 degrees, which should make that N-S axis.\n\n# Rotation function\nrotation &lt;- function(a){\n  r &lt;- a * pi / 180 # degrees to radians\n  matrix(c(cos(r), sin(r), -sin(r), cos(r)), nrow = 2, ncol = 2)\n} \n\n# Apply affine transformation by rotating the geometry column\nec_affine &lt;- east_coast |&gt; \n  mutate(geometry = geometry * rotation(-40))\n\nggplot() +\n  geom_sf(data = ec_affine)\n\n\n\n\n\n\n\n\nAlright! Now all we need to do is trim the plotting area down and we’re in business!\nBut… wait a minute. Those axes make no sense. Since when is Maine at -10 degrees latitude? Let’s compare how the coordinates were changed.\n\n# Original polygon\neast_coast$geometry[1]\n\nGeometry set for 1 feature \nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: -82 ymin: 38.87425 xmax: -80.52023 ymax: 41.98446\nGeodetic CRS:  WGS 84\n\n\nPOLYGON ((-82 39.02017, -81.98432 39.01206, -81...\n\n# Affine-transformed polygon\nec_affine$geometry[1]\n\nGeometry set for 1 feature \nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: -89.49897 ymin: -22.87228 xmax: -87.42692 ymax: -19.59544\nCRS:           NA\n\n\nPOLYGON ((-87.89733 -22.8174, -87.8801 -22.8135...\n\n\nIt looks like the raw values were changed (as anticipated). However, they’re values that don’t really make sense in terms of the coordinate reference system with which we started. There is also no longer a CRS listed! So, our polygon is “spatial” insofar as it having a spatial attributes via a well-known text geometry column as made by sf, but it’s no longer actually something that we know how to place in space.\nThis is where the problems begin.\nWhat if, for instance, we wanted to add a layer from a different source?\n\nnc &lt;- st_read(system.file(\"shape/nc.shp\", package=\"sf\"),\n              quiet = T)\n\nggplot() +\n  geom_sf(data = ec_affine) +\n  geom_sf(data = nc, fill = 'red')\n\nError in st_transform.sfc(X[[i]], ...): cannot transform sfc object with missing crs\n\n\nWe get a blank plot and an error – since the affine-transformed polygon no longer has a CRS, sf and ggplot no longer know where or how to place the new object onto the map."
-  },
-  {
-    "objectID": "blog/2023/03_31_rotating_coastline/index.html#oblique-mercator",
-    "href": "blog/2023/03_31_rotating_coastline/index.html#oblique-mercator",
-    "title": "Rotating polygons in sf",
-    "section": "Oblique Mercator",
-    "text": "Oblique Mercator\nA flurry of failed Googling eventually led me to this Stack Overflow answer, where the author suggests using the oblique Mercator projection.\nThe difference between the Mercator (what we see when we look at something like Google Maps…ish; that’s actually web Mercator), transverse Mercator (the “TM” of “UTM” fame), and oblique Mercator lies in what it considers to be the major axis. A Mercator uses the equator, while a transverse Mercator uses a meridian (a particular longitude). Oblique Mercator uses some arbitrary line. This line can be determined using a point (the +lonc and +lat_0 arguments in a PROJ string) and an azimuth (either the +alpha or +gamma) or two points (+lat_1, +lon_1, +lat_2, +lon_2). I’ve found that providing a rotation away from North in degrees to the +gamma argument is what makes the most-intuitive sense to me.\n\nec_omerc &lt;- east_coast |&gt; \n  st_transform('+proj=omerc +lat_0=40 +lonc=-74 +gamma=-40')\n\nggplot() +\n  geom_sf(data = ec_omerc)\n\n\n\n\n\n\n\n\nThis seems to be doing what we want at first blush. The graticule is rotated in a way that makes sense, and the axes are consistent with what we would think the proper values would be. What does it look like under the hood?\n\nec_omerc$geometry[1]\n\nGeometry set for 1 feature \nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: -639662.3 ymin: -514225.3 xmax: -440446.8 ymax: -162784.6\nProjected CRS: +proj=omerc +lat_0=40 +lonc=-74 +gamma=-40\n\n\nPOLYGON ((-480816 -505539.5, -479177.8 -505499,...\n\n\nSeems that units are in something like meters and it has a CRS! This means we could add a different spatial polygon:\n\nggplot() +\n  geom_sf(data = ec_omerc) +\n  geom_sf(data = nc, fill = 'red')\n\n\n\n\n\n\n\n\nAwesome! Now to trim the map to our specification with coord_sf.\n\nggplot() +\n  geom_sf(data = ec_omerc) +\n  geom_sf(data = nc, fill = 'red') +\n  coord_sf(xlim = c(-77, -69), ylim = c(37, 44))\n\n\n\n\n\n\n\n\nWell, that…didn’t work. Why not? Well, in essence, we’re providing two different units: ec_omerc has units of meters and we’ve provided units of degrees to coord_sf, assuming that it’s still using latitude and longitude (a CRS of WGS83/EPSG4326 in this case).\nThe hint to solve this is in the help documentation of coord_sf, specifically in the default_crs argument:\n\nThe default CRS to be used for non-sf layers (which don’t carry any CRS information) and scale limits. The default value of NULL means that the setting for crs is used. This implies that all non-sf layers and scale limits are assumed to be specified in projected coordinates. A useful alternative setting is default_crs = sf::st_crs(4326), which means x and y positions are interpreted as longitude and latitude, respectively, in the World Geodetic System 1984 (WGS84).\n\nWhen we use the xlim and ylim arguments, it’s going to default to using the CRS that is in the first layer. This would be our oblique Mercator projection, so we would have to provide something in meters. It’s so easy to just look at the axes that have been printed and work from there – so, we’re thinking in WGS84/EPSG 4326. We can just tell coord_sf that this is our frame of reference using the default_crs argument.\n\nggplot() +\n  geom_sf(data = ec_omerc) +\n  geom_sf(data = nc, fill = 'red') +\n  coord_sf(default_crs = 4326,\n           xlim = c(-77, -69), ylim = c(37, 44))\n\n\n\n\n\n\n\n\nAlmost there. But, wait – shouldn’t North Carolina be in the picture if we’re down around 37 degrees latitude? Let’s check using the same limits in the original projection.\n\nggplot() +\n  geom_sf(data = east_coast) +\n  coord_sf(xlim = c(-77, -71), ylim = c(37, 44))\n\n\n\n\n\n\n\n\nYes – North Carolina is there. So what’s going on?\nWell, we are seeing 37 degrees latitude in the oblique Mercator projection – it’s the little sliver on the bottom right. If we’re rotating everything counter-clockwise by 40 degrees and keeping the same rectangular view, this means that we’re adding some latitude at the bottom right of the frame and removing some from the top left. Similarly, we’d add some longitude in the bottom left and remove some from the top right. We need to fudge things now to get what we want included.\n\nggplot() +\n  geom_sf(data = ec_omerc) +\n  geom_sf(data = nc, fill = 'red') +\n  coord_sf(default_crs = 4326,\n           xlim = c(-75, -73), ylim = c(34, 44.5))\n\n\n\n\n\n\n\n\nThere we go! So much less wasted space!"
-  },
-  {
-    "objectID": "blog/2023/03_31_rotating_coastline/index.html#summary",
-    "href": "blog/2023/03_31_rotating_coastline/index.html#summary",
-    "title": "Rotating polygons in sf",
-    "section": "Summary",
-    "text": "Summary\nIn closing, here are the main takeaways:\n\nIf you want to rotate your map, you can do it in at least two ways:\nAffine transformation\nOblique Mercator\nIf you use the Affine transformation, you’re just multiplying you coordinates by a number. This will rotate everything and make it plot-able, but you’re now using a custom, undefined coordinate reference system.\nIf you project the underlying spatial data into some sort of rotated coordinate reference system, like the oblique Mercator outlined here, you have a defined coordinate reference system and can continue to treat your polygon as a spatial object\nWhen plotting with ggplot2, you can continue to use intuitive latitude/longitude to “zoom in”, but you will likely have to provide a default CRS when the units are not in degrees\nUsing a rotated projection and a rectangular view port will likely produce unintuitive results – be prepared to work iteratively and fudge things around."
-  },
-  {
-    "objectID": "blog/2023/03_10_google_and_github_actions/index.html",
-    "href": "blog/2023/03_10_google_and_github_actions/index.html",
-    "title": "Connecting Google Sheets and GitHub Actions",
-    "section": "",
-    "text": "There are already a few blogs and presentations that outline the why and how of GitHub Actions and R:\nAnd also how to schedule R analysis to run on a schedule or connect with Google services:\nBecause of this, I’m going to skip right ahead to the part that always trips me up: connecting Google services like Google Drive and Google Sheets to an R script scheduled to run via GitHub Actions."
-  },
-  {
-    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#so-you-want-to-automate-saving-things-in-a-google-sheet",
-    "href": "blog/2023/03_10_google_and_github_actions/index.html#so-you-want-to-automate-saving-things-in-a-google-sheet",
-    "title": "Connecting Google Sheets and GitHub Actions",
-    "section": "So, you want to automate saving things in a Google Sheet?",
-    "text": "So, you want to automate saving things in a Google Sheet?\nWhen scheduling some code to run with GitHub Actions, a common workflow has been to run some code on schedule using GitHub Actions, save the results to Google Sheets, and allow my boss/peers to leverage the collaborative aspect of Google Sheets to comments and interact with the data product. Recently, this has taken the form of scraping data from websites that are frequently updated or display some sort of ephemeral data.\nThe most-difficult part of the whole process for me, however, has been getting the Google Sheets/Google Drive permissions set up. I’ve spent many hours failing at this, so this document is meant to leave a trail so we don’t have to fail twice."
-  },
-  {
-    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#permissions-needed",
-    "href": "blog/2023/03_10_google_and_github_actions/index.html#permissions-needed",
-    "title": "Connecting Google Sheets and GitHub Actions",
-    "section": "Permissions needed",
-    "text": "Permissions needed\nThe googledrive and googlesheets4 packages make it as easy as possible to interface with Google Drive and Google Sheets in R. Both leverage the gargle package to set up the security tokens needed to interface with all of the Google services.\nThe googledrive package uses the drive_auth function to interface with gargle and set up your authorization, while googlesheets4 uses gs4_auth. This process is easy, streamlined, and interactive – it opens up a browser window, you log into your Google account and tell it “yes, I want this to be able to access my files”, and that’s it! Unfortunately, if we’re running this in the cloud somewhere using GitHub Actions we’re not going to be there to click the button."
-  },
-  {
-    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#google-cloud-platform",
-    "href": "blog/2023/03_10_google_and_github_actions/index.html#google-cloud-platform",
-    "title": "Connecting Google Sheets and GitHub Actions",
-    "section": "Google Cloud Platform",
-    "text": "Google Cloud Platform\nBoth packages point to an article in gargle entitled “How to get your own API credentials”. This does an excellent job of walking through the how and why; the section of interest to us is “Service account token”.\nThe first step they outline is to go to the Google Cloud Platform website: https://console.cloud.google.com. Once you’re there, make sure you’re logged in to the correct account! Again, I emphasize:\nMAKE SURE YOU’RE LOGGED IN TO THE CORRECT ACCOUNT!\nLook in the top right, and make sure the correct profile picture is staring back at you. I ran into many hours of frustration trying everything to get permissions to work and experiencing failure after frustrating failure. Then I found out that I had made the key in my personal account rather than my institutional account.🤦\nOnce you are logged in to the CORRECT account, create a new project (or select an exiting one) using the drop-down menu next to the “GoogleCloud” banner at the top."
-  },
-  {
-    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#create-a-service-account-token",
-    "href": "blog/2023/03_10_google_and_github_actions/index.html#create-a-service-account-token",
-    "title": "Connecting Google Sheets and GitHub Actions",
-    "section": "Create a service account token",
-    "text": "Create a service account token\nNow we’ll create a service account token.\n\nClick the navigation menu, and select “IAM & Admin”, then “Service Accounts”.\nAt the top, next to “Service accounts” select “+ CREATE SERVICE ACCOUNT”.\nAdd a name (I suggest something somewhat descriptive) and the “Service account ID” section will autofill. Add a description if you desire.\nThis token will basically be a fake robot person – you can select what projects and permissions this fake person will have, or you can skip it. You can change these later – no biggy.\nClick “DONE”.\nClick your newly-created service account and go to the “KEYS” tab.\nClick “ADD KEY”, “Create new key”, select “JSON”, then “CREATE”.\nThis will download a file. Pay attention to where it goes!"
-  },
-  {
-    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#turn-on-the-google-sheetsdrive-api-for-your-gcp-project",
-    "href": "blog/2023/03_10_google_and_github_actions/index.html#turn-on-the-google-sheetsdrive-api-for-your-gcp-project",
-    "title": "Connecting Google Sheets and GitHub Actions",
-    "section": "Turn on the Google Sheets/Drive API for your GCP project",
-    "text": "Turn on the Google Sheets/Drive API for your GCP project\nNow, we’ll enable the Google Sheets and/or Google Drive API to allow the service account token to work.\n\nClick the menu, then “APIs & Services”.\nSearch for Google Sheets in the search bar.\nSelect “Google Sheets API” from the results.\nClick “ENABLE”.\nRepeat for Google Drive, if necessary."
-  },
-  {
-    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#fake-google-robot-people",
-    "href": "blog/2023/03_10_google_and_github_actions/index.html#fake-google-robot-people",
-    "title": "Connecting Google Sheets and GitHub Actions",
-    "section": "Fake Google Robot People",
-    "text": "Fake Google Robot People\nYou’ve basically just created a fake Google robot person. You need to give the fake-Google-robot-person access to the document (like you would a real person) using the fake-Google-robot-person email that is listed within the Service Accounts section.\n\nIn the “Service accounts” section we just visited, you can see your service account token listed by an email. It should be something like “YOUR-SERVICE-ACCOUNT-NAME@YOUR-GCP-PROJECT-NAME.iam.gserviceaccount.com”\nNavigate to your Google Drive/Sheet you want it to be able to access\nIf a Google Sheet, click “share” on the top right, paste in the robot-person email, and share it. For a Google Drive, navigate to the folder/item you’d like to share and do the same."
-  },
-  {
-    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#add-your-token-to-github-action-secrets",
-    "href": "blog/2023/03_10_google_and_github_actions/index.html#add-your-token-to-github-action-secrets",
-    "title": "Connecting Google Sheets and GitHub Actions",
-    "section": "Add your token to GitHub Action secrets",
-    "text": "Add your token to GitHub Action secrets\nWe’re nearing the end!\n\nGo into the GitHub repository that houses your GitHub Actions.\nClick “Settings”.\nUnder “Security” in the menu on the left side, select “Secrets and variables” and then “Actions”.\nClick “New repository secret”.\nCopy/paste the text in the file that was downloaded when you created your service account token and paste it into the “Secret” section.\nGive the secret a name.\nClick “Add secret”.\n\nYour service access token can now be added to the .Renviron of the runner created for your GitHub Action. Don’t think too hard about what this means – for us, it just means that we can access the token in a secret way using the name we just gave the secret using Sys.getenv('NAME_OF_MY_SECRET')."
-  },
-  {
-    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#coding-on-your-computer",
-    "href": "blog/2023/03_10_google_and_github_actions/index.html#coding-on-your-computer",
-    "title": "Connecting Google Sheets and GitHub Actions",
-    "section": "Coding on your computer",
-    "text": "Coding on your computer\nWhen working through the code on your computer, use the path argument to googledrive::drive_auth or googlesheets4::gs4_auth to tell R where you find your service access token.\n\n# for googledrive\ndrive_auth(path = 'path/to/my/service_token.json')\n\n# for googlesheets4\ngs4_auth(path = 'path/to/my/service_token.json')\n\nWhen you are ready to incorporate this into a GitHub Action, change this to Sys.getenv('NAME_OF_MY_SECRET').\n\ngs4_auth(path = Sys.getenv('NAME_OF_MY_SECRET'))"
-  },
-  {
-    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#github-actions",
-    "href": "blog/2023/03_10_google_and_github_actions/index.html#github-actions",
-    "title": "Connecting Google Sheets and GitHub Actions",
-    "section": "GitHub Actions",
-    "text": "GitHub Actions\nGoing over GitHub Actions and creating the needed workflow files is beyond the scope of this document.\nWorking back-to-front in the workflow YAML for web-scraping GitHub Action of mine, you can see that we have ask GitHub to pull the secret called “GDRIVE_PAT” (secret.GDRIVE_PAT) and assign it to a variable called GDRIVE_PAT (GDRIVE_PAT:) in our environment (env:).\njobs: \n  scrape_it:\n    runs-on: ubuntu-latest\n    env:\n      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}\n      GDRIVE_PAT: ${{ secrets.GDRIVE_PAT }}\nThis stores our access token in a variable called “GDRIVE_PAT” in the server’s .Renvrion. Now, when we write gs4_auth(path = Sys.getenv('GDRIVE_PAT')), our GitHub Action is allowed to access our Google Sheet! SUCCESS!\nThe neatest part is that this server is created and destroyed during this session, and our secret is never put out in the open. Completely secure!"
-  },
-  {
-    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html",
-    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html",
-    "title": "Creating custom FarmOS satellite tiles",
-    "section": "",
-    "text": "Here’s an exercise: head over to Google Maps, find your house, and note how long ago those satellite pictures were taken. Chances are it has been a while. Most of the time this is probably not an issue, but we are going through a period of rapid modification of our land, our house, and our farm as we hack it out of the woods and its 15-year-long abandonment."
-  },
-  {
-    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#update-me",
-    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#update-me",
-    "title": "Creating custom FarmOS satellite tiles",
-    "section": "",
-    "text": "Here’s an exercise: head over to Google Maps, find your house, and note how long ago those satellite pictures were taken. Chances are it has been a while. Most of the time this is probably not an issue, but we are going through a period of rapid modification of our land, our house, and our farm as we hack it out of the woods and its 15-year-long abandonment."
-  },
-  {
-    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#getting-some-rest",
-    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#getting-some-rest",
-    "title": "Creating custom FarmOS satellite tiles",
-    "section": "Getting some REST",
-    "text": "Getting some REST\nSimilar to their Google Maps add-on, the FarmOS user Symbionique had created a FarmOS add-on in the Drupal framework that allowed access to satellite imagery of the San Juan Islands. The add-on leverages an ArcGIS RESTful API that is used by many governmental agencies. And, just my luck, both my local county (Henrico, VA) and my Commonwealth (Virginia) were also providing current satellite imagery via REST APIs!\nThe San Juan Islands, Henrico County, VA and the Commonwealth of Virginia are not unique in providing this service. Head to your favorite internet search provider and look for “YOUR LOCALITY arcgis rest services” and you might be able to find one of your own.\nTo start taking advantage of these services, go ahead and clone one of the related repositories on on my GitHub. Map tiles of Virginia can be found here and tiles of Henrico County, VA can be found here.\nMost of what we will wind up doing is renaming files. But first:"
-  },
-  {
-    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#an-image-by-any-other-name",
-    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#an-image-by-any-other-name",
-    "title": "Creating custom FarmOS satellite tiles",
-    "section": "An image by any other name…",
-    "text": "An image by any other name…\nAfter you find your locality’s REST service, you’ll need to do some poking around to find out what that locality has named its images. In San Juan, it was Basemaps/Aerials_yyyy; Virginia was listed as VBMP_Imagery/VBMPyyyy_WGS; Henrico as Imagery/AerialPhotosyyyy where “yyyy” represents the year of the image. It will usually have “MapServer” in parentheses next to it, but it could also be “ImageServer”.\n\nAt the bottom of this page, there will be a section titled “Supported Interfaces”. One of the options should be “REST”. When you click on that, it should produce a JSON version of the index. See everything under “services”?? This is the treasure for which you’ve come!"
-  },
-  {
-    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#json-meat",
-    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#json-meat",
-    "title": "Creating custom FarmOS satellite tiles",
-    "section": "JSON meat",
-    "text": "JSON meat\nDrupal, which FarmOS is built upon, leans heavily on JSON to parameterize its plugins. You can find the “meat” of this add-on in the js/ folder. This folder contains one script with one function, which takes the JSON list we found above and uses that to create URLs and names of all of the base layers. Part-way down the code, you’ll see a variable called “basemaps” being defined. It looks something like this:\n#| eval: false\nvar basemaps = [\n  {\n   \"name\": \"Imagery/AerialPhotos1998\",\n   \"type\": \"ImageServer\"\n  },\n  {\n   \"name\": \"Imagery/AerialPhotos2002\",\n   \"type\": \"ImageServer\"\n  }\n];\nNotice any similarities? Yep, it’s the REST JSON we found before. Copy everything under “services” and paste it right in there.\nWe’ve now provided the function with the information it needs to call up the map tiles once it knows where to find the server. The next section of the function utilizes the basemaps variable we defined above to build out the URL to the server. The function is looped over every map located in the basemaps variable.\n#| eval: false  \nbasemaps.forEach(function(basemap) {\n  var opts = {\n    // Create name from the stuff after the slash\n    title: \"Henrico \" + basemap.name.split('/')[1],\n    // Put together the URL\n    url: 'https://portal.henrico.us/image/rest/services/' + basemap.name + '/' + basemap.type,\n    visible: false,\n    base: true,\n    group: 'Base layers',\n  };\n  instance.addLayer('arcgis-tile', opts);\n});\nAnd that’s about it – all of the hard stuff is over. There is, however, one thing left to do, and it’s kind of annoying"
-  },
-  {
-    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#find-everything-with-henrico-in-it",
-    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#find-everything-with-henrico-in-it",
-    "title": "Creating custom FarmOS satellite tiles",
-    "section": "Find everything with “henrico” in it",
-    "text": "Find everything with “henrico” in it\nYes, it gets its own section. We now need to go through and personalize the add-on by changing every instance of “henrico” to whichever locality we’re representing. It’s easy, but there are quite a few references to the locality hidden in there. Check file names, variable names, everything. CTRL-F the whole repo. Seriously."
-  },
-  {
-    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#install-the-add-on",
-    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#install-the-add-on",
-    "title": "Creating custom FarmOS satellite tiles",
-    "section": "Install the add-on",
-    "text": "Install the add-on\nAfter this is done, install the add-on as you otherwise would. git clone the repository into your FarmOS folder and activate it via the web interface. If you need tips on how to do this, check out my previous post on how to add a FarmOS module to your home server."
-  },
-  {
-    "objectID": "blog/2023/12_18_utm/index.html",
-    "href": "blog/2023/12_18_utm/index.html",
-    "title": "O (T/U) MERC God",
-    "section": "",
-    "text": "A question was thrown into the ether a few days ago that gave me a reason to learn a little bit of R’s terra package. The answer, itself, turned out to be not overly complicated (in spite of a few frustrating hurdles) and I’ll get to that in my next post. However, what I extracted from this was one more brick in my personal wall against the blind use of Universal Transverse Mercator (UTM). Through a worked example coming soon, I hope to instill this in you – but for now, it’s worthwhile to figure out what “UTM” actually is.\nUTM is pretty ubiquitious. Two of my recent posts have already touched on “UTM” projections. Chances are that you’ve oscillated between using WGS84 (thanks, GPS) and projecting into UTM when you need to measure a distance. I’m even willing to bet that you’ve squinted at an image of the Earth, laid out flat and divvied up into XXX north and south sections, trying to find where your study site falls. All of us on the east coast of North America have blindly pumped a code for “UTM some-teen-N” into our GIS. We’ve seen axes labeled with “eastings” and “northings” and just moved on. We may have even stumbled across people on Twitter lamenting its use.\nSo… What’s in a UTM?\n\nCalling Mr Kremer Mercator\nIn order to unravel UTM, you need to start with the last letter: M for Mercator. The projection was made by Gerardus Mercator, self-changed from Geert de Kremer in his teens to sound more Latin, so that it would be easy to navigate via Google Maps via ship by preserving the angles between two points, among other neat features.\n\n\nMercator projection\nThe easiest way I’ve found to interpret the projection is to think of the Earth as a sphere with a giant piece of paper wrapped around it to make a cylinder. The Mercator projection wraps this paper such that the paper touches along the equator, then unravels the paper and smushes out the poles.\n\n\nCode\nlibrary(rgl)\n\n# code copied from ?rgl::persp3d()\nlat &lt;- matrix(seq(90, -90, length.out = 50)*pi/180, 50, 50, byrow = TRUE)\nlong &lt;- matrix(seq(-180, 180, length.out = 50)*pi/180, 50, 50)\n\nr &lt;- 6378.1 # radius of Earth in km\n\nx &lt;- r*cos(lat)*cos(long)\ny &lt;- r*cos(lat)*sin(long)\nz &lt;- r*sin(lat)\n\nopen3d(silent = TRUE)\n\npersp3d(x, y, z, col = \"white\", \n       texture = system.file(\"textures/worldsmall.png\", package = \"rgl\"), \n       specular = \"black\", axes = FALSE, box = FALSE,\n       xlab = \"\", ylab = \"\", zlab = \"\",\n       normal_x = x, normal_y = y, normal_z = z)\n\n\ncylinder3d(\n  center = matrix(c(0, 0, -r,\n                    0, 0, r),\n                  ncol = 3, byrow = T),\n  radius = r\n) |&gt; \n  wire3d()\n\n\narc3d(c(0, -r, 0),\n      c(r, 0, 0),\n      center = c(0, 0, 0),\n      base = -1,\n      col = 'red')\n\n\n\n\nWe can plot this by transforming (projecting) our latitude/longitude data. In R’s sf package, this can be done a few ways; I’ll be using PROJ strings. You’ll often see these referred to as a “proj4string” – that’s just because PROJ used to be called “PROJ.4”.\nThe default specification for Mercator and the different options you can use are well-outlined in the PROJ help documentation.\n\nlibrary(sf)\n\nLinking to GEOS 3.11.2, GDAL 3.6.2, PROJ 9.2.0; sf_use_s2() is TRUE\n\nne_lonlat &lt;- '/vsizip/vsicurl/https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip' |&gt; \n  read_sf()\n\nne_merc &lt;- ne_lonlat |&gt; \n  st_transform('+proj=merc') \n\n# Full string, including all of the default values\n#   Note the reference to \"proj4string\"...\nst_crs(ne_merc)$proj4string\n\n[1] \"+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs\"\n\nne_merc |&gt; \n  st_geometry() |&gt; \n  plot(\n    # adding limits since Antarctica tries to go on forever\n    ylim = c(-1.84e7, 1.84e7)\n  ) \n\n\n\n\n\n\n\n\n\n\nTransverse Mercator projection\nA Transverse Mercator does the same thing, but turns the cylinder perpendicular to the equator so that, instead of the equator, it touches some given longitude.\n\n\nCode\nopen3d(silent = TRUE)\n\npersp3d(x, y, z, col = \"white\", \n       texture = system.file(\"textures/worldsmall.png\", package = \"rgl\"), \n       specular = \"black\", axes = FALSE, box = FALSE,\n       xlab = \"\", ylab = \"\", zlab = \"\",\n       normal_x = x, normal_y = y, normal_z = z)\n\n\ncylinder3d(\n  center = matrix(c(-r, 0, 0,\n                    r, 0, 0),\n                  ncol = 3, byrow = T),\n  radius = r\n) |&gt; \n  wire3d()\n\n\narc3d(c(0, -r, 0),\n      c(0, 0, r),\n      center = c(0, 0, 0),\n      base = -1,\n      col = 'red')\n\n\n\n\nLike in the Mercator case, I’ll use a PROJ string to project the data into a transverse Mercator centered on -90\\(^\\circ\\). Documentation of the transverse Mercator can be found here.\n\nne_tmerc &lt;- ne_lonlat |&gt; \n  st_transform('+proj=tmerc +lon_0=-90') \n\nst_crs(ne_tmerc)$proj4string\n\n[1] \"+proj=tmerc +lat_0=0 +lon_0=-90 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs\"\n\nne_tmerc |&gt; \n  st_geometry() |&gt; \n  plot()\n\n\n\n\n\n\n\n\nThose crazy lines going on there are R trying to connect the dots across the “seam” in the cylinder we had created. Africa and Indonesia seem to be right on the seam, and so are split.\n\n\nOblique Mercator\nSomewhere between Mercator and Transverse Mercator is the Oblique Mercator. Instead of making our cylinder parallel or perpendicular to the equator, we put it at whatever angle we want.\n\n\nCode\nopen3d(silent = TRUE)\n\npersp3d(x, y, z, col = \"white\", \n       texture = system.file(\"textures/worldsmall.png\", package = \"rgl\"), \n       specular = \"black\", axes = FALSE, box = FALSE,\n       xlab = \"\", ylab = \"\", zlab = \"\",\n       normal_x = x, normal_y = y, normal_z = z)\n\nlat1 &lt;- (45)*pi/180\nlon1 &lt;- (30)*pi/180\nx_pt1 &lt;- r*cos(lat1)*cos(lon1)\ny_pt1 &lt;- r*cos(lat1)*sin(lon1)\nz_pt1 &lt;- r*sin(lat1)\n\n\nx_pt2 &lt;- r*cos(-lat1)*cos(lon1-pi-.1)\ny_pt2 &lt;- r*cos(-lat1)*sin(lon1-pi-.1)\nz_pt2 &lt;- r*sin(-lat1)\ncylinder3d(\n  center = matrix(c(x_pt1, y_pt1, z_pt1,\n                    x_pt2, y_pt2, z_pt2),\n                  ncol = 3, byrow = T),\n  radius = r\n) |&gt; \n  wire3d()\n\nlat1 &lt;- (45-90)*pi/180 \nlon1 &lt;- (30)*pi/180\nx_pt1 &lt;- r*cos(lat1)*cos(lon1)\ny_pt1 &lt;- r*cos(lat1)*sin(lon1)\nz_pt1 &lt;- r*sin(lat1)\n\n\nx_pt2 &lt;- r*cos(-lat1)*cos(lon1-pi-.1)\ny_pt2 &lt;- r*cos(-lat1)*sin(lon1-pi-.1)\nz_pt2 &lt;- r*sin(-lat1)\narc3d(c(x_pt1, y_pt1, z_pt1),\n      c(x_pt2, y_pt2, z_pt2),\n      center = c(0, 0, 0),\n      radius = r,\n      base = -1,\n      col = 'red')\n\n\n\n\nI’ll project the map using an oblique Mercator PROJ string centered on -90\\(^\\circ\\) and rotated clockwise by 45\\(^\\circ\\):\n\nne_omerc &lt;- ne_lonlat |&gt; \n  st_transform('+proj=omerc +lonc=-90 +gamma=45')\n\nst_crs(ne_omerc)$proj4string\n\n[1] \"+proj=omerc +lat_0=0 +lonc=-90 +alpha=0 +gamma=45 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs\"\n\nne_omerc |&gt; \n  st_geometry() |&gt; \n  plot()\n\n\n\n\n\n\n\n\n\n\nUniversal Transverse Mercator\nNow we come to the Universal Transverse Mercator. UTM tries to standardize the Transverse Mercator by splitting the Earth into 60 strips of 6\\(^\\circ\\) longitude, starting at 180\\(^\\circ\\) longitude and heading east. Each strip has a particular central meridian on which the “cylinder” is unwrapped; the scale factor at that meridian is standardized at 0.996.\n\nutm &lt;- data.frame(\n  zone = 1:60,\n  from = seq(-180, 180 - 6, length.out = 60),\n  to = seq(-180 + 6, 180, length.out = 60),\n  central_meridian = seq(-180 + 3, 180 - 3, length.out = 60)\n)\n\n\n\n\n\n\n\nzone\nfrom\nto\ncentral_meridian\n\n\n\n\n1\n-180\n-174\n-177\n\n\n2\n-174\n-168\n-171\n\n\n3\n-168\n-162\n-165\n\n\n4\n-162\n-156\n-159\n\n\n5\n-156\n-150\n-153\n\n\n6\n-150\n-144\n-147\n\n\n7\n-144\n-138\n-141\n\n\n8\n-138\n-132\n-135\n\n\n9\n-132\n-126\n-129\n\n\n10\n-126\n-120\n-123\n\n\n11\n-120\n-114\n-117\n\n\n12\n-114\n-108\n-111\n\n\n13\n-108\n-102\n-105\n\n\n14\n-102\n-96\n-99\n\n\n15\n-96\n-90\n-93\n\n\n16\n-90\n-84\n-87\n\n\n17\n-84\n-78\n-81\n\n\n18\n-78\n-72\n-75\n\n\n19\n-72\n-66\n-69\n\n\n20\n-66\n-60\n-63\n\n\n21\n-60\n-54\n-57\n\n\n22\n-54\n-48\n-51\n\n\n23\n-48\n-42\n-45\n\n\n24\n-42\n-36\n-39\n\n\n25\n-36\n-30\n-33\n\n\n26\n-30\n-24\n-27\n\n\n27\n-24\n-18\n-21\n\n\n28\n-18\n-12\n-15\n\n\n29\n-12\n-6\n-9\n\n\n30\n-6\n0\n-3\n\n\n\n\n\n\n\n\nzone\nfrom\nto\ncentral_meridian\n\n\n\n\n31\n0\n6\n3\n\n\n32\n6\n12\n9\n\n\n33\n12\n18\n15\n\n\n34\n18\n24\n21\n\n\n35\n24\n30\n27\n\n\n36\n30\n36\n33\n\n\n37\n36\n42\n39\n\n\n38\n42\n48\n45\n\n\n39\n48\n54\n51\n\n\n40\n54\n60\n57\n\n\n41\n60\n66\n63\n\n\n42\n66\n72\n69\n\n\n43\n72\n78\n75\n\n\n44\n78\n84\n81\n\n\n45\n84\n90\n87\n\n\n46\n90\n96\n93\n\n\n47\n96\n102\n99\n\n\n48\n102\n108\n105\n\n\n49\n108\n114\n111\n\n\n50\n114\n120\n117\n\n\n51\n120\n126\n123\n\n\n52\n126\n132\n129\n\n\n53\n132\n138\n135\n\n\n54\n138\n144\n141\n\n\n55\n144\n150\n147\n\n\n56\n150\n156\n153\n\n\n57\n156\n162\n159\n\n\n58\n162\n168\n165\n\n\n59\n168\n174\n171\n\n\n60\n174\n180\n177\n\n\n\n\n\n\nOne thing we didn’t mess with when creating a projection above was “false easting” and “false northing”. False eastings/northings move what we consider to be the X=0/Y=0 point so that we can avoid using negative coordinate values while we work. UTM adds an additional standardization here: “false easting” and “false northing” are standardized at 500,000 and 0 meters, respectively in the northern hemisphere and 500,000 and 10,000,000 m, respectively, in the southern hemisphere.\n\nne_utm &lt;- ne_lonlat |&gt; \n  st_transform('+proj=utm +zone=16')\n\nst_crs(ne_utm)$proj4string\n\n[1] \"+proj=utm +zone=16 +datum=WGS84 +units=m +no_defs\"\n\nne_utm |&gt; \n  st_geometry() |&gt; \n  plot()\n\n\n\n\n\n\n\n\nWhile supplying the proj=utm PROJ string applies the standardizations for us, we can also create the same thing using transverse Mercator. It’s not a perfect correspondence as there are slightly different algorithms under the hood, but it is very, very close to the same thing:\n\nne_lonlat |&gt; \n  st_transform('+proj=tmerc +lon_0=-87 +x_0=500000 +y_0=0') |&gt; \n  st_geometry() |&gt; \n  plot()\n\n\n\n\n\n\n\n\n\n\nAll of our Mercators in a row\nSo, in summary:\n\nUTM is a special, standardized kind of transverse Mercator\nMercator, oblique Mercator, and transverse Mercator can be thought of as cylinders touching a line of reference on the Earth\n\nMercator’s reference line is the equator\n\nGood for representing things with a major latitudinal axis.\n\nTransverse Mercator’s reference line is some longitude\n\nGood for representing things with a major longitudinal axis.\n\nOblique Mercator can be whatever the heck you want it to be.\n\nGood for representing things with a major diagonal axis.\n\n\n\nBecause UTM is a special kind of a special kind of projection, I’d like to make the case that blindly using it all of the time is just not a good thing to do. Using PROJ strings, you can easily tailor a projection to your specific project area and allow the project to occur at a more-intuitive scale.\nIn my next post, I’ll give an example where using UTM produces results that are not intuitive."
-  },
-  {
-    "objectID": "research/packages.html",
-    "href": "research/packages.html",
-    "title": "Packages",
-    "section": "",
-    "text": "An R API package for the Mid-Atlantic Acoustic Telemetry Observing System\n\nhttps://matos.obrien.page"
-  },
-  {
-    "objectID": "research/packages.html#matos",
-    "href": "research/packages.html#matos",
-    "title": "Packages",
-    "section": "",
-    "text": "An R API package for the Mid-Atlantic Acoustic Telemetry Observing System\n\nhttps://matos.obrien.page"
-  },
-  {
-    "objectID": "research/packages.html#otndo",
-    "href": "research/packages.html#otndo",
-    "title": "Packages",
-    "section": "otndo",
-    "text": "otndo\nA package to understand OTN data\n\nhttps://otndo.obrien.page"
-  },
-  {
-    "objectID": "research/packages.html#rvdat",
-    "href": "research/packages.html#rvdat",
-    "title": "Packages",
-    "section": "rvdat",
-    "text": "rvdat\nLightweight, low-level access to Innovasea’s Fathom VDAT executable\n\nhttps://rvdat.obrien.page/"
-  },
-  {
-    "objectID": "research/packages.html#glatos-contributor",
-    "href": "research/packages.html#glatos-contributor",
-    "title": "Packages",
-    "section": "glatos (contributor)",
-    "text": "glatos (contributor)\nA package for the Great Lakes Acoustic Telemetry Observation System\n\nhttps://github.com/ocean-tracking-network/glatos"
-  },
-  {
-    "objectID": "research/packages.html#telemetryr-archived",
-    "href": "research/packages.html#telemetryr-archived",
-    "title": "Packages",
-    "section": "TelemetryR (Archived)",
-    "text": "TelemetryR (Archived)\nAn R API package for the Atlantic Cooperative Telemetry (ACT) Network\n\nhttps://github.com/mhpob/TelemetryR"
-  },
-  {
-    "objectID": "research/index.html#current-research-summarized-with-haikus",
-    "href": "research/index.html#current-research-summarized-with-haikus",
-    "title": "Research",
-    "section": "Current research, summarized with haikus",
-    "text": "Current research, summarized with haikus\n\nOpen-source, real-time monitoring of Atlantic sturgeon\n\nSturgeon swim through, but\nunknown until later. Then,\nthe moment has passed.\n\nWe aim to employ cheap, open-source, real-time systems to monitor Atlantic sturgeon presence to inform dynamic time-of-year restrictions around dreding and infrastructure conscruction.\nFind a server-side instance of the pilot application here: https://github.com/mhpob/biotelemetry-dash-gha\n\n\nMetabolism forecasting in the Chesapeake Bay\n\nThe water heats up;\nSo, too, do fish – cold-blooded.\nForecast, see what will.\n\nMetabolism of a few Chesapeake species will be forecast according to various climate scenarios. Development conducted at the UMCES Chesapeake Global Collaboratory GitHub page.\n\n\nBaseline monitoring for Offshore Wind\n\nTurbines going up\nBut how will the fish react?\nObserve: pots and hooks\n\nCheck out our current research offshore of Ocean City, MD:\nhttps://tailwinds.umces.edu/"
-  },
-  {
-    "objectID": "research/index.html#peer-reviewed-manuscripts",
-    "href": "research/index.html#peer-reviewed-manuscripts",
-    "title": "Research",
-    "section": "Peer-reviewed manuscripts",
-    "text": "Peer-reviewed manuscripts\n Secor, D.H., O’Brien, M.H.P., Bailey, H., 2024. The flyway construct and assessment of offshore wind farm impacts on migratory marine fauna. ICES JMS. https://doi.org/10.1093/icesjms/fsae138\n Coleman, N., Fox, Horne, A., Hostetter, N., Madsen, J., O’Brien M.H.P., Park, I.A., Stence, C., Secor, D.H., 2024. Spawning Run Estimates and Phenology for an Extremely Small Population of Atlantic Sturgeon in the Marshyhope Creek-Nanticoke River System, Chesapeake Bay. Marine and Coastal Fisheries 16, e10292. DOI: 10.1002/mcf2.10292\n Rothermel, E.R., O’Brien M.H.P., Best, J.E., Fox, D.A., Gahagan, B.I., Higgs, A.L., Park, I.A., Wippelhauser, G., Secor, D.H., 2024. An Eulerian perspective on habitat models of striped bass occurrence in an offshore wind development area. ICES Journal of Marine Science, fsad212. https://doi.org/10.1093/icesjms/fsad212\n Secor, D.H., Bailey, H., Carroll, A., Lyubchich, V., O’Brien, M.H.P., Wiernicki, C.J., 2021. Diurnal vertical movements in black sea bass (Centropristis striata): Endogenous, facultative, or something else? Ecosphere 12, e03616. https://doi.org/10.1002/ecs2.3616\n Secor, D.H., O’Brien, M.H.P., Coleman, N., Horne, A., Park, I., Kazyak, D.C., Bruce, D.G., Stence, C., 2021. Atlantic Sturgeon Status and Movement Ecology in an Extremely Small Spawning Habitat: The Nanticoke River-Marshyhope Creek, Chesapeake Bay. Reviews in Fisheries Science & Aquaculture 1–20. https://doi.org/10.1080/23308249.2021.1924617\n O’Brien, M.H.P., Secor, D.H., 2021. Influence of thermal stratification and storms on acoustic telemetry detection efficiency: a year-long test in the US Southern Mid-Atlantic Bight. Animal Biotelemetry 9, 8. https://doi.org/10.1186/s40317-021-00233-3\n Itakura, H., O’Brien, M.H.P., Secor, D., 2021. Tracking oxy-thermal habitat compression encountered by Chesapeake Bay striped bass through acoustic telemetry. ICES Journal of Marine Science fsab009. https://doi.org/10.1093/icesjms/fsab009\n Secor, D.H., O’Brien, M.H.P., Gahagan, B.I., Fox, D.A., Higgs, A.L., Best, J.E., 2020. Multiple spawning run contingents and population consequences in migratory striped bass Morone saxatilis. PLOS ONE 15(11): e0242797 https://doi.org/10.1371/journal.pone.0242797\n Rothermel, E.R., Balazik, M.T., Best, J.E., Fox, D.A., Gahagan, B.I., Haulsee, D.E., Higgs, A.L., O’Brien, M.H.P., Oliver, M.J., Park, I.A., and Secor, D.H. 2020. Comparative migration ecology of striped bass and Atlantic sturgeon in the US Southern Mid-Atlantic Bight flyway. PLOS ONE 15(6): e0234442. https://doi.org/10.1371/journal.pone.0234442\n Secor, D.H., O’Brien, M.H.P, Gahagan, B.I., Watterson, J.C., and Fox, D. 2020. Differential migration in Chesapeake Bay striped bass. PLOS ONE 15(5): e0233103. https://doi.org/10.1371/journal.pone.0233103\n Wiernicki, C.J., O’Brien, M.H.P., Zhang F, Lyubchich V, Li M, Secor, D.H., 2020. The recurring impact of storm disturbance on black sea bass (Centropristis striata) movement behaviors in the Mid-Atlantic Bight. PLOS ONE 15(12): e0239919. https://doi.org/10.1371/journal.pone.0239919\n Secor, D.H., Zhang, F., O’Brien, M.H.P. and Li, M. 2019. Ocean destratification and fish evacuation caused by a Mid-Atlantic tropical storm. ICES Journal of Marine Science, 76(2). https://doi.org/10.1093/icesjms/fsx241\n Wingfield, J.E., O’Brien, M., Lyubchich, V., Roberts, J.J., Halpin, P.N., Rice, A.N. and Bailey, H., 2017. Year-round spatiotemporal distribution of harbour porpoises within and around the Maryland wind energy area. PLOS ONE, 12(5), p.e0176653 https://doi.org/10.1371/journal.pone.0176653"
-  },
-  {
-    "objectID": "research/index.html#open-reports",
-    "href": "research/index.html#open-reports",
-    "title": "Research",
-    "section": "Open reports",
-    "text": "Open reports\nSecor, D, M O’Brien, E Rothermel, C Wiernicki, and H Bailey. “Movement and Habitat Selection by Migratory Fishes within the Maryland Wind Energy Area and Adjacent Reference Sites.” Sterling (VA): U.S. Department of the Interior, Bureau of Ocean Energy Management, Office of Renewable Energy Programs, 2020. URL: https://espis.boem.gov/final%20reports/BOEM_2020-030.pdf"
-  },
-  {
-    "objectID": "research/index.html#curated-datasets",
-    "href": "research/index.html#curated-datasets",
-    "title": "Research",
-    "section": "Curated datasets",
-    "text": "Curated datasets\nRothermel, Ella, Michael O’Brien, and David Secor. “Data from: Comparative Migration Ecology of Striped Bass and Atlantic Sturgeon in the US Southern Mid-Atlantic Bight Flyway.” Dryad, 2020. https://doi.org/10.5061/DRYAD.6HDR7SQX3.\nO’Brien, Michael, David Secor, Benjamin Gahagan, Dewayne Fox, Amanda Higgs, and Jessica Best. “Data from: Multiple Spawning Run Behavior and Population Consequences in Migratory Striped Bass Morone Saxatilis.” Dryad, 2020. https://doi.org/10.5061/DRYAD.6HDR7SQXT."
+    "text": "Former:\n\nUSA Rugby National Panel (2016-2020)\nWorld Rugby 7s (2016-2018)\nMajor League Rugby (2018-2021)\n\nCurrent:\n\nPresident of the Mid-Atlantic Rugby Referees\nMember of the Potomac Society of Rugby Football Referees\n\n\n\n\n\n\n\n\n\n\n\n\n\nEast Demographics\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "blog/index.html",
@@ -378,6 +77,356 @@
     "text": "Conclusion\nSo, there we have it: A general idea of where the cabin, thought to possibly be a ferry keeper’s house, might have stood over forty years ago. Definitely not exact, but it’s interesting to see that we can pick up the remnants of something that hasn’t existed for nearly half of a century by using something so sci-fi as to asking an airplane to bounce beams of light off of the ground.\nThis just means that I’ll have to take ask one of the CLRC staff to head out there with a GPS in hand, actually mark the chimney, and see how accurate my estimate might be. I’d do it myself, but the site has been (smartly) roped off in hopes of further preservation.\nAfter all, conservation, contextualization, and visualization of history is what we’re after."
   },
   {
+    "objectID": "blog/2023/12_18_utm/index.html",
+    "href": "blog/2023/12_18_utm/index.html",
+    "title": "O (T/U) MERC God",
+    "section": "",
+    "text": "A question was thrown into the ether a few days ago that gave me a reason to learn a little bit of R’s terra package. The answer, itself, turned out to be not overly complicated (in spite of a few frustrating hurdles) and I’ll get to that in my next post. However, what I extracted from this was one more brick in my personal wall against the blind use of Universal Transverse Mercator (UTM). Through a worked example coming soon, I hope to instill this in you – but for now, it’s worthwhile to figure out what “UTM” actually is.\nUTM is pretty ubiquitious. Two of my recent posts have already touched on “UTM” projections. Chances are that you’ve oscillated between using WGS84 (thanks, GPS) and projecting into UTM when you need to measure a distance. I’m even willing to bet that you’ve squinted at an image of the Earth, laid out flat and divvied up into XXX north and south sections, trying to find where your study site falls. All of us on the east coast of North America have blindly pumped a code for “UTM some-teen-N” into our GIS. We’ve seen axes labeled with “eastings” and “northings” and just moved on. We may have even stumbled across people on Twitter lamenting its use.\nSo… What’s in a UTM?\n\nCalling Mr Kremer Mercator\nIn order to unravel UTM, you need to start with the last letter: M for Mercator. The projection was made by Gerardus Mercator, self-changed from Geert de Kremer in his teens to sound more Latin, so that it would be easy to navigate via Google Maps via ship by preserving the angles between two points, among other neat features.\n\n\nMercator projection\nThe easiest way I’ve found to interpret the projection is to think of the Earth as a sphere with a giant piece of paper wrapped around it to make a cylinder. The Mercator projection wraps this paper such that the paper touches along the equator, then unravels the paper and smushes out the poles.\n\n\nCode\nlibrary(rgl)\n\n# code copied from ?rgl::persp3d()\nlat &lt;- matrix(seq(90, -90, length.out = 50)*pi/180, 50, 50, byrow = TRUE)\nlong &lt;- matrix(seq(-180, 180, length.out = 50)*pi/180, 50, 50)\n\nr &lt;- 6378.1 # radius of Earth in km\n\nx &lt;- r*cos(lat)*cos(long)\ny &lt;- r*cos(lat)*sin(long)\nz &lt;- r*sin(lat)\n\nopen3d(silent = TRUE)\n\npersp3d(x, y, z, col = \"white\", \n       texture = system.file(\"textures/worldsmall.png\", package = \"rgl\"), \n       specular = \"black\", axes = FALSE, box = FALSE,\n       xlab = \"\", ylab = \"\", zlab = \"\",\n       normal_x = x, normal_y = y, normal_z = z)\n\n\ncylinder3d(\n  center = matrix(c(0, 0, -r,\n                    0, 0, r),\n                  ncol = 3, byrow = T),\n  radius = r\n) |&gt; \n  wire3d()\n\n\narc3d(c(0, -r, 0),\n      c(r, 0, 0),\n      center = c(0, 0, 0),\n      base = -1,\n      col = 'red')\n\n\n\n\nWe can plot this by transforming (projecting) our latitude/longitude data. In R’s sf package, this can be done a few ways; I’ll be using PROJ strings. You’ll often see these referred to as a “proj4string” – that’s just because PROJ used to be called “PROJ.4”.\nThe default specification for Mercator and the different options you can use are well-outlined in the PROJ help documentation.\n\nlibrary(sf)\n\nLinking to GEOS 3.11.2, GDAL 3.6.2, PROJ 9.2.0; sf_use_s2() is TRUE\n\nne_lonlat &lt;- '/vsizip/vsicurl/https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip' |&gt; \n  read_sf()\n\nne_merc &lt;- ne_lonlat |&gt; \n  st_transform('+proj=merc') \n\n# Full string, including all of the default values\n#   Note the reference to \"proj4string\"...\nst_crs(ne_merc)$proj4string\n\n[1] \"+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs\"\n\nne_merc |&gt; \n  st_geometry() |&gt; \n  plot(\n    # adding limits since Antarctica tries to go on forever\n    ylim = c(-1.84e7, 1.84e7)\n  ) \n\n\n\n\n\n\n\n\n\n\nTransverse Mercator projection\nA Transverse Mercator does the same thing, but turns the cylinder perpendicular to the equator so that, instead of the equator, it touches some given longitude.\n\n\nCode\nopen3d(silent = TRUE)\n\npersp3d(x, y, z, col = \"white\", \n       texture = system.file(\"textures/worldsmall.png\", package = \"rgl\"), \n       specular = \"black\", axes = FALSE, box = FALSE,\n       xlab = \"\", ylab = \"\", zlab = \"\",\n       normal_x = x, normal_y = y, normal_z = z)\n\n\ncylinder3d(\n  center = matrix(c(-r, 0, 0,\n                    r, 0, 0),\n                  ncol = 3, byrow = T),\n  radius = r\n) |&gt; \n  wire3d()\n\n\narc3d(c(0, -r, 0),\n      c(0, 0, r),\n      center = c(0, 0, 0),\n      base = -1,\n      col = 'red')\n\n\n\n\nLike in the Mercator case, I’ll use a PROJ string to project the data into a transverse Mercator centered on -90\\(^\\circ\\). Documentation of the transverse Mercator can be found here.\n\nne_tmerc &lt;- ne_lonlat |&gt; \n  st_transform('+proj=tmerc +lon_0=-90') \n\nst_crs(ne_tmerc)$proj4string\n\n[1] \"+proj=tmerc +lat_0=0 +lon_0=-90 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs\"\n\nne_tmerc |&gt; \n  st_geometry() |&gt; \n  plot()\n\n\n\n\n\n\n\n\nThose crazy lines going on there are R trying to connect the dots across the “seam” in the cylinder we had created. Africa and Indonesia seem to be right on the seam, and so are split.\n\n\nOblique Mercator\nSomewhere between Mercator and Transverse Mercator is the Oblique Mercator. Instead of making our cylinder parallel or perpendicular to the equator, we put it at whatever angle we want.\n\n\nCode\nopen3d(silent = TRUE)\n\npersp3d(x, y, z, col = \"white\", \n       texture = system.file(\"textures/worldsmall.png\", package = \"rgl\"), \n       specular = \"black\", axes = FALSE, box = FALSE,\n       xlab = \"\", ylab = \"\", zlab = \"\",\n       normal_x = x, normal_y = y, normal_z = z)\n\nlat1 &lt;- (45)*pi/180\nlon1 &lt;- (30)*pi/180\nx_pt1 &lt;- r*cos(lat1)*cos(lon1)\ny_pt1 &lt;- r*cos(lat1)*sin(lon1)\nz_pt1 &lt;- r*sin(lat1)\n\n\nx_pt2 &lt;- r*cos(-lat1)*cos(lon1-pi-.1)\ny_pt2 &lt;- r*cos(-lat1)*sin(lon1-pi-.1)\nz_pt2 &lt;- r*sin(-lat1)\ncylinder3d(\n  center = matrix(c(x_pt1, y_pt1, z_pt1,\n                    x_pt2, y_pt2, z_pt2),\n                  ncol = 3, byrow = T),\n  radius = r\n) |&gt; \n  wire3d()\n\nlat1 &lt;- (45-90)*pi/180 \nlon1 &lt;- (30)*pi/180\nx_pt1 &lt;- r*cos(lat1)*cos(lon1)\ny_pt1 &lt;- r*cos(lat1)*sin(lon1)\nz_pt1 &lt;- r*sin(lat1)\n\n\nx_pt2 &lt;- r*cos(-lat1)*cos(lon1-pi-.1)\ny_pt2 &lt;- r*cos(-lat1)*sin(lon1-pi-.1)\nz_pt2 &lt;- r*sin(-lat1)\narc3d(c(x_pt1, y_pt1, z_pt1),\n      c(x_pt2, y_pt2, z_pt2),\n      center = c(0, 0, 0),\n      radius = r,\n      base = -1,\n      col = 'red')\n\n\n\n\nI’ll project the map using an oblique Mercator PROJ string centered on -90\\(^\\circ\\) and rotated clockwise by 45\\(^\\circ\\):\n\nne_omerc &lt;- ne_lonlat |&gt; \n  st_transform('+proj=omerc +lonc=-90 +gamma=45')\n\nst_crs(ne_omerc)$proj4string\n\n[1] \"+proj=omerc +lat_0=0 +lonc=-90 +alpha=0 +gamma=45 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs\"\n\nne_omerc |&gt; \n  st_geometry() |&gt; \n  plot()\n\n\n\n\n\n\n\n\n\n\nUniversal Transverse Mercator\nNow we come to the Universal Transverse Mercator. UTM tries to standardize the Transverse Mercator by splitting the Earth into 60 strips of 6\\(^\\circ\\) longitude, starting at 180\\(^\\circ\\) longitude and heading east. Each strip has a particular central meridian on which the “cylinder” is unwrapped; the scale factor at that meridian is standardized at 0.996.\n\nutm &lt;- data.frame(\n  zone = 1:60,\n  from = seq(-180, 180 - 6, length.out = 60),\n  to = seq(-180 + 6, 180, length.out = 60),\n  central_meridian = seq(-180 + 3, 180 - 3, length.out = 60)\n)\n\n\n\n\n\n\n\nzone\nfrom\nto\ncentral_meridian\n\n\n\n\n1\n-180\n-174\n-177\n\n\n2\n-174\n-168\n-171\n\n\n3\n-168\n-162\n-165\n\n\n4\n-162\n-156\n-159\n\n\n5\n-156\n-150\n-153\n\n\n6\n-150\n-144\n-147\n\n\n7\n-144\n-138\n-141\n\n\n8\n-138\n-132\n-135\n\n\n9\n-132\n-126\n-129\n\n\n10\n-126\n-120\n-123\n\n\n11\n-120\n-114\n-117\n\n\n12\n-114\n-108\n-111\n\n\n13\n-108\n-102\n-105\n\n\n14\n-102\n-96\n-99\n\n\n15\n-96\n-90\n-93\n\n\n16\n-90\n-84\n-87\n\n\n17\n-84\n-78\n-81\n\n\n18\n-78\n-72\n-75\n\n\n19\n-72\n-66\n-69\n\n\n20\n-66\n-60\n-63\n\n\n21\n-60\n-54\n-57\n\n\n22\n-54\n-48\n-51\n\n\n23\n-48\n-42\n-45\n\n\n24\n-42\n-36\n-39\n\n\n25\n-36\n-30\n-33\n\n\n26\n-30\n-24\n-27\n\n\n27\n-24\n-18\n-21\n\n\n28\n-18\n-12\n-15\n\n\n29\n-12\n-6\n-9\n\n\n30\n-6\n0\n-3\n\n\n\n\n\n\n\n\nzone\nfrom\nto\ncentral_meridian\n\n\n\n\n31\n0\n6\n3\n\n\n32\n6\n12\n9\n\n\n33\n12\n18\n15\n\n\n34\n18\n24\n21\n\n\n35\n24\n30\n27\n\n\n36\n30\n36\n33\n\n\n37\n36\n42\n39\n\n\n38\n42\n48\n45\n\n\n39\n48\n54\n51\n\n\n40\n54\n60\n57\n\n\n41\n60\n66\n63\n\n\n42\n66\n72\n69\n\n\n43\n72\n78\n75\n\n\n44\n78\n84\n81\n\n\n45\n84\n90\n87\n\n\n46\n90\n96\n93\n\n\n47\n96\n102\n99\n\n\n48\n102\n108\n105\n\n\n49\n108\n114\n111\n\n\n50\n114\n120\n117\n\n\n51\n120\n126\n123\n\n\n52\n126\n132\n129\n\n\n53\n132\n138\n135\n\n\n54\n138\n144\n141\n\n\n55\n144\n150\n147\n\n\n56\n150\n156\n153\n\n\n57\n156\n162\n159\n\n\n58\n162\n168\n165\n\n\n59\n168\n174\n171\n\n\n60\n174\n180\n177\n\n\n\n\n\n\nOne thing we didn’t mess with when creating a projection above was “false easting” and “false northing”. False eastings/northings move what we consider to be the X=0/Y=0 point so that we can avoid using negative coordinate values while we work. UTM adds an additional standardization here: “false easting” and “false northing” are standardized at 500,000 and 0 meters, respectively in the northern hemisphere and 500,000 and 10,000,000 m, respectively, in the southern hemisphere.\n\nne_utm &lt;- ne_lonlat |&gt; \n  st_transform('+proj=utm +zone=16')\n\nst_crs(ne_utm)$proj4string\n\n[1] \"+proj=utm +zone=16 +datum=WGS84 +units=m +no_defs\"\n\nne_utm |&gt; \n  st_geometry() |&gt; \n  plot()\n\n\n\n\n\n\n\n\nWhile supplying the proj=utm PROJ string applies the standardizations for us, we can also create the same thing using transverse Mercator. It’s not a perfect correspondence as there are slightly different algorithms under the hood, but it is very, very close to the same thing:\n\nne_lonlat |&gt; \n  st_transform('+proj=tmerc +lon_0=-87 +x_0=500000 +y_0=0') |&gt; \n  st_geometry() |&gt; \n  plot()\n\n\n\n\n\n\n\n\n\n\nAll of our Mercators in a row\nSo, in summary:\n\nUTM is a special, standardized kind of transverse Mercator\nMercator, oblique Mercator, and transverse Mercator can be thought of as cylinders touching a line of reference on the Earth\n\nMercator’s reference line is the equator\n\nGood for representing things with a major latitudinal axis.\n\nTransverse Mercator’s reference line is some longitude\n\nGood for representing things with a major longitudinal axis.\n\nOblique Mercator can be whatever the heck you want it to be.\n\nGood for representing things with a major diagonal axis.\n\n\n\nBecause UTM is a special kind of a special kind of projection, I’d like to make the case that blindly using it all of the time is just not a good thing to do. Using PROJ strings, you can easily tailor a projection to your specific project area and allow the project to occur at a more-intuitive scale.\nIn my next post, I’ll give an example where using UTM produces results that are not intuitive."
+  },
+  {
+    "objectID": "blog/2023/03_10_google_and_github_actions/index.html",
+    "href": "blog/2023/03_10_google_and_github_actions/index.html",
+    "title": "Connecting Google Sheets and GitHub Actions",
+    "section": "",
+    "text": "There are already a few blogs and presentations that outline the why and how of GitHub Actions and R:\nAnd also how to schedule R analysis to run on a schedule or connect with Google services:\nBecause of this, I’m going to skip right ahead to the part that always trips me up: connecting Google services like Google Drive and Google Sheets to an R script scheduled to run via GitHub Actions."
+  },
+  {
+    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#so-you-want-to-automate-saving-things-in-a-google-sheet",
+    "href": "blog/2023/03_10_google_and_github_actions/index.html#so-you-want-to-automate-saving-things-in-a-google-sheet",
+    "title": "Connecting Google Sheets and GitHub Actions",
+    "section": "So, you want to automate saving things in a Google Sheet?",
+    "text": "So, you want to automate saving things in a Google Sheet?\nWhen scheduling some code to run with GitHub Actions, a common workflow has been to run some code on schedule using GitHub Actions, save the results to Google Sheets, and allow my boss/peers to leverage the collaborative aspect of Google Sheets to comments and interact with the data product. Recently, this has taken the form of scraping data from websites that are frequently updated or display some sort of ephemeral data.\nThe most-difficult part of the whole process for me, however, has been getting the Google Sheets/Google Drive permissions set up. I’ve spent many hours failing at this, so this document is meant to leave a trail so we don’t have to fail twice."
+  },
+  {
+    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#permissions-needed",
+    "href": "blog/2023/03_10_google_and_github_actions/index.html#permissions-needed",
+    "title": "Connecting Google Sheets and GitHub Actions",
+    "section": "Permissions needed",
+    "text": "Permissions needed\nThe googledrive and googlesheets4 packages make it as easy as possible to interface with Google Drive and Google Sheets in R. Both leverage the gargle package to set up the security tokens needed to interface with all of the Google services.\nThe googledrive package uses the drive_auth function to interface with gargle and set up your authorization, while googlesheets4 uses gs4_auth. This process is easy, streamlined, and interactive – it opens up a browser window, you log into your Google account and tell it “yes, I want this to be able to access my files”, and that’s it! Unfortunately, if we’re running this in the cloud somewhere using GitHub Actions we’re not going to be there to click the button."
+  },
+  {
+    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#google-cloud-platform",
+    "href": "blog/2023/03_10_google_and_github_actions/index.html#google-cloud-platform",
+    "title": "Connecting Google Sheets and GitHub Actions",
+    "section": "Google Cloud Platform",
+    "text": "Google Cloud Platform\nBoth packages point to an article in gargle entitled “How to get your own API credentials”. This does an excellent job of walking through the how and why; the section of interest to us is “Service account token”.\nThe first step they outline is to go to the Google Cloud Platform website: https://console.cloud.google.com. Once you’re there, make sure you’re logged in to the correct account! Again, I emphasize:\nMAKE SURE YOU’RE LOGGED IN TO THE CORRECT ACCOUNT!\nLook in the top right, and make sure the correct profile picture is staring back at you. I ran into many hours of frustration trying everything to get permissions to work and experiencing failure after frustrating failure. Then I found out that I had made the key in my personal account rather than my institutional account.🤦\nOnce you are logged in to the CORRECT account, create a new project (or select an exiting one) using the drop-down menu next to the “GoogleCloud” banner at the top."
+  },
+  {
+    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#create-a-service-account-token",
+    "href": "blog/2023/03_10_google_and_github_actions/index.html#create-a-service-account-token",
+    "title": "Connecting Google Sheets and GitHub Actions",
+    "section": "Create a service account token",
+    "text": "Create a service account token\nNow we’ll create a service account token.\n\nClick the navigation menu, and select “IAM & Admin”, then “Service Accounts”.\nAt the top, next to “Service accounts” select “+ CREATE SERVICE ACCOUNT”.\nAdd a name (I suggest something somewhat descriptive) and the “Service account ID” section will autofill. Add a description if you desire.\nThis token will basically be a fake robot person – you can select what projects and permissions this fake person will have, or you can skip it. You can change these later – no biggy.\nClick “DONE”.\nClick your newly-created service account and go to the “KEYS” tab.\nClick “ADD KEY”, “Create new key”, select “JSON”, then “CREATE”.\nThis will download a file. Pay attention to where it goes!"
+  },
+  {
+    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#turn-on-the-google-sheetsdrive-api-for-your-gcp-project",
+    "href": "blog/2023/03_10_google_and_github_actions/index.html#turn-on-the-google-sheetsdrive-api-for-your-gcp-project",
+    "title": "Connecting Google Sheets and GitHub Actions",
+    "section": "Turn on the Google Sheets/Drive API for your GCP project",
+    "text": "Turn on the Google Sheets/Drive API for your GCP project\nNow, we’ll enable the Google Sheets and/or Google Drive API to allow the service account token to work.\n\nClick the menu, then “APIs & Services”.\nSearch for Google Sheets in the search bar.\nSelect “Google Sheets API” from the results.\nClick “ENABLE”.\nRepeat for Google Drive, if necessary."
+  },
+  {
+    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#fake-google-robot-people",
+    "href": "blog/2023/03_10_google_and_github_actions/index.html#fake-google-robot-people",
+    "title": "Connecting Google Sheets and GitHub Actions",
+    "section": "Fake Google Robot People",
+    "text": "Fake Google Robot People\nYou’ve basically just created a fake Google robot person. You need to give the fake-Google-robot-person access to the document (like you would a real person) using the fake-Google-robot-person email that is listed within the Service Accounts section.\n\nIn the “Service accounts” section we just visited, you can see your service account token listed by an email. It should be something like “YOUR-SERVICE-ACCOUNT-NAME@YOUR-GCP-PROJECT-NAME.iam.gserviceaccount.com”\nNavigate to your Google Drive/Sheet you want it to be able to access\nIf a Google Sheet, click “share” on the top right, paste in the robot-person email, and share it. For a Google Drive, navigate to the folder/item you’d like to share and do the same."
+  },
+  {
+    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#add-your-token-to-github-action-secrets",
+    "href": "blog/2023/03_10_google_and_github_actions/index.html#add-your-token-to-github-action-secrets",
+    "title": "Connecting Google Sheets and GitHub Actions",
+    "section": "Add your token to GitHub Action secrets",
+    "text": "Add your token to GitHub Action secrets\nWe’re nearing the end!\n\nGo into the GitHub repository that houses your GitHub Actions.\nClick “Settings”.\nUnder “Security” in the menu on the left side, select “Secrets and variables” and then “Actions”.\nClick “New repository secret”.\nCopy/paste the text in the file that was downloaded when you created your service account token and paste it into the “Secret” section.\nGive the secret a name.\nClick “Add secret”.\n\nYour service access token can now be added to the .Renviron of the runner created for your GitHub Action. Don’t think too hard about what this means – for us, it just means that we can access the token in a secret way using the name we just gave the secret using Sys.getenv('NAME_OF_MY_SECRET')."
+  },
+  {
+    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#coding-on-your-computer",
+    "href": "blog/2023/03_10_google_and_github_actions/index.html#coding-on-your-computer",
+    "title": "Connecting Google Sheets and GitHub Actions",
+    "section": "Coding on your computer",
+    "text": "Coding on your computer\nWhen working through the code on your computer, use the path argument to googledrive::drive_auth or googlesheets4::gs4_auth to tell R where you find your service access token.\n\n# for googledrive\ndrive_auth(path = 'path/to/my/service_token.json')\n\n# for googlesheets4\ngs4_auth(path = 'path/to/my/service_token.json')\n\nWhen you are ready to incorporate this into a GitHub Action, change this to Sys.getenv('NAME_OF_MY_SECRET').\n\ngs4_auth(path = Sys.getenv('NAME_OF_MY_SECRET'))"
+  },
+  {
+    "objectID": "blog/2023/03_10_google_and_github_actions/index.html#github-actions",
+    "href": "blog/2023/03_10_google_and_github_actions/index.html#github-actions",
+    "title": "Connecting Google Sheets and GitHub Actions",
+    "section": "GitHub Actions",
+    "text": "GitHub Actions\nGoing over GitHub Actions and creating the needed workflow files is beyond the scope of this document.\nWorking back-to-front in the workflow YAML for web-scraping GitHub Action of mine, you can see that we have ask GitHub to pull the secret called “GDRIVE_PAT” (secret.GDRIVE_PAT) and assign it to a variable called GDRIVE_PAT (GDRIVE_PAT:) in our environment (env:).\njobs: \n  scrape_it:\n    runs-on: ubuntu-latest\n    env:\n      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}\n      GDRIVE_PAT: ${{ secrets.GDRIVE_PAT }}\nThis stores our access token in a variable called “GDRIVE_PAT” in the server’s .Renvrion. Now, when we write gs4_auth(path = Sys.getenv('GDRIVE_PAT')), our GitHub Action is allowed to access our Google Sheet! SUCCESS!\nThe neatest part is that this server is created and destroyed during this session, and our secret is never put out in the open. Completely secure!"
+  },
+  {
+    "objectID": "blog/2023/03_07_coding_club_github_actions/index.html",
+    "href": "blog/2023/03_07_coding_club_github_actions/index.html",
+    "title": "Introduction to GitHub Actions",
+    "section": "",
+    "text": "This week, I wanted to talk to the Coding Club at UMCES about GitHub Actions. I had been messing around with them during the creation of the matos and otndo packages, and I started to realize how powerful the combination of R and GitHub actions could be. This exercise, however, made me remember that the quickest way to realize how little you understand of a topic is to attempt to teach it.\nThe presentation is attached."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Mike O'Brien",
+    "section": "",
+    "text": "Welcome!\nI am a research assistant at the Chesapeake Biological Laboratory of the University of Maryland Center for Environmental Science who has lived a brief, former life as an international rugby referee.\nWhen I’m not on the water, my areas of expertise lie in fish movement ecology, biotelemetry, R programming, and spatiotemporal mixed modelling. Please take a look at my research, blog, or software and reach out if you’re interestd in working together."
+  },
+  {
+    "objectID": "index.html#current-position",
+    "href": "index.html#current-position",
+    "title": "Mike O'Brien",
+    "section": "Current Position",
+    "text": "Current Position\nUniversity of Maryland Center for Environmental Science | Faculty Research Assistant | Sept 2013 - present"
+  },
+  {
+    "objectID": "index.html#education",
+    "href": "index.html#education",
+    "title": "Mike O'Brien",
+    "section": "Education",
+    "text": "Education\nUniversity of Maryland, College Park | College Park, MD | Masters in Fisheries Science | August 2013\nUniversity of Miami | Coral Cables, FL | B.S. in Marine and Atmospheric Science | May 2009"
+  },
+  {
+    "objectID": "research/index.html#current-research-summarized-with-haikus",
+    "href": "research/index.html#current-research-summarized-with-haikus",
+    "title": "Research",
+    "section": "Current research, summarized with haikus",
+    "text": "Current research, summarized with haikus\n\nOpen-source, real-time monitoring of Atlantic sturgeon\n\nSturgeon swim through, but\nunknown until later. Then,\nthe moment has passed.\n\nWe aim to employ cheap, open-source, real-time systems to monitor Atlantic sturgeon presence to inform dynamic time-of-year restrictions around dreding and infrastructure conscruction.\nFind a server-side instance of the pilot application here: https://github.com/mhpob/biotelemetry-dash-gha\n\n\nMetabolism forecasting in the Chesapeake Bay\n\nThe water heats up;\nSo, too, do fish – cold-blooded.\nForecast, see what will.\n\nMetabolism of a few Chesapeake species will be forecast according to various climate scenarios. Development conducted at the UMCES Chesapeake Global Collaboratory GitHub page.\n\n\nBaseline monitoring for Offshore Wind\n\nTurbines going up\nBut how will the fish react?\nObserve: pots and hooks\n\nCheck out our current research offshore of Ocean City, MD:\nhttps://tailwinds.umces.edu/"
+  },
+  {
+    "objectID": "research/index.html#peer-reviewed-manuscripts",
+    "href": "research/index.html#peer-reviewed-manuscripts",
+    "title": "Research",
+    "section": "Peer-reviewed manuscripts",
+    "text": "Peer-reviewed manuscripts\n Secor, D.H., O’Brien, M.H.P., Bailey, H., 2024. The flyway construct and assessment of offshore wind farm impacts on migratory marine fauna. ICES JMS. https://doi.org/10.1093/icesjms/fsae138\n Coleman, N., Fox, Horne, A., Hostetter, N., Madsen, J., O’Brien M.H.P., Park, I.A., Stence, C., Secor, D.H., 2024. Spawning Run Estimates and Phenology for an Extremely Small Population of Atlantic Sturgeon in the Marshyhope Creek-Nanticoke River System, Chesapeake Bay. Marine and Coastal Fisheries 16, e10292. DOI: 10.1002/mcf2.10292\n Rothermel, E.R., O’Brien M.H.P., Best, J.E., Fox, D.A., Gahagan, B.I., Higgs, A.L., Park, I.A., Wippelhauser, G., Secor, D.H., 2024. An Eulerian perspective on habitat models of striped bass occurrence in an offshore wind development area. ICES Journal of Marine Science, fsad212. https://doi.org/10.1093/icesjms/fsad212\n Secor, D.H., Bailey, H., Carroll, A., Lyubchich, V., O’Brien, M.H.P., Wiernicki, C.J., 2021. Diurnal vertical movements in black sea bass (Centropristis striata): Endogenous, facultative, or something else? Ecosphere 12, e03616. https://doi.org/10.1002/ecs2.3616\n Secor, D.H., O’Brien, M.H.P., Coleman, N., Horne, A., Park, I., Kazyak, D.C., Bruce, D.G., Stence, C., 2021. Atlantic Sturgeon Status and Movement Ecology in an Extremely Small Spawning Habitat: The Nanticoke River-Marshyhope Creek, Chesapeake Bay. Reviews in Fisheries Science & Aquaculture 1–20. https://doi.org/10.1080/23308249.2021.1924617\n O’Brien, M.H.P., Secor, D.H., 2021. Influence of thermal stratification and storms on acoustic telemetry detection efficiency: a year-long test in the US Southern Mid-Atlantic Bight. Animal Biotelemetry 9, 8. https://doi.org/10.1186/s40317-021-00233-3\n Itakura, H., O’Brien, M.H.P., Secor, D., 2021. Tracking oxy-thermal habitat compression encountered by Chesapeake Bay striped bass through acoustic telemetry. ICES Journal of Marine Science fsab009. https://doi.org/10.1093/icesjms/fsab009\n Secor, D.H., O’Brien, M.H.P., Gahagan, B.I., Fox, D.A., Higgs, A.L., Best, J.E., 2020. Multiple spawning run contingents and population consequences in migratory striped bass Morone saxatilis. PLOS ONE 15(11): e0242797 https://doi.org/10.1371/journal.pone.0242797\n Rothermel, E.R., Balazik, M.T., Best, J.E., Fox, D.A., Gahagan, B.I., Haulsee, D.E., Higgs, A.L., O’Brien, M.H.P., Oliver, M.J., Park, I.A., and Secor, D.H. 2020. Comparative migration ecology of striped bass and Atlantic sturgeon in the US Southern Mid-Atlantic Bight flyway. PLOS ONE 15(6): e0234442. https://doi.org/10.1371/journal.pone.0234442\n Secor, D.H., O’Brien, M.H.P, Gahagan, B.I., Watterson, J.C., and Fox, D. 2020. Differential migration in Chesapeake Bay striped bass. PLOS ONE 15(5): e0233103. https://doi.org/10.1371/journal.pone.0233103\n Wiernicki, C.J., O’Brien, M.H.P., Zhang F, Lyubchich V, Li M, Secor, D.H., 2020. The recurring impact of storm disturbance on black sea bass (Centropristis striata) movement behaviors in the Mid-Atlantic Bight. PLOS ONE 15(12): e0239919. https://doi.org/10.1371/journal.pone.0239919\n Secor, D.H., Zhang, F., O’Brien, M.H.P. and Li, M. 2019. Ocean destratification and fish evacuation caused by a Mid-Atlantic tropical storm. ICES Journal of Marine Science, 76(2). https://doi.org/10.1093/icesjms/fsx241\n Wingfield, J.E., O’Brien, M., Lyubchich, V., Roberts, J.J., Halpin, P.N., Rice, A.N. and Bailey, H., 2017. Year-round spatiotemporal distribution of harbour porpoises within and around the Maryland wind energy area. PLOS ONE, 12(5), p.e0176653 https://doi.org/10.1371/journal.pone.0176653"
+  },
+  {
+    "objectID": "research/index.html#open-reports",
+    "href": "research/index.html#open-reports",
+    "title": "Research",
+    "section": "Open reports",
+    "text": "Open reports\nSecor, D, M O’Brien, E Rothermel, C Wiernicki, and H Bailey. “Movement and Habitat Selection by Migratory Fishes within the Maryland Wind Energy Area and Adjacent Reference Sites.” Sterling (VA): U.S. Department of the Interior, Bureau of Ocean Energy Management, Office of Renewable Energy Programs, 2020. URL: https://espis.boem.gov/final%20reports/BOEM_2020-030.pdf"
+  },
+  {
+    "objectID": "research/index.html#curated-datasets",
+    "href": "research/index.html#curated-datasets",
+    "title": "Research",
+    "section": "Curated datasets",
+    "text": "Curated datasets\nRothermel, Ella, Michael O’Brien, and David Secor. “Data from: Comparative Migration Ecology of Striped Bass and Atlantic Sturgeon in the US Southern Mid-Atlantic Bight Flyway.” Dryad, 2020. https://doi.org/10.5061/DRYAD.6HDR7SQX3.\nO’Brien, Michael, David Secor, Benjamin Gahagan, Dewayne Fox, Amanda Higgs, and Jessica Best. “Data from: Multiple Spawning Run Behavior and Population Consequences in Migratory Striped Bass Morone Saxatilis.” Dryad, 2020. https://doi.org/10.5061/DRYAD.6HDR7SQXT."
+  },
+  {
+    "objectID": "research/packages.html",
+    "href": "research/packages.html",
+    "title": "Packages",
+    "section": "",
+    "text": "An R API package for the Mid-Atlantic Acoustic Telemetry Observing System\n\nhttps://matos.obrien.page"
+  },
+  {
+    "objectID": "research/packages.html#matos",
+    "href": "research/packages.html#matos",
+    "title": "Packages",
+    "section": "",
+    "text": "An R API package for the Mid-Atlantic Acoustic Telemetry Observing System\n\nhttps://matos.obrien.page"
+  },
+  {
+    "objectID": "research/packages.html#otndo",
+    "href": "research/packages.html#otndo",
+    "title": "Packages",
+    "section": "otndo",
+    "text": "otndo\nA package to understand OTN data\n\nhttps://otndo.obrien.page"
+  },
+  {
+    "objectID": "research/packages.html#rvdat",
+    "href": "research/packages.html#rvdat",
+    "title": "Packages",
+    "section": "rvdat",
+    "text": "rvdat\nLightweight, low-level access to Innovasea’s Fathom VDAT executable\n\nhttps://rvdat.obrien.page/"
+  },
+  {
+    "objectID": "research/packages.html#glatos-contributor",
+    "href": "research/packages.html#glatos-contributor",
+    "title": "Packages",
+    "section": "glatos (contributor)",
+    "text": "glatos (contributor)\nA package for the Great Lakes Acoustic Telemetry Observation System\n\nhttps://github.com/ocean-tracking-network/glatos"
+  },
+  {
+    "objectID": "research/packages.html#telemetryr-archived",
+    "href": "research/packages.html#telemetryr-archived",
+    "title": "Packages",
+    "section": "TelemetryR (Archived)",
+    "text": "TelemetryR (Archived)\nAn R API package for the Atlantic Cooperative Telemetry (ACT) Network\n\nhttps://github.com/mhpob/TelemetryR"
+  },
+  {
+    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html",
+    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html",
+    "title": "Creating custom FarmOS satellite tiles",
+    "section": "",
+    "text": "Here’s an exercise: head over to Google Maps, find your house, and note how long ago those satellite pictures were taken. Chances are it has been a while. Most of the time this is probably not an issue, but we are going through a period of rapid modification of our land, our house, and our farm as we hack it out of the woods and its 15-year-long abandonment."
+  },
+  {
+    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#update-me",
+    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#update-me",
+    "title": "Creating custom FarmOS satellite tiles",
+    "section": "",
+    "text": "Here’s an exercise: head over to Google Maps, find your house, and note how long ago those satellite pictures were taken. Chances are it has been a while. Most of the time this is probably not an issue, but we are going through a period of rapid modification of our land, our house, and our farm as we hack it out of the woods and its 15-year-long abandonment."
+  },
+  {
+    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#getting-some-rest",
+    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#getting-some-rest",
+    "title": "Creating custom FarmOS satellite tiles",
+    "section": "Getting some REST",
+    "text": "Getting some REST\nSimilar to their Google Maps add-on, the FarmOS user Symbionique had created a FarmOS add-on in the Drupal framework that allowed access to satellite imagery of the San Juan Islands. The add-on leverages an ArcGIS RESTful API that is used by many governmental agencies. And, just my luck, both my local county (Henrico, VA) and my Commonwealth (Virginia) were also providing current satellite imagery via REST APIs!\nThe San Juan Islands, Henrico County, VA and the Commonwealth of Virginia are not unique in providing this service. Head to your favorite internet search provider and look for “YOUR LOCALITY arcgis rest services” and you might be able to find one of your own.\nTo start taking advantage of these services, go ahead and clone one of the related repositories on on my GitHub. Map tiles of Virginia can be found here and tiles of Henrico County, VA can be found here.\nMost of what we will wind up doing is renaming files. But first:"
+  },
+  {
+    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#an-image-by-any-other-name",
+    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#an-image-by-any-other-name",
+    "title": "Creating custom FarmOS satellite tiles",
+    "section": "An image by any other name…",
+    "text": "An image by any other name…\nAfter you find your locality’s REST service, you’ll need to do some poking around to find out what that locality has named its images. In San Juan, it was Basemaps/Aerials_yyyy; Virginia was listed as VBMP_Imagery/VBMPyyyy_WGS; Henrico as Imagery/AerialPhotosyyyy where “yyyy” represents the year of the image. It will usually have “MapServer” in parentheses next to it, but it could also be “ImageServer”.\n\nAt the bottom of this page, there will be a section titled “Supported Interfaces”. One of the options should be “REST”. When you click on that, it should produce a JSON version of the index. See everything under “services”?? This is the treasure for which you’ve come!"
+  },
+  {
+    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#json-meat",
+    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#json-meat",
+    "title": "Creating custom FarmOS satellite tiles",
+    "section": "JSON meat",
+    "text": "JSON meat\nDrupal, which FarmOS is built upon, leans heavily on JSON to parameterize its plugins. You can find the “meat” of this add-on in the js/ folder. This folder contains one script with one function, which takes the JSON list we found above and uses that to create URLs and names of all of the base layers. Part-way down the code, you’ll see a variable called “basemaps” being defined. It looks something like this:\n#| eval: false\nvar basemaps = [\n  {\n   \"name\": \"Imagery/AerialPhotos1998\",\n   \"type\": \"ImageServer\"\n  },\n  {\n   \"name\": \"Imagery/AerialPhotos2002\",\n   \"type\": \"ImageServer\"\n  }\n];\nNotice any similarities? Yep, it’s the REST JSON we found before. Copy everything under “services” and paste it right in there.\nWe’ve now provided the function with the information it needs to call up the map tiles once it knows where to find the server. The next section of the function utilizes the basemaps variable we defined above to build out the URL to the server. The function is looped over every map located in the basemaps variable.\n#| eval: false  \nbasemaps.forEach(function(basemap) {\n  var opts = {\n    // Create name from the stuff after the slash\n    title: \"Henrico \" + basemap.name.split('/')[1],\n    // Put together the URL\n    url: 'https://portal.henrico.us/image/rest/services/' + basemap.name + '/' + basemap.type,\n    visible: false,\n    base: true,\n    group: 'Base layers',\n  };\n  instance.addLayer('arcgis-tile', opts);\n});\nAnd that’s about it – all of the hard stuff is over. There is, however, one thing left to do, and it’s kind of annoying"
+  },
+  {
+    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#find-everything-with-henrico-in-it",
+    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#find-everything-with-henrico-in-it",
+    "title": "Creating custom FarmOS satellite tiles",
+    "section": "Find everything with “henrico” in it",
+    "text": "Find everything with “henrico” in it\nYes, it gets its own section. We now need to go through and personalize the add-on by changing every instance of “henrico” to whichever locality we’re representing. It’s easy, but there are quite a few references to the locality hidden in there. Check file names, variable names, everything. CTRL-F the whole repo. Seriously."
+  },
+  {
+    "objectID": "blog/2023/08_21_farmos_satellite_tiles/index.html#install-the-add-on",
+    "href": "blog/2023/08_21_farmos_satellite_tiles/index.html#install-the-add-on",
+    "title": "Creating custom FarmOS satellite tiles",
+    "section": "Install the add-on",
+    "text": "Install the add-on\nAfter this is done, install the add-on as you otherwise would. git clone the repository into your FarmOS folder and activate it via the web interface. If you need tips on how to do this, check out my previous post on how to add a FarmOS module to your home server."
+  },
+  {
+    "objectID": "blog/2023/03_31_rotating_coastline/index.html",
+    "href": "blog/2023/03_31_rotating_coastline/index.html",
+    "title": "Rotating polygons in sf",
+    "section": "",
+    "text": "The east coast of the United States spans nearly 20 degrees of longitude and 30 degrees of latitude, with a major axis that runs more “northeast-to-southwest” than “north-to-south”. Because of this, I wind up with a lot of wasted space when trying to plot the coast. Take a look to see what I mean:\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nlibrary(sf)\n\nLinking to GEOS 3.11.2, GDAL 3.6.2, PROJ 9.2.0; sf_use_s2() is TRUE\n\nlibrary(rnaturalearth)\n\nSupport for Spatial objects (`sp`) will be deprecated in {rnaturalearth} and will be removed in a future release of the package. Please use `sf` objects with {rnaturalearth}. For example: `ne_download(returnclass = 'sf')`\n\nlibrary(ggplot2)\n\ntheme_set(theme_minimal())\neast_coast &lt;- \n  # Import the Natural Earth states polygon using rnaturalearth\n  ne_states(country = 'united states of america',\n            returnclass = 'sf') |&gt;\n  # crop to the US east coast\n  st_crop(xmin = -82, xmax = -67,\n          ymin = 20, ymax = 48)\n\nThe rnaturalearthhires package needs to be installed.\n\n\nInstalling the rnaturalearthhires package.\n\n\nDownloading GitHub repo ropensci/rnaturalearthhires@HEAD\n\n\n\n── R CMD build ─────────────────────────────────────────────────────────────────\n* checking for file 'C:\\Users\\darpa2\\AppData\\Local\\Temp\\RtmpmmpUkt\\remotesc40603f1bc5\\ropensci-rnaturalearthhires-db8e433/DESCRIPTION' ... OK\n* preparing 'rnaturalearthhires':\n* checking DESCRIPTION meta-information ... OK\n* checking for LF line-endings in source and make files and shell scripts\n* checking for empty or unneeded directories\n* building 'rnaturalearthhires_1.0.0.tar.gz'\n\n\n\nInstalling package into 'C:/Users/darpa2/AppData/Local/R/win-library/4.3'\n(as 'lib' is unspecified)\n\n\nWarning: attribute variables are assumed to be spatially constant throughout\nall geometries\n\nggplot() +\n  geom_sf(data = east_coast)\nFirstly, I maybe should choose a different spatial polygon – this one has sunk the entirety of Virginia’s eastern shore! I’ll ignore that for now and move on.\nIf I’m planning to map migrations of fish along the coast (a common occurrence), I only need a little bit along the coast. The Sargasso Sea to the bottom right and Great Lakes to the top left are completely unnecessary.\nOne way to address this is to rotate the map so that the axis running from Florida to Maine is more-or-less vertical. My first attempt at this was using an affine transformation as outlined in the sf package documentation, but that didn’t quite work out."
+  },
+  {
+    "objectID": "blog/2023/03_31_rotating_coastline/index.html#affine-transformation",
+    "href": "blog/2023/03_31_rotating_coastline/index.html#affine-transformation",
+    "title": "Rotating polygons in sf",
+    "section": "Affine transformation",
+    "text": "Affine transformation\nAccording to Wikipedia:\n\nan affine transformation…is a geometric transformation that preserves lines and parallelism, but not necessarily Euclidean distances and angles.\n\nIn addition to the sf vignette linked above, the free Geocomputation with R book provides a good outline. I’ll use their rotating function below to rotate the polygon counterclockwise by 40 degrees, which should make that N-S axis.\n\n# Rotation function\nrotation &lt;- function(a){\n  r &lt;- a * pi / 180 # degrees to radians\n  matrix(c(cos(r), sin(r), -sin(r), cos(r)), nrow = 2, ncol = 2)\n} \n\n# Apply affine transformation by rotating the geometry column\nec_affine &lt;- east_coast |&gt; \n  mutate(geometry = geometry * rotation(-40))\n\nggplot() +\n  geom_sf(data = ec_affine)\n\n\n\n\n\n\n\n\nAlright! Now all we need to do is trim the plotting area down and we’re in business!\nBut… wait a minute. Those axes make no sense. Since when is Maine at -10 degrees latitude? Let’s compare how the coordinates were changed.\n\n# Original polygon\neast_coast$geometry[1]\n\nGeometry set for 1 feature \nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: -82 ymin: 38.87425 xmax: -80.52023 ymax: 41.98446\nGeodetic CRS:  WGS 84\n\n\nPOLYGON ((-82 39.02017, -81.98432 39.01206, -81...\n\n# Affine-transformed polygon\nec_affine$geometry[1]\n\nGeometry set for 1 feature \nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: -89.49897 ymin: -22.87228 xmax: -87.42692 ymax: -19.59544\nCRS:           NA\n\n\nPOLYGON ((-87.89733 -22.8174, -87.8801 -22.8135...\n\n\nIt looks like the raw values were changed (as anticipated). However, they’re values that don’t really make sense in terms of the coordinate reference system with which we started. There is also no longer a CRS listed! So, our polygon is “spatial” insofar as it having a spatial attributes via a well-known text geometry column as made by sf, but it’s no longer actually something that we know how to place in space.\nThis is where the problems begin.\nWhat if, for instance, we wanted to add a layer from a different source?\n\nnc &lt;- st_read(system.file(\"shape/nc.shp\", package=\"sf\"),\n              quiet = T)\n\nggplot() +\n  geom_sf(data = ec_affine) +\n  geom_sf(data = nc, fill = 'red')\n\nError in st_transform.sfc(X[[i]], ...): cannot transform sfc object with missing crs\n\n\nWe get a blank plot and an error – since the affine-transformed polygon no longer has a CRS, sf and ggplot no longer know where or how to place the new object onto the map."
+  },
+  {
+    "objectID": "blog/2023/03_31_rotating_coastline/index.html#oblique-mercator",
+    "href": "blog/2023/03_31_rotating_coastline/index.html#oblique-mercator",
+    "title": "Rotating polygons in sf",
+    "section": "Oblique Mercator",
+    "text": "Oblique Mercator\nA flurry of failed Googling eventually led me to this Stack Overflow answer, where the author suggests using the oblique Mercator projection.\nThe difference between the Mercator (what we see when we look at something like Google Maps…ish; that’s actually web Mercator), transverse Mercator (the “TM” of “UTM” fame), and oblique Mercator lies in what it considers to be the major axis. A Mercator uses the equator, while a transverse Mercator uses a meridian (a particular longitude). Oblique Mercator uses some arbitrary line. This line can be determined using a point (the +lonc and +lat_0 arguments in a PROJ string) and an azimuth (either the +alpha or +gamma) or two points (+lat_1, +lon_1, +lat_2, +lon_2). I’ve found that providing a rotation away from North in degrees to the +gamma argument is what makes the most-intuitive sense to me.\n\nec_omerc &lt;- east_coast |&gt; \n  st_transform('+proj=omerc +lat_0=40 +lonc=-74 +gamma=-40')\n\nggplot() +\n  geom_sf(data = ec_omerc)\n\n\n\n\n\n\n\n\nThis seems to be doing what we want at first blush. The graticule is rotated in a way that makes sense, and the axes are consistent with what we would think the proper values would be. What does it look like under the hood?\n\nec_omerc$geometry[1]\n\nGeometry set for 1 feature \nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: -639662.3 ymin: -514225.3 xmax: -440446.8 ymax: -162784.6\nProjected CRS: +proj=omerc +lat_0=40 +lonc=-74 +gamma=-40\n\n\nPOLYGON ((-480816 -505539.5, -479177.8 -505499,...\n\n\nSeems that units are in something like meters and it has a CRS! This means we could add a different spatial polygon:\n\nggplot() +\n  geom_sf(data = ec_omerc) +\n  geom_sf(data = nc, fill = 'red')\n\n\n\n\n\n\n\n\nAwesome! Now to trim the map to our specification with coord_sf.\n\nggplot() +\n  geom_sf(data = ec_omerc) +\n  geom_sf(data = nc, fill = 'red') +\n  coord_sf(xlim = c(-77, -69), ylim = c(37, 44))\n\n\n\n\n\n\n\n\nWell, that…didn’t work. Why not? Well, in essence, we’re providing two different units: ec_omerc has units of meters and we’ve provided units of degrees to coord_sf, assuming that it’s still using latitude and longitude (a CRS of WGS83/EPSG4326 in this case).\nThe hint to solve this is in the help documentation of coord_sf, specifically in the default_crs argument:\n\nThe default CRS to be used for non-sf layers (which don’t carry any CRS information) and scale limits. The default value of NULL means that the setting for crs is used. This implies that all non-sf layers and scale limits are assumed to be specified in projected coordinates. A useful alternative setting is default_crs = sf::st_crs(4326), which means x and y positions are interpreted as longitude and latitude, respectively, in the World Geodetic System 1984 (WGS84).\n\nWhen we use the xlim and ylim arguments, it’s going to default to using the CRS that is in the first layer. This would be our oblique Mercator projection, so we would have to provide something in meters. It’s so easy to just look at the axes that have been printed and work from there – so, we’re thinking in WGS84/EPSG 4326. We can just tell coord_sf that this is our frame of reference using the default_crs argument.\n\nggplot() +\n  geom_sf(data = ec_omerc) +\n  geom_sf(data = nc, fill = 'red') +\n  coord_sf(default_crs = 4326,\n           xlim = c(-77, -69), ylim = c(37, 44))\n\n\n\n\n\n\n\n\nAlmost there. But, wait – shouldn’t North Carolina be in the picture if we’re down around 37 degrees latitude? Let’s check using the same limits in the original projection.\n\nggplot() +\n  geom_sf(data = east_coast) +\n  coord_sf(xlim = c(-77, -71), ylim = c(37, 44))\n\n\n\n\n\n\n\n\nYes – North Carolina is there. So what’s going on?\nWell, we are seeing 37 degrees latitude in the oblique Mercator projection – it’s the little sliver on the bottom right. If we’re rotating everything counter-clockwise by 40 degrees and keeping the same rectangular view, this means that we’re adding some latitude at the bottom right of the frame and removing some from the top left. Similarly, we’d add some longitude in the bottom left and remove some from the top right. We need to fudge things now to get what we want included.\n\nggplot() +\n  geom_sf(data = ec_omerc) +\n  geom_sf(data = nc, fill = 'red') +\n  coord_sf(default_crs = 4326,\n           xlim = c(-75, -73), ylim = c(34, 44.5))\n\n\n\n\n\n\n\n\nThere we go! So much less wasted space!"
+  },
+  {
+    "objectID": "blog/2023/03_31_rotating_coastline/index.html#summary",
+    "href": "blog/2023/03_31_rotating_coastline/index.html#summary",
+    "title": "Rotating polygons in sf",
+    "section": "Summary",
+    "text": "Summary\nIn closing, here are the main takeaways:\n\nIf you want to rotate your map, you can do it in at least two ways:\nAffine transformation\nOblique Mercator\nIf you use the Affine transformation, you’re just multiplying you coordinates by a number. This will rotate everything and make it plot-able, but you’re now using a custom, undefined coordinate reference system.\nIf you project the underlying spatial data into some sort of rotated coordinate reference system, like the oblique Mercator outlined here, you have a defined coordinate reference system and can continue to treat your polygon as a spatial object\nWhen plotting with ggplot2, you can continue to use intuitive latitude/longitude to “zoom in”, but you will likely have to provide a default CRS when the units are not in degrees\nUsing a rotated projection and a rectangular view port will likely produce unintuitive results – be prepared to work iteratively and fudge things around."
+  },
+  {
+    "objectID": "blog/2023/05_25_time_series_box_plot/index.html",
+    "href": "blog/2023/05_25_time_series_box_plot/index.html",
+    "title": "Time series box plot using R’s ggplot2",
+    "section": "",
+    "text": "Before you start, know that this one is firmly in the “chart junk” category.\nIn a situation where I want to quickly view differences between some grouped data, I may use a box plot. A thick line in the center shows the mean, and the box itself displays the 25th-75th quartiles. The whiskers extend out to the observation no farther than 1.5 times this range. From ?ggplot2::geom_boxplot:\nggplot(mpg, aes(hwy, class)) +\n  geom_boxplot()\nAlternately, if I have a sequence of observations, I may use a line to connect them and visualize how the data change over time. From ?ggplot2::geom_line:\nggplot(economics_long, aes(date, value01, colour = variable)) +\n  geom_line()\nBut… what if I have grouped data that follow each other in time? Beyond committing what may be a statistical sin, how could I visualize this situation?\nOur lab group does a lot of before-after-control-impact (BACI) studies. Because of this, we’ve taken to visualizing any changes during our experiments using box plots that show group behavior before, during, and after the experiment. This does assume that the observations are independent, which they aren’t; we have multiple observations for each individual which correlated through time. I wanted to be able to see what the time series for each individual was within the box I’ve just put them in.\nSo, here’s how I created the unholy union of a time series and a box plot, overlaying each individual time series on a box and whisker plot."
+  },
+  {
+    "objectID": "blog/2023/05_25_time_series_box_plot/index.html#lets-make-some-dummy-data",
+    "href": "blog/2023/05_25_time_series_box_plot/index.html#lets-make-some-dummy-data",
+    "title": "Time series box plot using R’s ggplot2",
+    "section": "Let’s make some dummy data",
+    "text": "Let’s make some dummy data\n\nlibrary(ggplot2); library(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nmy_data &lt;- tibble(\n  # Create five individuals with 15 measurements each\n  individual = rep(letters[1:5], each = 15),\n  \n  # Create a time for each of the 15 measurements\n  time = rep(\n    seq.POSIXt(ISOdate(2020, 02, 03), by = 'min', length.out = 15),\n    times = 5),\n  \n  # Group by experimental phase\n  phase = factor(\n    rep(\n      c('Before', 'Impact', 'After'), each = 5, times = 5\n    ),\n    ordered = T,\n    levels = c('Before', 'Impact', 'After')\n  )\n) |&gt; \n  rowwise() |&gt; \n  mutate(\n    # make fake data\n    value = ifelse(phase %in% c('Before', 'After'),\n                         rnorm(1), rnorm(1, mean = -2))\n  )\n\nmy_data\n\n# A tibble: 75 × 4\n# Rowwise: \n   individual time                phase    value\n   &lt;chr&gt;      &lt;dttm&gt;              &lt;ord&gt;    &lt;dbl&gt;\n 1 a          2020-02-03 12:00:00 Before -0.641 \n 2 a          2020-02-03 12:01:00 Before  1.05  \n 3 a          2020-02-03 12:02:00 Before  1.19  \n 4 a          2020-02-03 12:03:00 Before -1.18  \n 5 a          2020-02-03 12:04:00 Before  0.0734\n 6 a          2020-02-03 12:05:00 Impact -1.52  \n 7 a          2020-02-03 12:06:00 Impact -2.33  \n 8 a          2020-02-03 12:07:00 Impact -3.00  \n 9 a          2020-02-03 12:08:00 Impact -1.63  \n10 a          2020-02-03 12:09:00 Impact -2.47  \n# ℹ 65 more rows\n\n\nEventually, we’ll want to find where, exactly, an observation falls in a given phase’s timeline. To do this, we’ll find start/end time for each trial phase and join them back in.\n\nmy_data &lt;- my_data |&gt; \n  group_by(phase) |&gt; \n  summarize(time.start = min(time),\n            time.end = max(time)) |&gt; \n  right_join(my_data)\n\nJoining with `by = join_by(phase)`\n\nmy_data\n\n# A tibble: 75 × 6\n   phase  time.start          time.end            individual time               \n   &lt;ord&gt;  &lt;dttm&gt;              &lt;dttm&gt;              &lt;chr&gt;      &lt;dttm&gt;             \n 1 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 a          2020-02-03 12:00:00\n 2 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 a          2020-02-03 12:01:00\n 3 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 a          2020-02-03 12:02:00\n 4 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 a          2020-02-03 12:03:00\n 5 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 a          2020-02-03 12:04:00\n 6 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 b          2020-02-03 12:00:00\n 7 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 b          2020-02-03 12:01:00\n 8 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 b          2020-02-03 12:02:00\n 9 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 b          2020-02-03 12:03:00\n10 Before 2020-02-03 12:00:00 2020-02-03 12:04:00 b          2020-02-03 12:04:00\n# ℹ 65 more rows\n# ℹ 1 more variable: value &lt;dbl&gt;\n\n\nPOSIX dates are the number of seconds since midnight on Jan 1, 1970. While we can’t do easy math on a date, we can easily use the number of seconds. Let’s convert the POSIX dates to numeric; we can use this to translate each time series to a different scale in the next step, below.\n\nmy_data &lt;- my_data |&gt; \n  mutate_at(vars(starts_with('time')),\n            as.numeric)\n\nmy_data\n\n# A tibble: 75 × 6\n   phase  time.start   time.end individual       time   value\n   &lt;ord&gt;       &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;\n 1 Before 1580731200 1580731440 a          1580731200 -0.641 \n 2 Before 1580731200 1580731440 a          1580731260  1.05  \n 3 Before 1580731200 1580731440 a          1580731320  1.19  \n 4 Before 1580731200 1580731440 a          1580731380 -1.18  \n 5 Before 1580731200 1580731440 a          1580731440  0.0734\n 6 Before 1580731200 1580731440 b          1580731200  1.41  \n 7 Before 1580731200 1580731440 b          1580731260 -0.822 \n 8 Before 1580731200 1580731440 b          1580731320  0.976 \n 9 Before 1580731200 1580731440 b          1580731380 -1.11  \n10 Before 1580731200 1580731440 b          1580731440 -1.88  \n# ℹ 65 more rows"
+  },
+  {
+    "objectID": "blog/2023/05_25_time_series_box_plot/index.html#initial-plots",
+    "href": "blog/2023/05_25_time_series_box_plot/index.html#initial-plots",
+    "title": "Time series box plot using R’s ggplot2",
+    "section": "Initial plots",
+    "text": "Initial plots\nSo… what does a box plot of this data look like?\n\nggplot(data = my_data, aes(x = phase, y = value)) +\n  geom_boxplot()\n\n\n\n\n\n\n\n\nWe see that our “Impact” dropped the mean and the Before and After periods are similar. Good, we coded it that way. What if we overlay the raw values?\n\nggplot(data = my_data, aes(x = phase, y = value)) +\n  geom_boxplot() +\n  geom_point(aes(color = individual))"
+  },
+  {
+    "objectID": "blog/2023/05_25_time_series_box_plot/index.html#nudge-things-along",
+    "href": "blog/2023/05_25_time_series_box_plot/index.html#nudge-things-along",
+    "title": "Time series box plot using R’s ggplot2",
+    "section": "Nudge things along",
+    "text": "Nudge things along\nWhat if we try to “nudge” the values away from the middle? Using the position argument of geom_point, we can provide how much we want the values “nudged”. This argument takes the output of another function, position_nudge.\n\nggplot(data = my_data, aes(x = phase, y = value)) +\n  geom_boxplot() +\n  geom_point(aes(color = individual),\n             position = position_nudge(x = 3))\n\n\n\n\n\n\n\n\nThat… didn’t quite do what we wanted."
+  },
+  {
+    "objectID": "blog/2023/05_25_time_series_box_plot/index.html#how-ggplot2-creates-space",
+    "href": "blog/2023/05_25_time_series_box_plot/index.html#how-ggplot2-creates-space",
+    "title": "Time series box plot using R’s ggplot2",
+    "section": "How ggplot2 creates space",
+    "text": "How ggplot2 creates space\nWe see above that all of points fall on a line in the dead center of the boxes. It’s important to recognize how ggplot2 allocates space in a box plot: the total width available to each box is equal to 1, running from -0.5 to 0.5, with 0 being the center of each variable (where the box whiskers are). This includes the space between boxes, so ~2/3 of this space given for the box and 1/3 is given to space on either side.\nWe want to translate the observation time (within the given trial phase start/end range) to a range that can fit within the boxes of the box plot. Since 2/3 of the space provided for each box is given to the box, itself, this range is from -1/3 to +1/3. We can use this number to “nudge” the observation to the left (negative values) or right (positive values) of the center of the box."
+  },
+  {
+    "objectID": "blog/2023/05_25_time_series_box_plot/index.html#hack-the-space",
+    "href": "blog/2023/05_25_time_series_box_plot/index.html#hack-the-space",
+    "title": "Time series box plot using R’s ggplot2",
+    "section": "Hack the space",
+    "text": "Hack the space\nWe do this by re-scaling the data: multiplying the number of seconds into the a phase (time - time.start) by the amount of space available (\\(1/3 - (-1/3)\\), or \\(2/3\\)), then dividing that by the length of time in that phase (time.end - time.start).\nNote that position_nudge is not aware of what data you’re using in the rest of the ggplot call, so you have to give the full reference using $.\n\nmy_data &lt;- my_data |&gt; \n  mutate(\n    nudge = (\n      ((time - time.start) * (1/3 - (-1/3))) /\n        (time.end - time.start)\n      )\n  )\n\nggplot(data = my_data, aes(x = phase, y = value)) +\n  geom_boxplot() +\n  geom_point(aes(color = individual),\n             position = position_nudge(x = my_data$nudge))\n\n\n\n\n\n\n\n\nCloser! Since we want to align this with the left-hand side of the box, and that half of the box has a width of 1/3, we subtract 1/3.\n\nmy_data &lt;- my_data |&gt; \n  mutate(\n    nudge = (\n      ((time - time.start) * (1/3 - (-1/3))) /\n        (time.end - time.start)\n      ) - 1/3\n  )\n\nggplot(data = my_data, aes(x = phase, y = value)) +\n  geom_boxplot() +\n  geom_point(aes(color = individual),\n             position = position_nudge(x = my_data$nudge))\n\n\n\n\n\n\n\n\nThe points are where they’re supposed to be, now we just have to connect them! Remember that the lines have to be nudged, too, so we need to provide the exact same arguments to geom_line as we did to geom_point.\n\nggplot(data = my_data, aes(x = phase, y = value)) +\n  geom_boxplot() +\n  geom_point(aes(color = individual),\n             position = position_nudge(x = my_data$nudge)) +\n  geom_line(aes(color = individual),\n            position = position_nudge(x = my_data$nudge))"
+  },
+  {
+    "objectID": "blog/2023/05_25_time_series_box_plot/index.html#conclusion",
+    "href": "blog/2023/05_25_time_series_box_plot/index.html#conclusion",
+    "title": "Time series box plot using R’s ggplot2",
+    "section": "Conclusion",
+    "text": "Conclusion\nWell, is this ever chart junk. It’s junk, though, that I find descriptive, hiding the original sin of cramming autocorrelated data into a box plot. I still feel that it has utility in spite of its dirty feeling. Maybe, just maybe, you’ll see the time series box plot in a manuscript near you.\nOr not."
+  },
+  {
+    "objectID": "blog/2023/01_25_cbl_eel_essay/index.html",
+    "href": "blog/2023/01_25_cbl_eel_essay/index.html",
+    "title": "Elusive silver eel migrations detected in the Chesapeake mainstem for the first time",
+    "section": "",
+    "text": "Note: This short essay was originally posted in the December 2022 Chesapeake Biological Laboratory newsletter.\nWhen Sheila Eyler of the US Fish and Wildlife Service (USFWS) tagged 16 American eels 75 miles upstream of the Conowingo Dam she knew where they might end up – in the middle of the Atlantic Ocean in the Sargasso Sea – but whether they could traverse the major dams of the Susquehanna and how they would get there were still mysteries. Detections provided by the Chesapeake Biotelemetry Backbone, funded in part by the JES Avanti Foundation, have shown for the first time how these eels migrate out of the Bay.\nAmerican eels are born in the Sargasso Sea, hatching into transparent leptocephalus larvae while riding ocean currents into the mouth of the Chesapeake Bay. The larvae transform into glass eels and migrate upstream, where they live and grow as yellow eels for 5-20 years. When the eel is ready to spawn, they stop eating and turn into silver eels for their terminal trek back to the Sargasso Sea. Where, exactly, they go in the Sargasso is still unknown; when they spawn is only inferred from the presence of larvae.\nIdentifying when silver eels leave the Chesapeake may shed some light on this mysterious migration. For many years, we assumed the eels migrated between August and November – it’s when scattered silver eels appeared in pots and pound nets and it’s when they’re known to migrate in New England. However, it now looks like silver eels leave the Chesapeake during winter months. As is the case with other unexpected discoveries (see Atlantic sturgeon: Not the ‘ghosts’ I once thought they were, Bay Journal 2021), we were looking in the wrong place, at the wrong time, and with the wrong tools.\n\nEnter the Chesapeake Bay Biotelemetry Backbone: a broad partnership between the University of Maryland Center for Environmental Science, Maryland Department of Natural Resources, NOAA Chesapeake Bay Office, Smithsonian Environmental Research Center, and the Virginia Marine Resources Commission. The team aims to deploy biotelemetry arrays in a sustained, year-round manner that covers major portions of the Chesapeake Bay. Each array is located near “pinch-points” in the Chesapeake, chosen to maximize chance encounters with electronically tagged fish. Most importantly, the array is constantly listening for fish – even through the cold winter months – and does away with the need to directly capture fishes such as the cryptic silver eel.\nIn the first year of Eyler’s eel tagging, the Chesapeake Biological Laboratory’s backbone array detected five tagged Susquehanna eels passing by the mouth of the Patuxent River, MD. The silver eels blew by on their way to tropical Sargasso latitudes in the dead of winter – between late-December and mid-February – rather than fall months as in New England. Further, their stalwart migration emerging from the Conowingo and other major dams is good news for conservation efforts to restore American eels to the Susquehanna River. With USFWS planning to tag 200 more silver eels in the next 2 years and sustained deployment of the Chesapeake Bay Biotelemetry Backbone, knowledge of the timing and extent of Chesapeake silver eel migrations will only increase."
+  },
+  {
+    "objectID": "blog/2023/01_23_henrico_parcels/index.html",
+    "href": "blog/2023/01_23_henrico_parcels/index.html",
+    "title": "Age of Henrico County Virginia’s structures",
+    "section": "",
+    "text": "A recent tweet showed the age of the buildings in Groningen, Netherlands super-imposed on LiDAR data for some perspective.\nThis got me thinking – what would Henrico look like? I’m going to take the cheap way out and not mess with LiDAR at the moment, but the county provides their Tax Parcels and CAMA Data for easy download.\nThis is a pretty big file – just under 121 thousand parcel outlines, with 84 different bits of information per property!"
+  },
+  {
+    "objectID": "blog/2023/01_23_henrico_parcels/index.html#enter-geoarrow",
+    "href": "blog/2023/01_23_henrico_parcels/index.html#enter-geoarrow",
+    "title": "Age of Henrico County Virginia’s structures",
+    "section": "Enter: geoarrow",
+    "text": "Enter: geoarrow\nI’ve been interested in playing around with the geoarrow package since watching Dewey Dunnington’s presentation at the 2022 RStudio conference. It leverages the Apache Arrow platform, resulting in rapid out-of-memory subsetting and manipulation of spatial data. The Parquet format used by Arrow also does a great job at compression, resulting in a much smaller file to toss around. When compared to a shapefile (which necessitates lugging around a bunch of other files), this seems like a much better way to store and access a large file."
+  },
+  {
+    "objectID": "blog/2023/01_23_henrico_parcels/index.html#shp-to-.parquet",
+    "href": "blog/2023/01_23_henrico_parcels/index.html#shp-to-.parquet",
+    "title": "Age of Henrico County Virginia’s structures",
+    "section": ".shp to .parquet",
+    "text": ".shp to .parquet\nThe first step is to convert the provided shapefile into the arrow-readable parquet format. I’ll do this using the sf and geoarrow packages:\n\nlibrary(sf)\nlibrary(geoarrow)\n\nhenrico &lt;- st_read('tax_parcels_and_cama_data.shp')\nwrite_geoparquet(henrico, 'data/henrico_parcels.parquet')\n\nEast enough – and switching from the shapefile to parquet reduced the file size by 70%!"
+  },
+  {
+    "objectID": "blog/2023/01_23_henrico_parcels/index.html#pulling-in-the-data",
+    "href": "blog/2023/01_23_henrico_parcels/index.html#pulling-in-the-data",
+    "title": "Age of Henrico County Virginia’s structures",
+    "section": "Pulling in the data",
+    "text": "Pulling in the data\nUsing the newly-formed parquet file, it’s straightforward to only select two of the 84(!) columns and drop any structures without a construction date or a date that isn’t reasonable (in the future or before the settlement of the county).\n\nlibrary(arrow)\nlibrary(dplyr)\n\nhc_parcels &lt;-\n  open_dataset('data/henrico_parcels.parquet') |&gt; \n  select(YEAR_BUILT, geometry) |&gt; \n  filter(!is.na(YEAR_BUILT) & YEAR_BUILT &gt; 1500 & YEAR_BUILT &lt; 2100) |&gt; \n  geoarrow_collect_sf()"
+  },
+  {
+    "objectID": "blog/2023/01_23_henrico_parcels/index.html#plot",
+    "href": "blog/2023/01_23_henrico_parcels/index.html#plot",
+    "title": "Age of Henrico County Virginia’s structures",
+    "section": "Plot",
+    "text": "Plot\nNow just a matter of plotting using ggplot2.\n\nlibrary(ggplot2)\n\nggplot(data = hc_parcels) +\n  geom_sf(aes(fill = YEAR_BUILT), lwd = 0, color = NA)+\n  scale_fill_viridis_c(option  = 'turbo') +\n  labs(fill = 'Year built') +\n  theme_dark() +\n  theme(legend.position = c(0.25, 0.25))\n\n\n\n\n\n\n\n\nThe structures built recently blend together in burnt red, while the older building really pop. What this really tells us, though, is that the majority of the development in Henrico County has happened since 1950 or so.\nIt makes sense that the number of structures built per year would be greater in, say, 2000 compared to 1700 – homes are easier to build and we have a much greater population. In order to see the subtle patterns in development in recent years, we need to adjust the color scale to change more rapidly as time goes on.\nThis can be accomplished using the values argument to scale_fill_viridis_c. Values need to be on the 0-to-1 scale. I’m going to shift the breaks in the color scale toward the last 25% of years.\n\nggplot(data = hc_parcels) +\n  geom_sf(aes(fill = YEAR_BUILT), lwd = 0, color = NA)+\n  scale_fill_viridis_c(option  = 'turbo',\n                       values = c(0, 0.5, 0.75, 0.85, 0.95, 1)) +\n  labs(fill = 'Year built') +\n  theme_dark() +\n  theme(legend.position = c(0.25, 0.25))"
+  },
+  {
+    "objectID": "blog/2023/01_23_henrico_parcels/index.html#so-what-does-this-show-us",
+    "href": "blog/2023/01_23_henrico_parcels/index.html#so-what-does-this-show-us",
+    "title": "Age of Henrico County Virginia’s structures",
+    "section": "So, what does this show us?",
+    "text": "So, what does this show us?\n\nThe West End has a structure on nearly every parcel. This is especially apparent when comparing to Varina, where the blank gray spaces signify a plot of land with no listed structure.\nThe outskirts of Richmond (the “bite” in the middle) were developed heavily in the 1950s. The far West End, however, didn’t start to get developed until near 2000.\nThere’s a progressive structure to the development of the West End, as can be seen in the gradient of color."
+  },
+  {
     "objectID": "blog/2023/06_06_farmos_modules/index.html",
     "href": "blog/2023/06_06_farmos_modules/index.html",
     "title": "How to install a custom FarmOS module",
@@ -427,59 +476,10 @@
     "text": "Next steps: Making your own module\nSo, here I am with Mapbox working but not updated in the past three years, Google not working and also not updated in the last year, and a farm that has had substantial updates over the last few months. What am I to do?\nLuckily, the Commonwealth of Virginia and my locality both provide recent satellite imagery to the public. In addition to the Google Maps addon, Symbioqiune had created a module to use the San Juan Islands’ provided imagery. I’ll parse out how that works and adapt it to Virginia’s imagery in my next blog post."
   },
   {
-    "objectID": "blog/2023/01_23_henrico_parcels/index.html",
-    "href": "blog/2023/01_23_henrico_parcels/index.html",
-    "title": "Age of Henrico County Virginia’s structures",
-    "section": "",
-    "text": "A recent tweet showed the age of the buildings in Groningen, Netherlands super-imposed on LiDAR data for some perspective.\nThis got me thinking – what would Henrico look like? I’m going to take the cheap way out and not mess with LiDAR at the moment, but the county provides their Tax Parcels and CAMA Data for easy download.\nThis is a pretty big file – just under 121 thousand parcel outlines, with 84 different bits of information per property!"
-  },
-  {
-    "objectID": "blog/2023/01_23_henrico_parcels/index.html#enter-geoarrow",
-    "href": "blog/2023/01_23_henrico_parcels/index.html#enter-geoarrow",
-    "title": "Age of Henrico County Virginia’s structures",
-    "section": "Enter: geoarrow",
-    "text": "Enter: geoarrow\nI’ve been interested in playing around with the geoarrow package since watching Dewey Dunnington’s presentation at the 2022 RStudio conference. It leverages the Apache Arrow platform, resulting in rapid out-of-memory subsetting and manipulation of spatial data. The Parquet format used by Arrow also does a great job at compression, resulting in a much smaller file to toss around. When compared to a shapefile (which necessitates lugging around a bunch of other files), this seems like a much better way to store and access a large file."
-  },
-  {
-    "objectID": "blog/2023/01_23_henrico_parcels/index.html#shp-to-.parquet",
-    "href": "blog/2023/01_23_henrico_parcels/index.html#shp-to-.parquet",
-    "title": "Age of Henrico County Virginia’s structures",
-    "section": ".shp to .parquet",
-    "text": ".shp to .parquet\nThe first step is to convert the provided shapefile into the arrow-readable parquet format. I’ll do this using the sf and geoarrow packages:\n\nlibrary(sf)\nlibrary(geoarrow)\n\nhenrico &lt;- st_read('tax_parcels_and_cama_data.shp')\nwrite_geoparquet(henrico, 'data/henrico_parcels.parquet')\n\nEast enough – and switching from the shapefile to parquet reduced the file size by 70%!"
-  },
-  {
-    "objectID": "blog/2023/01_23_henrico_parcels/index.html#pulling-in-the-data",
-    "href": "blog/2023/01_23_henrico_parcels/index.html#pulling-in-the-data",
-    "title": "Age of Henrico County Virginia’s structures",
-    "section": "Pulling in the data",
-    "text": "Pulling in the data\nUsing the newly-formed parquet file, it’s straightforward to only select two of the 84(!) columns and drop any structures without a construction date or a date that isn’t reasonable (in the future or before the settlement of the county).\n\nlibrary(arrow)\nlibrary(dplyr)\n\nhc_parcels &lt;-\n  open_dataset('data/henrico_parcels.parquet') |&gt; \n  select(YEAR_BUILT, geometry) |&gt; \n  filter(!is.na(YEAR_BUILT) & YEAR_BUILT &gt; 1500 & YEAR_BUILT &lt; 2100) |&gt; \n  geoarrow_collect_sf()"
-  },
-  {
-    "objectID": "blog/2023/01_23_henrico_parcels/index.html#plot",
-    "href": "blog/2023/01_23_henrico_parcels/index.html#plot",
-    "title": "Age of Henrico County Virginia’s structures",
-    "section": "Plot",
-    "text": "Plot\nNow just a matter of plotting using ggplot2.\n\nlibrary(ggplot2)\n\nggplot(data = hc_parcels) +\n  geom_sf(aes(fill = YEAR_BUILT), lwd = 0, color = NA)+\n  scale_fill_viridis_c(option  = 'turbo') +\n  labs(fill = 'Year built') +\n  theme_dark() +\n  theme(legend.position = c(0.25, 0.25))\n\n\n\n\n\n\n\n\nThe structures built recently blend together in burnt red, while the older building really pop. What this really tells us, though, is that the majority of the development in Henrico County has happened since 1950 or so.\nIt makes sense that the number of structures built per year would be greater in, say, 2000 compared to 1700 – homes are easier to build and we have a much greater population. In order to see the subtle patterns in development in recent years, we need to adjust the color scale to change more rapidly as time goes on.\nThis can be accomplished using the values argument to scale_fill_viridis_c. Values need to be on the 0-to-1 scale. I’m going to shift the breaks in the color scale toward the last 25% of years.\n\nggplot(data = hc_parcels) +\n  geom_sf(aes(fill = YEAR_BUILT), lwd = 0, color = NA)+\n  scale_fill_viridis_c(option  = 'turbo',\n                       values = c(0, 0.5, 0.75, 0.85, 0.95, 1)) +\n  labs(fill = 'Year built') +\n  theme_dark() +\n  theme(legend.position = c(0.25, 0.25))"
-  },
-  {
-    "objectID": "blog/2023/01_23_henrico_parcels/index.html#so-what-does-this-show-us",
-    "href": "blog/2023/01_23_henrico_parcels/index.html#so-what-does-this-show-us",
-    "title": "Age of Henrico County Virginia’s structures",
-    "section": "So, what does this show us?",
-    "text": "So, what does this show us?\n\nThe West End has a structure on nearly every parcel. This is especially apparent when comparing to Varina, where the blank gray spaces signify a plot of land with no listed structure.\nThe outskirts of Richmond (the “bite” in the middle) were developed heavily in the 1950s. The far West End, however, didn’t start to get developed until near 2000.\nThere’s a progressive structure to the development of the West End, as can be seen in the gradient of color."
-  },
-  {
-    "objectID": "blog/2023/01_25_cbl_eel_essay/index.html",
-    "href": "blog/2023/01_25_cbl_eel_essay/index.html",
-    "title": "Elusive silver eel migrations detected in the Chesapeake mainstem for the first time",
-    "section": "",
-    "text": "Note: This short essay was originally posted in the December 2022 Chesapeake Biological Laboratory newsletter.\nWhen Sheila Eyler of the US Fish and Wildlife Service (USFWS) tagged 16 American eels 75 miles upstream of the Conowingo Dam she knew where they might end up – in the middle of the Atlantic Ocean in the Sargasso Sea – but whether they could traverse the major dams of the Susquehanna and how they would get there were still mysteries. Detections provided by the Chesapeake Biotelemetry Backbone, funded in part by the JES Avanti Foundation, have shown for the first time how these eels migrate out of the Bay.\nAmerican eels are born in the Sargasso Sea, hatching into transparent leptocephalus larvae while riding ocean currents into the mouth of the Chesapeake Bay. The larvae transform into glass eels and migrate upstream, where they live and grow as yellow eels for 5-20 years. When the eel is ready to spawn, they stop eating and turn into silver eels for their terminal trek back to the Sargasso Sea. Where, exactly, they go in the Sargasso is still unknown; when they spawn is only inferred from the presence of larvae.\nIdentifying when silver eels leave the Chesapeake may shed some light on this mysterious migration. For many years, we assumed the eels migrated between August and November – it’s when scattered silver eels appeared in pots and pound nets and it’s when they’re known to migrate in New England. However, it now looks like silver eels leave the Chesapeake during winter months. As is the case with other unexpected discoveries (see Atlantic sturgeon: Not the ‘ghosts’ I once thought they were, Bay Journal 2021), we were looking in the wrong place, at the wrong time, and with the wrong tools.\n\nEnter the Chesapeake Bay Biotelemetry Backbone: a broad partnership between the University of Maryland Center for Environmental Science, Maryland Department of Natural Resources, NOAA Chesapeake Bay Office, Smithsonian Environmental Research Center, and the Virginia Marine Resources Commission. The team aims to deploy biotelemetry arrays in a sustained, year-round manner that covers major portions of the Chesapeake Bay. Each array is located near “pinch-points” in the Chesapeake, chosen to maximize chance encounters with electronically tagged fish. Most importantly, the array is constantly listening for fish – even through the cold winter months – and does away with the need to directly capture fishes such as the cryptic silver eel.\nIn the first year of Eyler’s eel tagging, the Chesapeake Biological Laboratory’s backbone array detected five tagged Susquehanna eels passing by the mouth of the Patuxent River, MD. The silver eels blew by on their way to tropical Sargasso latitudes in the dead of winter – between late-December and mid-February – rather than fall months as in New England. Further, their stalwart migration emerging from the Conowingo and other major dams is good news for conservation efforts to restore American eels to the Susquehanna River. With USFWS planning to tag 200 more silver eels in the next 2 years and sustained deployment of the Chesapeake Bay Biotelemetry Backbone, knowledge of the timing and extent of Chesapeake silver eel migrations will only increase."
-  },
-  {
-    "objectID": "rugby/index.html",
-    "href": "rugby/index.html",
-    "title": "Rugby",
-    "section": "",
-    "text": "Former:\n\nUSA Rugby National Panel (2016-2020)\nWorld Rugby 7s (2016-2018)\nMajor League Rugby (2018-2021)\n\nCurrent:\n\nPresident of the Mid-Atlantic Rugby Referees\nMember of the Potomac Society of Rugby Football Referees\n\n\n\n\n\n\n\n\n\n\n\n\n\nEast Demographics\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "objectID": "rugby/2023/east-demographics/index.html#geographic-unions-gus",
+    "href": "rugby/2023/east-demographics/index.html#geographic-unions-gus",
+    "title": "East Demographics",
+    "section": "Geographic Unions (GUs)",
+    "text": "Geographic Unions (GUs)"
   }
 ]
