@@ -21,7 +21,7 @@ about:
 
 Welcome!
 
-I am a research assistant at the Chesapeake Biological Laboratory of the University of Maryland Center for Environmental Science who has lived a brief, former life as an interational rugby referee.
+I am a research assistant at the Chesapeake Biological Laboratory of the University of Maryland Center for Environmental Science who has lived a brief, former life as an international rugby referee.
 
 When I'm not on the water, my areas of expertise lie in fish movement ecology, biotelemetry, R programming, and spatiotemporal mixed modelling. Please take a look at my [research](https://www.obrien.page/research/), [blog](https://www.obrien.page/blog/), or [software](https://www.obrien.page/research/packages.html) and reach out if you're interestd in working together.
 
